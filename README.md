@@ -302,10 +302,9 @@ Activity → pertenece a un Trip
 
 | Ruta                | Página          | Descripción                                    | Acceso  |
 | ------------------- | --------------- | ---------------------------------------------- | ------- |
-| /                   | Home            | Redirige al dashboard o login                  | Pública |
 | /signup             | SignupPage      | Registro de usuario                            | Pública |
 | /login              | LoginPage       | Inicio de sesión                               | Pública |
-| /dashboard          | Dashboard       | Lista de viajes del usuario                    | Auth    |
+| /                   | Dashboard       | Lista de viajes del usuario                    | Auth    |
 | /trips/create       | CreateTripPage  | Crear un nuevo viaje                           | Auth    |
 | /trips/:tripId      | TripDetailsPage | Ver detalles del viaje (lugares y actividades) | Auth    |
 | /trips/:tripId/edit | EditTripPage    | Editar un viaje                                | Auth    |
