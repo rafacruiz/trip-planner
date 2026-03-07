@@ -38,7 +38,7 @@ La aplicación se basa en cuatro entidades principales:
 Representa a un usuario registrado en la plataforma.
 
 Un usuario puede tener múltiples viajes creados.
-Un usuario puede tener múltiples viajes invitado.
+Un usuario puede tener múltiples viajes como invitado.
 
 ### Trip
 Representa un viaje creado por un usuario. Contiene información básica como el país, fechas y descripción.
@@ -87,10 +87,10 @@ Los endpoints están organizados en los siguientes módulos:
 
 -   Registrarse / Login
 -   Crear viajes / Crear viajes sorpresa
+-   Añadir viajeros al viaje
 -   Añadir lugares a cada viaje
 -   Añadir actividades o checklist
 -   Marcar actividades como completadas
--   Añadir viajeros al viaje
 
 ------------------------------------------------------------------------
 
@@ -121,7 +121,7 @@ Relación:
   startDate: Date,
   endDate: Date,
   description: String,
-  userOwner: ObjectId (User)
+  userOwner: ObjectId (User),
   travelers: [{ObjectId (User), role(Enum)}],
   isSurprise: Boolean,
   revealDate: Date
@@ -281,7 +281,7 @@ Activity → pertenece a un Trip
 | PATCH  | /api/trips/:tripId                 | Edita un viaje                       | `{ title, country, startDate, endDate, description }` |
 | DELETE | /api/trips/:tripId                 | Elimina un viaje                     | —                                                     |
 | PATCH  | /api/trips/:tripId/add-traveler    | Añade un viajero al viaje            | `{ userId }`                                          |
-| PATCH  | /api/trips/:tripId/remove-traveler | Elimina un viajero                   | -                                                     |
+| PATCH  | /api/trips/:tripId/remove-traveler | Elimina un viajero                   | `{ userId }`                                          |
 
 ### Places
 
