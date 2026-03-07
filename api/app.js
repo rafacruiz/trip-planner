@@ -3,13 +3,17 @@ import express from "express";
 
 import morgan from "morgan";
 
+import "./config/db.config.js";
+
 const app = express()
-const port = 3000
 
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
+const PORT = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`)
+app.use(express.json());
+
+app.use(morgan("dev"));
+
+
+app.listen(PORT, () => {
+  console.log(`Example app listening on port ${PORT}`)
 })
