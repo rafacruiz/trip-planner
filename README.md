@@ -117,7 +117,7 @@ TripPlanner es un proyecto orientado a practicar el desarrollo full-stack con ar
 
 ------------------------------------------------------------------------
 
-# Funcionalidades
+## Funcionalidades
 
 -   Registrarse / Login
 -   Crear viajes
@@ -127,9 +127,9 @@ TripPlanner es un proyecto orientado a practicar el desarrollo full-stack con ar
 
 ------------------------------------------------------------------------
 
-# Modelos
+## Modelos
 
-## User
+### User
 
 ``` js
 {
@@ -145,7 +145,7 @@ Relación:
 
 ------------------------------------------------------------------------
 
-## Trip
+### Trip
 
 ``` js
 {
@@ -164,7 +164,7 @@ Relaciones:
 
 ------------------------------------------------------------------------
 
-## Place
+### Place
 
 ``` js
 {
@@ -182,7 +182,7 @@ Relación:
 
 ------------------------------------------------------------------------
 
-## Activity
+### Activity
 
 ``` js
 {
@@ -198,7 +198,7 @@ Relación:
 
 ------------------------------------------------------------------------
 
-# Documentación de los modelos
+## Documentación de los modelos
 
 ### User
 
@@ -253,15 +253,15 @@ Place → pertenece a un Trip
 Trip → muchas Activities
 Activity → pertenece a un Trip
 
-# API
+## API
 
-## Auth
+### Auth
 
     POST /auth/signup
     POST /auth/login
     GET /auth/verify
 
-## Trips
+### Trips
 
     GET /trips
     POST /trips
@@ -269,23 +269,23 @@ Activity → pertenece a un Trip
     PATCH /trips/:id
     DELETE /trips/:id
 
-## Places
+### Places
 
     POST /places
     GET /trips/:tripId/places
     PATCH /places/:id
     DELETE /places/:id
 
-## Activities
+### Activities
 
     POST /activities
     GET /trips/:tripId/activities
     PATCH /activities/:id
     DELETE /activities/:id
 
-# Endpoints (Backend)
+## Endpoints (Backend)
 
-## Auth
+### Auth
 
 | Método | Ruta             | Descripción                             | Body                            |
 | ------ | ---------------- | --------------------------------------- | ------------------------------- |
@@ -293,7 +293,7 @@ Activity → pertenece a un Trip
 | POST   | /api/auth/login  | Autentica usuario y devuelve Cookies    | `{ email, password }`           |
 | GET    | /api/auth/verify | Verifica que el token Cookies es válido | —                               |
 
-## Trips
+### Trips
 
 | Método | Ruta               | Descripción                          | Body                                                  |
 | ------ | ------------------ | ------------------------------------ | ----------------------------------------------------- |
@@ -303,7 +303,7 @@ Activity → pertenece a un Trip
 | PATCH  | /api/trips/:tripId | Edita un viaje                       | `{ title, country, startDate, endDate, description }` |
 | DELETE | /api/trips/:tripId | Elimina un viaje                     | —                                                     |
 
-## Places
+### Places
 
 | Método | Ruta                         | Descripción                      | Body                              |
 | ------ | ---------------------------- | -------------------------------- | --------------------------------- |
@@ -313,7 +313,7 @@ Activity → pertenece a un Trip
 | PATCH  | /api/places/:placeId/visited | Marca lugar como visitado        | `{ visited }`                     |
 | DELETE | /api/places/:placeId         | Elimina un lugar                 | —                                 |
 
-## Activities
+### Activities
 
 | Método | Ruta                          | Descripción                     | Body              |
 | ------ | ----------------------------- | ------------------------------- | ----------------- |
@@ -322,7 +322,7 @@ Activity → pertenece a un Trip
 | PATCH  | /api/activities/:activityId   | Marca actividad como completada | `{ completed }`   |
 | DELETE | /api/activities/:activityId   | Elimina actividad               | —                 |
 
-# Rutas de la aplicación (Frontend)
+## Rutas de la aplicación (Frontend)
 
 | Ruta                | Página          | Descripción                                    | Acceso  |
 | ------------------- | --------------- | ---------------------------------------------- | ------- |
