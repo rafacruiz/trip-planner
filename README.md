@@ -304,7 +304,7 @@ Activity → pertenece a un Trip
 | ------------------- | --------------- | ---------------------------------------------- | ------- |
 | /signup             | SignupPage      | Registro de usuario                            | Pública |
 | /login              | LoginPage       | Inicio de sesión                               | Pública |
-| /                   | Dashboard       | Lista de viajes del usuario                    | Auth    |
+| /                   | Dashboard       | Lista de viajes de usuarios                    | Auth    |
 | /trips/create       | CreateTripPage  | Crear un nuevo viaje                           | Auth    |
 | /trips/:tripId      | TripDetailsPage | Ver detalles del viaje (lugares y actividades) | Auth    |
 | /trips/:tripId/edit | EditTripPage    | Editar un viaje                                | Auth    |
