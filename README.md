@@ -25,22 +25,6 @@ La aplicación centraliza tres elementos clave de la planificación:
 - Marcar actividades como completadas.
 - Panel de usuario para visualizar todos los viajes.
 
-## Arquitectura de la aplicación
-
-TripPlanner está desarrollado siguiendo una arquitectura **MERN (MongoDB, Express, React, Node.js)**:
-
-- **Frontend:** React  
-  Interfaz de usuario que permite gestionar viajes, lugares y actividades.
-
-- **Backend:** Node.js + Express  
-  API REST encargada de la lógica de negocio, autenticación y gestión de datos.
-
-- **Base de datos:** MongoDB  
-  Almacenamiento de usuarios, viajes, lugares y actividades.
-
-- **ODM:** Mongoose  
-  Modelado de datos y relaciones entre colecciones.
-
 ## Modelo de datos
 
 La aplicación se basa en cuatro entidades principales:
