@@ -91,30 +91,6 @@ Los endpoints están organizados en los siguientes módulos:
 - **Places** – gestión de lugares dentro de un viaje.
 - **Activities** – gestión de actividades del viaje.
 
-## Flujo general de uso
-
-1. El usuario se registra o inicia sesión.
-2. Accede a su **dashboard** donde ve todos sus viajes.
-3. Puede crear un nuevo viaje indicando país, fechas y descripción.
-4. Dentro de un viaje puede:
-   - Añadir **lugares** que quiere visitar.
-   - Añadir **actividades** o tareas.
-5. Durante o después del viaje puede:
-   - Marcar lugares como visitados.
-   - Marcar actividades como completadas.
-
-## Tecnologías utilizadas
-
-- Node.js
-- Express
-- MongoDB
-- Mongoose
-- React
-
-## Estado del proyecto
-
-TripPlanner es un proyecto orientado a practicar el desarrollo full-stack con arquitectura MERN, incluyendo autenticación, modelado de datos relacional en MongoDB y diseño de una API REST estructurada.
-
 ------------------------------------------------------------------------
 
 ## Funcionalidades
