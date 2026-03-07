@@ -4,6 +4,8 @@ TripPlanner es una aplicación web para planificar viajes y organizar todo lo re
 
 La aplicación está pensada como una herramienta sencilla de organización personal para viajeros. Cada usuario puede crear múltiples viajes, añadir lugares dentro de cada viaje y mantener una lista de actividades o checklist para planificar mejor su experiencia.
 
+Invitar a otros usuarios registrados a un viaje y crear viajes sorpresa, donde el destino permanece oculto hasta una fecha y hora específicas.
+
 ## Objetivo del proyecto
 
 El objetivo de TripPlanner es ofrecer una forma simple y estructurada de organizar viajes. Los usuarios pueden registrar destinos, anotar detalles importantes y seguir el progreso de su planificación mediante actividades marcadas como completadas.
@@ -11,6 +13,7 @@ El objetivo de TripPlanner es ofrecer una forma simple y estructurada de organiz
 La aplicación centraliza tres elementos clave de la planificación:
 
 - **Viajes**: representan una experiencia o plan de viaje concreto.
+- **Viajes Sorpresa**: cuando llegue la fecha, el destino se mostrará automáticamente a los viajeros invitados.
 - **Lugares**: sitios que el usuario desea visitar dentro de un viaje.
 - **Actividades**: tareas o cosas que hacer relacionadas con el viaje.
 
@@ -24,6 +27,8 @@ La aplicación centraliza tres elementos clave de la planificación:
 - Crear listas de actividades o checklist para cada viaje.
 - Marcar actividades como completadas.
 - Panel de usuario para visualizar todos los viajes.
+- Invitar usuarios registrados a un viaje.
+- Crear viajes sorpresa donde el destino está oculto
 
 ## Modelo de datos
 
@@ -32,7 +37,8 @@ La aplicación se basa en cuatro entidades principales:
 ### User
 Representa a un usuario registrado en la plataforma.
 
-Un usuario puede tener múltiples viajes.
+Un usuario puede tener múltiples viajes creados.
+Un usuario puede tener múltiples viajes invitado.
 
 ### Trip
 Representa un viaje creado por un usuario. Contiene información básica como el país, fechas y descripción.
@@ -80,10 +86,11 @@ Los endpoints están organizados en los siguientes módulos:
 ## Funcionalidades
 
 -   Registrarse / Login
--   Crear viajes
+-   Crear viajes / Crear viajes sorpresa
 -   Añadir lugares a cada viaje
 -   Añadir actividades o checklist
 -   Marcar actividades como completadas
+-   Añadir viajeros al viaje
 
 ------------------------------------------------------------------------
 
@@ -115,6 +122,9 @@ Relación:
   endDate: Date,
   description: String,
   userOwner: ObjectId (User)
+  travelers: [{ObjectId (User), role(Enum)}],
+  isSurprise: Boolean,
+  revealDate: Date
 }
 ```
 
@@ -173,19 +183,27 @@ Relación:
 User → muchos Trips
 
 ### Trip:
-| Campo       | Tipo            | Requerido | Notas                         |
-| ----------- | --------------- | --------- | ----------------------------- |
-| title       | String          | Sí        | minLength: 2                  |
-| country     | String          | Sí        | nombre del país               |
-| startDate   | Date            | Sí        | fecha inicio viaje            |
-| endDate     | Date            | Sí        | fecha fin viaje               |
-| description | String          | No        | maxLength: 500                |
-| userOwner   | ObjectId (User) | Sí        | referencia al usuario creador |
+| Campo       | Tipo                           | Requerido | Notas                                                |
+| ----------- | ------------------------------ | --------- | ---------------------------------------------------- |
+| title       | String                         | Sí        | minLength: 2                                         |
+| country     | String                         | Sí        | nombre del país                                      |
+| startDate   | Date                           | Sí        | fecha inicio viaje                                   |
+| endDate     | Date                           | Sí        | fecha fin viaje                                      |
+| description | String                         | No        | maxLength: 500                                       |
+| userOwner   | ObjectId (User)                | Sí        | referencia al usuario creador                        |
+| travelers   | [{ObjectId(User), Role (Enum)}]| No        | referencia al usuario, role enum (owner, traveler)   |
+| isSurprise  | Boolean                        | Sí        | default: false                                       |
+| revealDate  | Date                           | No        | fecha de revelación del destino                      |
 
 **Relación**
 
 User → muchos Trips
+User → muchos Trips (traveler)
 Trip → pertenece a un User
+Trip → muchos Places
+Trip → muchas Activities
+Trip → muchos Travelers
+
 
 ### Place:
 | Campo    | Tipo            | Requerido | Notas               |
@@ -255,13 +273,15 @@ Activity → pertenece a un Trip
 
 ### Trips
 
-| Método | Ruta               | Descripción                          | Body                                                  |
-| ------ | ------------------ | ------------------------------------ | ----------------------------------------------------- |
-| GET    | /api/trips         | Obtiene todos los viajes del usuario | —                                                     |
-| POST   | /api/trips         | Crea un nuevo viaje                  | `{ title, country, startDate, endDate, description }` |
-| GET    | /api/trips/:tripId | Obtiene los detalles de un viaje     | —                                                     |
-| PATCH  | /api/trips/:tripId | Edita un viaje                       | `{ title, country, startDate, endDate, description }` |
-| DELETE | /api/trips/:tripId | Elimina un viaje                     | —                                                     |
+| Método | Ruta                               | Descripción                          | Body                                                  |
+| ------ | ---------------------------------- | ------------------------------------ | ----------------------------------------------------- |
+| GET    | /api/trips                         | Obtiene todos los viajes del usuario | ( ?userOwner=, ...)                                   |
+| POST   | /api/trips                         | Crea un nuevo viaje                  | `{ title, country, startDate, endDate, description }` |
+| GET    | /api/trips/:tripId                 | Obtiene los detalles de un viaje     | —                                                     |
+| PATCH  | /api/trips/:tripId                 | Edita un viaje                       | `{ title, country, startDate, endDate, description }` |
+| DELETE | /api/trips/:tripId                 | Elimina un viaje                     | —                                                     |
+| PATCH  | /api/trips/:tripId/add-traveler    | Añade un viajero al viaje            | `{ userId }`                                          |
+| PATCH  | /api/trips/:tripId/remove-traveler | Elimina un viajero                   | -                                                     |
 
 ### Places
 
@@ -289,6 +309,7 @@ Activity → pertenece a un Trip
 | /signup             | SignupPage      | Registro de usuario                            | Pública |
 | /login              | LoginPage       | Inicio de sesión                               | Pública |
 | /                   | Dashboard       | Lista de viajes de usuarios                    | Auth    |
+| /profile            | Profile         | Lista de viajes del usuario y su perfil        | Auth    |
 | /trips/create       | CreateTripPage  | Crear un nuevo viaje                           | Auth    |
 | /trips/:tripId      | TripDetailsPage | Ver detalles del viaje (lugares y actividades) | Auth    |
 | /trips/:tripId/edit | EditTripPage    | Editar un viaje                                | Auth    |
