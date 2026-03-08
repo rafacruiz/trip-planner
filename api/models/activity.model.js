@@ -4,13 +4,13 @@ import mongoose from "mongoose";
 const activitySchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: [true, 'Title is required'],
         trim: true,
-        minLength: 5
+        minLength: [5, 'Title cannot min 5 characters']
     },
     completed: {
         type: Boolean,
-        required: true,
+        required: [true, 'Completed is required'],
         default: false 
     },
     trip: {

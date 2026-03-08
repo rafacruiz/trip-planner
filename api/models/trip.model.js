@@ -4,29 +4,30 @@ import mongoose from "mongoose";
 const tripSchema = new mongoose.Schema({
     title: {
         type: String,
-        required: true,
+        required: [true, 'Title is required'],
         trim: true,
-        minLength: 2
+        minLength: [10, 'Title cannot min 10 characters']
     },
     country: {
         type: String,
-        required: true,
+        required: [true, 'Country is required'],
+        minLength: [2, 'Country must be at least 2 characters long'],
         trim: true,
     },
     startDate: {
         type: Date,
-        required: true, 
+        required: [true, 'Start date is required'], 
         default: new Date() 
     },
     endDate: {
         type: Date,
-        required: true,
+        required: [true, 'End date is required'],
         default: new Date() 
     },
     description: {
         type: String,
         trim: true,
-        maxLength: 500,
+        maxLength: [500, 'Description cannot exceed 500 characters'],
     },
     userOwner: {
         type: mongoose.Types.ObjectId,
@@ -41,7 +42,7 @@ const tripSchema = new mongoose.Schema({
         },
         role: {
             type: String,
-            required: true,
+            required: [true, 'Role is required'],
             enum: ['owner', 'traveler']
         }
     }],
@@ -63,6 +64,18 @@ const tripSchema = new mongoose.Schema({
             delete ret._id;
         },
     }
+});
+
+productSchema.virtual('place', {
+    ref: 'Place',
+    localField: '_id',
+    foreignField: 'trip'
+});
+
+productSchema.virtual('activity', {
+    ref: 'Activity',
+    localField: '_id',
+    foreignField: 'trip'
 });
 
 const Trip = mongoose.model('Trip', tripSchema);

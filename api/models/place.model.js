@@ -4,22 +4,22 @@ import mongoose from "mongoose";
 const placeSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true,
+        required: [true, 'Name is required'],
         trim: true,
-        minLength: 5
+        minLength: [5, 'Name cannot min 5 characters']
     },
     location: {
         type: String,
         trim: true,
-        minLength: 2
+        minLength: [2, 'Location cannot min 2 characters']
     },
     notes: {
         type: String, 
-        maxLength: 200
+        maxLength: [500, 'Notes cannot exceed 500 characters'],
     },
     visited: {
         type: Boolean,
-        required: true,
+        required: [true, 'Visited is required'],
         default: false 
     },
     trip: {

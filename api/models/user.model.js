@@ -5,7 +5,7 @@ import mongoose from "mongoose";
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
-        required: true,
+        required: [true, 'Email is required'],
         unique: true,
         lowercase: true,
         trim: true,
@@ -13,27 +13,27 @@ const userSchema = new mongoose.Schema({
     },
     password: {
         type: String,
-        required: true,
-        MinLength: 6,
+        required: [true, 'Password is required'],
+        MinLength: [6, 'Password must be at least 6 characters']
     },
     username: {
         type: String,
-        required: true,
+        required: [true, 'User name is required'],
         trim: true,
-        minLength: 3,
+        minLength: [3, 'User name must be at least 3 characters'],
         unique: true,
     },
     bio: {
         type: String,
         trim: true,
-        maxLength: 500,
+        maxLength: [200, 'Bio cannot exceed 200 characters'],
     },
     avatar: {
         type: String,
         trim: true,
+        default: 'https://via.placeholder.com/150',
         minLength: 1
     }
-
 }, {
     timestamps: true,
     versionKey: false,
@@ -44,6 +44,12 @@ const userSchema = new mongoose.Schema({
             delete ret.password;
         },
     }
+});
+
+userSchema.virtual('trip', {
+    ref: 'Trip',
+    localField: '_id',
+    foreignField: 'userOwner'
 });
 
 userSchema.pre("save", async function () {
