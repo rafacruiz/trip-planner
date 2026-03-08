@@ -102,7 +102,9 @@ Los endpoints están organizados en los siguientes módulos:
 {
   username: String,
   email: String,
-  password: String
+  password: String,
+  bio: String,
+  avatar: String,
 }
 ```
 
@@ -177,6 +179,8 @@ Relación:
 | username | String | Sí        | Único, minLength: 3               |
 | email    | String | Sí        | Único, formato email              |
 | password | String | Sí        | MinLength: 6, almacenado con hash |
+| bio      | String | No        | MaxLength: 500                    |
+| avatar   | String | No        | minLength: 1                      |
 
 **Relación**
 
@@ -237,6 +241,7 @@ Activity → pertenece a un Trip
 
     POST /auth/signup
     POST /auth/login
+    DELETE /auth/logout
     GET /auth/verify
 
 ### Trips
@@ -269,6 +274,7 @@ Activity → pertenece a un Trip
 | ------ | ---------------- | --------------------------------------- | ------------------------------- |
 | POST   | /api/auth/signup | Registra un nuevo usuario               | `{ username, email, password }` |
 | POST   | /api/auth/login  | Autentica usuario y devuelve Cookies    | `{ email, password }`           |
+| DELETE | /api/auth/logout | Eliminación de la session activa        | `{ email, password }`           |
 | GET    | /api/auth/verify | Verifica que el token Cookies es válido | —                               |
 
 ### Trips
