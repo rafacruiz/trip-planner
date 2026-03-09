@@ -4,7 +4,15 @@ import Session from '../models/session.model.js';
 import createHttpError from "http-errors";
 
 export async function create(req, res) {
-    const user = await User.create(req.body);
+    const userData = {
+        'username': req.body.username,
+        'email': req.body.email,
+        'password': req.body.password,
+        'bio': req.body.bio,
+        'avatar': req.body.avatar
+    }
+
+    const user = await User.create(userData);
 
     res.json(user);
 }
@@ -43,4 +51,16 @@ export async function logout(req, res) {
 
 export async function verify(req, res) {
     res.json(req.session.user);
+}
+
+export async function detail(req, res) {
+    if (req.params.id === 'me') {
+        res.json(req.session.user);
+    } else { 
+        const user = await User.findById(req.params.id);
+
+        if (!user) throw createError(404, 'User not found');
+
+        res.json(user);
+    } 
 }

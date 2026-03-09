@@ -66,13 +66,18 @@ const tripSchema = new mongoose.Schema({
     }
 });
 
-productSchema.virtual('place', {
+tripSchema.index(
+    { _id: 1, "travelers.user": 1 },
+    { unique: true }
+);
+
+tripSchema.virtual('place', {
     ref: 'Place',
     localField: '_id',
     foreignField: 'trip'
 });
 
-productSchema.virtual('activity', {
+tripSchema.virtual('activity', {
     ref: 'Activity',
     localField: '_id',
     foreignField: 'trip'
