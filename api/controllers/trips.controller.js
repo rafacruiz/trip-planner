@@ -36,8 +36,9 @@ export async function list(req, res) {
 
     const trips = await Trip.find(criteria)
         .populate('userOwner', 'email username bio avatar')
-        .populate('travelers.user', 'email username bio avatar');
-
+        .populate('travelers.user', 'email username bio avatar')
+        .populate('places', 'name location notes');
+        
     res.json(trips);
 }
 
@@ -45,7 +46,8 @@ export async function details(req, res) {
     
     const trip = await Trip.findById(req.params.tripId)
         .populate('userOwner', 'email username bio avatar')
-        .populate('travelers.user', 'email username bio avatar');
+        .populate('travelers.user', 'email username bio avatar')
+        .populate('places', 'name location notes');
 
     if (!trip) throw createHttpError(404, 'Trip not found');
 

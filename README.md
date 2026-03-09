@@ -294,7 +294,6 @@ Activity → pertenece a un Trip
 | Método | Ruta                         | Descripción                      | Body                              |
 | ------ | ---------------------------- | -------------------------------- | --------------------------------- |
 | POST   | /api/places                  | Crea un lugar dentro de un viaje | `{ name, location, notes, trip }` |
-| GET    | /api/trips/:tripId/places    | Obtiene los lugares de un viaje  | —                                 |
 | PATCH  | /api/places/:placeId         | Edita un lugar                   | `{ name, location, notes }`       |
 | PATCH  | /api/places/:placeId/visited | Marca lugar como visitado        | `{ visited }`                     |
 | DELETE | /api/places/:placeId         | Elimina un lugar                 | —                                 |
@@ -304,7 +303,6 @@ Activity → pertenece a un Trip
 | Método | Ruta                          | Descripción                     | Body              |
 | ------ | ----------------------------- | ------------------------------- | ----------------- |
 | POST   | /api/activities               | Crea una actividad del viaje    | `{ title, trip }` |
-| GET    | /api/trips/:tripId/activities | Obtiene actividades del viaje   | —                 |
 | PATCH  | /api/activities/:activityId   | Marca actividad como completada | `{ completed }`   |
 | DELETE | /api/activities/:activityId   | Elimina actividad               | —                 |
 
