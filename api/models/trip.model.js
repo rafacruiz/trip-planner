@@ -22,7 +22,12 @@ const tripSchema = new mongoose.Schema({
     endDate: {
         type: Date,
         required: [true, 'End date is required'],
-        default: new Date() 
+        validate: {
+            validator: function (value) {
+                return value >= this.startDate;
+            },
+            message: "End date must be after start date"
+        }
     },
     description: {
         type: String,
@@ -43,7 +48,8 @@ const tripSchema = new mongoose.Schema({
         role: {
             type: String,
             required: [true, 'Role is required'],
-            enum: ['owner', 'traveler']
+            enum: ['traveler'],
+            default: "traveler"
         }
     }],
     isSurprise: {
@@ -53,7 +59,9 @@ const tripSchema = new mongoose.Schema({
     },
     revealDate: {
         type: Date,
-        default: new Date() 
+        required: function () {
+            return this.isSurprise;
+        }
     }
 }, {
     timestamps: true,
@@ -67,17 +75,17 @@ const tripSchema = new mongoose.Schema({
 });
 
 tripSchema.index(
-    { _id: 1, "travelers.user": 1 },
-    { unique: true }
+  { "travelers.user": 1, _id: 1 },
+  { unique: true }
 );
 
-tripSchema.virtual('place', {
+tripSchema.virtual('places', {
     ref: 'Place',
     localField: '_id',
     foreignField: 'trip'
 });
 
-tripSchema.virtual('activity', {
+tripSchema.virtual('activities', {
     ref: 'Activity',
     localField: '_id',
     foreignField: 'trip'

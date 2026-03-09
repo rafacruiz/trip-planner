@@ -14,7 +14,7 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Password is required'],
-        MinLength: [6, 'Password must be at least 6 characters']
+        minLength: [6, 'Password must be at least 6 characters']
     },
     username: {
         type: String,
@@ -46,7 +46,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
-userSchema.virtual('trip', {
+userSchema.virtual('trips', {
     ref: 'Trip',
     localField: '_id',
     foreignField: 'userOwner'

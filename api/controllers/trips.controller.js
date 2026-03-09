@@ -14,7 +14,7 @@ export async function create(req, res) {
         'travelers': [
             { 
                 'user': req.session.user.id, 
-                'role': 'owner'
+                'role': 'traveler'
             }, 
             ...req.body.travelers],
         'isSurprise': req.body.isSurprise,
@@ -35,8 +35,8 @@ export async function list(req, res) {
     }
 
     const trips = await Trip.find(criteria)
-        .populate('userOwner')
-        .populate('travelers.user');
+        .populate('userOwner', 'email username bio avatar')
+        .populate('travelers.user', 'email username bio avatar');
 
     res.json(trips);
 }
@@ -44,8 +44,8 @@ export async function list(req, res) {
 export async function details(req, res) {
     
     const trip = await Trip.findById(req.params.tripId)
-        .populate('userOwner')
-        .populate('travelers.user');
+        .populate('userOwner', 'email username bio avatar')
+        .populate('travelers.user', 'email username bio avatar');
 
     if (!trip) throw createHttpError(404, 'Trip not found');
 

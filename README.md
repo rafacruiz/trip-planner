@@ -274,7 +274,7 @@ Activity → pertenece a un Trip
 | ------ | ---------------- | --------------------------------------- | ------------------------------- |
 | POST   | /api/auth/signup | Registra un nuevo usuario               | `{ username, email, password }` |
 | POST   | /api/auth/login  | Autentica usuario y devuelve Cookies    | `{ email, password }`           |
-| DELETE | /api/auth/logout | Eliminación de la session activa        | `{ email, password }`           |
+| DELETE | /api/auth/logout | Eliminación de la session activa        |                                 |
 | GET    | /api/auth/verify | Verifica que el token Cookies es válido | —                               |
 
 ### Trips
