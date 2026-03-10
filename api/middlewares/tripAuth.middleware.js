@@ -1,0 +1,26 @@
+
+
+import createHttpError from "http-errors";
+import Trip from '../models/trip.model.js';
+
+export async function checkTripAuth(req, res, next) {
+
+    const trip = await Trip.findById(req.params?.tripId);
+
+    if (!trip) throw createHttpError(404, "Trip not found");
+
+    const userId = req.session.user.id;
+    const isOwner = trip.userOwner.toString() === userId.toString();
+
+    if (!isOwner && ['PATCH', 'DELETE'].includes(req.method)) {
+        throw createHttpError(403, "You don't have access to this trip");
+    }
+
+    if (!isOwner && req.method === 'PATCH' && trip.endDate.getTime() < Date.now()) {
+        throw createHttpError(403, "You can't modify a trip that has already ended");
+    }
+
+    req.trip = trip;
+
+    next();
+};
