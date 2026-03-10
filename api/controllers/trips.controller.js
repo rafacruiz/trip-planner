@@ -1,29 +1,51 @@
 
 import createHttpError from "http-errors";
 import Trip from '../models/trip.model.js';
+import User from '../models/user.model.js';
 
 export async function create(req, res) {
 
-    const tripData = {
-        'title': req.body.title,
-        'country': req.body.country,
-        'startDate': req.body.endDate,
-        'endDate': req.body.endDate,
-        'description': req.body.description,
-        'userOwner': req.session.user.id,
-        'travelers': [
-            { 
-                'user': req.session.user.id, 
-                'role': 'traveler'
-            }, 
-            ...req.body.travelers],
-        'isSurprise': req.body.isSurprise,
-        'revealDate': req.body.revealDate
+    const { 
+        title,
+        country,
+        startDate,
+        endDate,
+        description,
+        travelers = [],
+        isSurprise,
+        revealDate
+    } = req.body;
+
+    const travelerIds = travelers.map(t => t.user);
+    
+    const users = await User.find({ _id: { $in: travelerIds } });
+
+    if (users.length !== travelerIds.length) {
+        throw createHttpError(404, "One or more users not found");
     }
 
-    const trip = await Trip.create(tripData);
+    const trip = await Trip.create({
+        title,
+        country,
+        startDate,
+        endDate,
+        description,
+        userOwner: req.session.user.id,
+        travelers: [
+            { 
+                user: req.session.user.id, 
+                role: 'traveler'
+            }, 
+            ...users.map(user => ({
+                user: user.id,
+                role: "traveler"
+            }))
+        ],
+        isSurprise,
+        revealDate
+    });
 
-    res.json(trip);
+    res.json({ success: true, data: trip });
 }
 
 export async function list(req, res) {
@@ -37,33 +59,26 @@ export async function list(req, res) {
     const trips = await Trip.find(criteria)
         .populate('userOwner', 'email username bio avatar')
         .populate('travelers.user', 'email username bio avatar')
-        .populate('places', 'name location notes');
+        .populate('places', 'name location notes')
+        .populate('activities', 'title');
         
-    res.json(trips);
+    res.json({ success: true, data: trips });
 }
 
 export async function details(req, res) {
     
-    const trip = await Trip.findById(req.params.tripId)
+    const trip = req.trip
         .populate('userOwner', 'email username bio avatar')
         .populate('travelers.user', 'email username bio avatar')
-        .populate('places', 'name location notes');
+        .populate('places', 'name location notes')
+        .populate('activities', 'title');
 
-    if (!trip) throw createHttpError(404, 'Trip not found');
-
-    res.json(trip);
+    res.json({ success: true, data: trip });
 }
 
 export async function update(req, res) {
 
-    const trip = await Trip.findById(req.params.tripId);
-    
-    if (!trip) throw createHttpError(404, "Trip not found");
-
-    if (trip.userOwner.toString() 
-        !== req.session.user.id.toString()) {
-        throw createHttpError(403, "Not your project");
-    }
+    const trip = req.trip;
 
     delete req.body.userOwner;
     
@@ -71,27 +86,20 @@ export async function update(req, res) {
 
     await trip.save();
 
-    res.json(trip);
+    res.json({ success: true, data: trip });
 }
 
 export async function remove(req, res) {
 
-    const trip = await Trip.findById(req.params.tripId);
-
-    if (trip.userOwner.toString() 
-        !== req.session.user.id.toString()) {
-        throw createHttpError(403, "Not your project");
-    }
-
-    await Trip.findByIdAndDelete(trip.id);
+    await Trip.findByIdAndDelete(req.trip.id);
 
     res.status(204).end();
 }
 
 export async function addTraveler(req, res) {
 
-    // Deberia solo añadir el owner?
-
+    // Deberia comprobar que el usuario existe?
+    
     const trip = await Trip.findOneAndUpdate(
         { _id: req.params.tripId, "travelers.user": { $ne: req.body.userId } },
         { $push: { travelers: { user: req.body.userId, role: "traveler" } } },
@@ -100,12 +108,10 @@ export async function addTraveler(req, res) {
 
     if (!trip) throw createHttpError(409, 'Traveler found in this trip');
 
-    res.send({ added: true });
+    res.send({ success: true });
 }
 
 export async function delTraveler(req, res) {
-
-    // Deberia solo añadir el owner?
     
     const trip = await Trip.findOneAndUpdate(
         { _id: req.params.tripId, "travelers.user": req.body.userId },
@@ -113,9 +119,7 @@ export async function delTraveler(req, res) {
         { new: true }
     );
 
-    if (!trip) {
-        throw createHttpError(404, "Traveler not found in this trip");
-    }
+    if (!trip) throw createHttpError(404, "Traveler not found in this trip");
 
-    res.send({ remove: true });
+    res.send({ success: true });
 }
