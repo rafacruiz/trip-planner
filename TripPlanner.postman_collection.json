@@ -1,9 +1,10 @@
 {
   "info": {
-    "_postman_id": "90d0da2a-9a62-4983-af66-9fb88b5f6f3d",
+    "_postman_id": "15357586-9443-4a3b-ae89-7d2ae71456f3",
     "name": "TripPlanner",
     "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "45993380"
+    "_exporter_id": "51588835",
+    "_collection_link": "https://go.postman.co/collection/51588835-15357586-9443-4a3b-ae89-7d2ae71456f3?source=collection_link"
   },
   "item": [
     {
@@ -191,13 +192,31 @@
           "response": []
         },
         {
+          "name": "Get Details Trip",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{baseUrl}}/trips/{{tripId}}",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "trips",
+                "{{tripId}}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
           "name": "Create Trip",
           "request": {
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Adventure in the Alps italianos\",\n  \"country\": \"Italia\",\n  \"startDate\": \"2026-06-01T09:00:00.000Z\",\n  \"endDate\": \"2026-06-10T18:00:00.000Z\",\n  \"description\": \"A 10-day trip exploring the beautiful Swiss Alps.\",\n  \"travelers\": [\n    {\n      \"user\": \"69ae0ba76d527fa2f10f6451\"\n    }\n  ],\n  \"isSurprise\": false,\n  \"revealDate\": \"2026-05-25T12:00:00.000Z\"\n}",
+              "raw": "{\n  \"title\": \"Adventure in the Alps italianos\",\n  \"country\": \"Italia\",\n  \"startDate\": \"2026-06-01T09:00:00.000Z\",\n  \"endDate\": \"2026-06-10T18:00:00.000Z\",\n  \"description\": \"A 10-day trip exploring the beautiful Swiss Alps.\",\n  \"travelers\": [\n    {\n      \"user\": \"69af223d3e9da2351ea84d9f\"\n    }\n  ],\n  \"isSurprise\": false,\n  \"revealDate\": \"2026-05-25T12:00:00.000Z\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -223,7 +242,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Amazing Adventure in the Alps nuevas Adventure\",\n  \"country\": \"Ucrania\",\n  \"startDate\": \"2026-06-01T09:00:00.000Z\",\n  \"endDate\": \"2026-06-10T18:00:00.000Z\",\n  \"description\": \"A 10-day trip exploring the beautiful Swiss Alps, including hiking, sightseeing, and local cuisine.\"\n}",
+              "raw": "{\n  \"title\": \"Amazing Adventure in the Alps nuevas Adventure\",\n  \"country\": \"Ucrania Prueba\",\n  \"startDate\": \"2026-06-01T09:00:00.000Z\",\n  \"endDate\": \"2026-06-10T18:00:00.000Z\",\n  \"description\": \"A 10-day trip exploring the beautiful Swiss Alps, including hiking, sightseeing, and local cuisine.\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -527,8 +546,7 @@
     },
     {
       "key": "activityId",
-      "value": "",
-      "type": "default"
+      "value": ""
     }
   ]
 }

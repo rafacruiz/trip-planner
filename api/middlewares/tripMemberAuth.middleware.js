@@ -21,7 +21,14 @@ export async function checkTripMemberAuth(req, res, next) {
     const isOwner = trip.userOwner.toString() === userId.toString();
 
     if (!isOwner && !isTraveler) {
-        return next(createHttpError(403, "You don't have access to this trip"));
+        throw createHttpError(403, "You don't have access to this trip");
+    }
+
+    if (!isOwner 
+        && isTraveler 
+        && trip.isSurprise
+        && trip.revealDate.getTime() >= Date.now()) {
+        throw createHttpError(403, "You don't have access to this trip surprise");
     }
 
     req.trip = trip;
