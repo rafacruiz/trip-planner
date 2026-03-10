@@ -2,7 +2,7 @@
 import createHttpError from "http-errors";
 import Trip from '../models/trip.model.js';
 
-export async function checkOtherAuth(req, res, next) {
+export async function checkTripMemberAuth(req, res, next) {
 
     const trip = await Trip.findById(req.params.tripId);
 
