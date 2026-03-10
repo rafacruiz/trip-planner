@@ -28,7 +28,7 @@ router.patch('/trips/:tripId/add-traveler', checkTripAuth, Trip.addTraveler);
 router.patch('/trips/:tripId/remove-traveler', checkTripAuth, Trip.delTraveler);
 
 router.post('/trips/:tripId/places', checkTripAuth, Place.create);
-router.patch('/trips/:tripId/places/:placeId/visited', checkTripAuth, Place.update);
+router.patch('/trips/:tripId/places/:placeId', checkTripAuth, Place.update);
 router.delete('/trips/:tripId/places/:placeId', checkTripAuth, Place.remove);
 
 router.post('/trips/:tripId/activities', checkTripAuth, Activity.create);
