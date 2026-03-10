@@ -14,7 +14,7 @@ export async function create(req, res) {
 
     const user = await User.create(userData);
 
-    res.json(user);
+    res.json({ success: true, data: user });
 }
 
 export async function login(req, res) {
@@ -39,7 +39,7 @@ export async function login(req, res) {
         sameSite: process.env.COOKIE_SECURE === "true" ? "none" : undefined,
     });
 
-  res.json(user);
+  res.json({ success: true, data: user });
     
 }
 
@@ -59,8 +59,8 @@ export async function detail(req, res) {
     } else { 
         const user = await User.findById(req.params.id);
 
-        if (!user) throw createError(404, 'User not found');
+        if (!user) throw createHttpError(404, 'User not found');
 
-        res.json(user);
+        res.json({ success: true, data: user });
     } 
 }
