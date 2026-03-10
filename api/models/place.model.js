@@ -26,6 +26,11 @@ const placeSchema = new mongoose.Schema({
         type: mongoose.Types.ObjectId,
         ref: 'Trip',
         required: true
+    },
+    author: {
+        type: mongoose.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 }, {
     timestamps: true,
