@@ -293,7 +293,7 @@ Activity → pertenece a un Trip
 | Método | Ruta                                       | Descripción                      | Body                              |
 | ------ | ------------------------------------------ | -------------------------------- | --------------------------------- |
 | POST   | /api/trips/:tripId/places                  | Crea un lugar dentro de un viaje | `{ name, location, notes }`       |
-| PATCH  | /api/trips/:tripId/places/:placeId/visited | Marca lugar como visitado        | `{ visited }`                     |
+| PATCH  | /api/trips/:tripId/places/:placeId         | Marca lugar como visitado        | `{ visited }`                     |
 | DELETE | /api/trips/:tripId/places/:placeId         | Elimina un lugar                 |                                   |     
 
 ### Activities
