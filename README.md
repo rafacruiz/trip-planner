@@ -255,14 +255,13 @@ Activity → pertenece a un Trip
 ### Places
 
     POST /places
-    GET /trips/:tripId/places
+    PATCH /places/:placeId/visited
     PATCH /places/:id
     DELETE /places/:id
 
 ### Activities
 
     POST /activities
-    GET /trips/:tripId/activities
     PATCH /activities/:id
     DELETE /activities/:id
 
@@ -291,20 +290,19 @@ Activity → pertenece a un Trip
 
 ### Places
 
-| Método | Ruta                         | Descripción                      | Body                              |
-| ------ | ---------------------------- | -------------------------------- | --------------------------------- |
-| POST   | /api/places                  | Crea un lugar dentro de un viaje | `{ name, location, notes, trip }` |
-| PATCH  | /api/places/:placeId         | Edita un lugar                   | `{ name, location, notes }`       |
-| PATCH  | /api/places/:placeId/visited | Marca lugar como visitado        | `{ visited }`                     |
-| DELETE | /api/places/:placeId         | Elimina un lugar                 | —                                 |
+| Método | Ruta                                       | Descripción                      | Body                              |
+| ------ | ------------------------------------------ | -------------------------------- | --------------------------------- |
+| POST   | /api/trips/:tripId/places                  | Crea un lugar dentro de un viaje | `{ name, location, notes }`       |
+| PATCH  | /api/trips/:tripId/places/:placeId/visited | Marca lugar como visitado        | `{ visited }`                     |
+| DELETE | /api/trips/:tripId/places/:placeId         | Elimina un lugar                 |                                   |     
 
 ### Activities
 
-| Método | Ruta                          | Descripción                     | Body              |
-| ------ | ----------------------------- | ------------------------------- | ----------------- |
-| POST   | /api/activities               | Crea una actividad del viaje    | `{ title, trip }` |
-| PATCH  | /api/activities/:activityId   | Marca actividad como completada | `{ completed }`   |
-| DELETE | /api/activities/:activityId   | Elimina actividad               | —                 |
+| Método | Ruta                                        | Descripción                     | Body              |
+| ------ | ------------------------------------------- | ------------------------------- | ----------------- |
+| POST   | /api/trips/:tripId/activities               | Crea una actividad del viaje    | `{ title }`       |
+| PATCH  | /api/trips/:tripId/activities/:activityId   | Marca actividad como completada | `{ completed }`   |
+| DELETE | /api/trips/:tripId/activities/:activityId   | Elimina actividad               |                   |
 
 ## Rutas de la aplicación (Frontend)
 
