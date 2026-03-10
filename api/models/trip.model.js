@@ -12,6 +12,7 @@ const tripSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Country is required'],
         minLength: [2, 'Country must be at least 2 characters long'],
+        lowercase: true,
         trim: true,
     },
     startDate: {
