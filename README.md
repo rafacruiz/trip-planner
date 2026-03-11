@@ -288,9 +288,9 @@ Activity → pertenece a un Trip y User
 
 ### Profile
 
-| Método | Ruta                         | Descripción                                       | Body                            |
-| ------ | ---------------------------- | ------------------------------------------------- | ------------------------------- |
-| GET    | /api/profile/{:userId o me}  | Devuelve perfil usuario o perfil usuario logueado | `{ username, email, password }` |
+| Método | Ruta                         | Descripción                                       | Body      |
+| ------ | ---------------------------- | ------------------------------------------------- | --------- |
+| GET    | /api/profile/{:userId o me}  | Devuelve perfil usuario o perfil usuario logueado | -         |
 
 
 ### Trips
