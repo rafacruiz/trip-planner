@@ -2,17 +2,17 @@
 import User from '../models/user.model.js';
 import Session from '../models/session.model.js';
 import createHttpError from "http-errors";
+import { cloudinary } from '../config/multer.config.js';
 
 export async function create(req, res) {
-    const userData = {
-        'username': req.body.username,
-        'email': req.body.email,
-        'password': req.body.password,
-        'bio': req.body.bio,
-        'avatar': req.body.avatar
-    }
-
-    const user = await User.create(userData);
+    
+    const user = await User.create({
+            'username': req.body.username,
+            'email': req.body.email,
+            'password': req.body.password,
+            'bio': req.body.bio,
+            'avatar': req.body.avatar
+        });
 
     res.json({ success: true, data: user });
 }
@@ -63,4 +63,20 @@ export async function detail(req, res) {
 
         res.json({ success: true, data: user });
     } 
+}
+
+export async function update(req, res) {
+    delete req.body.email;
+    delete req.body.username;
+
+    Object.assign(req.session.user, req.body);
+
+    if (req.file) {
+        const result = await cloudinary.uploader.upload(req.file.path);
+        req.session.user.avatar = req.file.path;
+    }
+
+    await req.session.user.save();
+    
+    res.json(req.session.user);
 }
