@@ -144,7 +144,8 @@ Relaciones:
   location: String,
   notes: String,
   visited: Boolean,
-  trip: ObjectId (Trip)
+  trip: ObjectId (Trip),
+  author: ObjectId (User)
 }
 ```
 
@@ -160,7 +161,8 @@ Relación:
 {
   title: String,
   completed: Boolean,
-  trip: ObjectId (Trip)
+  trip: ObjectId (Trip),
+  author: ObjectId (User)
 }
 ```
 
@@ -210,18 +212,19 @@ Trip → muchos Travelers
 
 
 ### Place:
-| Campo    | Tipo            | Requerido | Notas               |
-| -------- | --------------- | --------- | ------------------- |
-| name     | String          | Sí        | nombre del lugar    |
-| location | String          | No        | ciudad o dirección  |
-| notes    | String          | No        | notas personales    |
-| visited  | Boolean         | Sí        | default: false      |
-| trip     | ObjectId (Trip) | Sí        | referencia al viaje |
+| Campo    | Tipo            | Requerido | Notas                 |
+| -------- | --------------- | --------- | --------------------- |
+| name     | String          | Sí        | nombre del lugar      |
+| location | String          | No        | ciudad o dirección    |
+| notes    | String          | No        | notas personales      |
+| visited  | Boolean         | Sí        | default: false        |
+| trip     | ObjectId (Trip) | Sí        | referencia al viaje   |
+| author   | ObjectId (User) | Sí        | referencia al usuario |
 
 **Relación**
 
 Trip → muchos Places
-Place → pertenece a un Trip
+Place → pertenece a un Trip y User
 
 ### Activity:
 | Campo     | Tipo            | Requerido | Notas                       |
@@ -229,11 +232,12 @@ Place → pertenece a un Trip
 | title     | String          | Sí        | descripción de la actividad |
 | completed | Boolean         | Sí        | default: false              |
 | trip      | ObjectId (Trip) | Sí        | referencia al viaje         |
+| author    | ObjectId (User) | Sí        | referencia al usuario       |
 
 **Relación**
 
 Trip → muchas Activities
-Activity → pertenece a un Trip
+Activity → pertenece a un Trip y User
 
 ## API
 
@@ -244,26 +248,31 @@ Activity → pertenece a un Trip
     DELETE /auth/logout
     GET /auth/verify
 
+### Profile
+
+    GET /profile/:id
+
 ### Trips
 
     GET /trips
     POST /trips
-    GET /trips/:id
-    PATCH /trips/:id
-    DELETE /trips/:id
+    GET /trips/:tripId
+    PATCH /trips/:tripId
+    PATCH /trips/:tripId/add-traveler
+    PATCH /trips/:tripId/remove-traveler
+    DELETE /trips/:tripId
 
 ### Places
 
-    POST /places
-    PATCH /places/:placeId/visited
-    PATCH /places/:id
-    DELETE /places/:id
+    POST /trips/:tripId/places
+    PATCH /trips/:tripId/places/:placeId
+    DELETE /trips/:tripId/places/:placeId
 
 ### Activities
 
-    POST /activities
-    PATCH /activities/:id
-    DELETE /activities/:id
+    POST /trips/:tripId/activities
+    PATCH /trips/:tripId/activities/:activityId
+    DELETE /trips/:tripId/activities/:activityId
 
 ## Endpoints (Backend)
 
@@ -275,6 +284,14 @@ Activity → pertenece a un Trip
 | POST   | /api/auth/login  | Autentica usuario y devuelve Cookies    | `{ email, password }`           |
 | DELETE | /api/auth/logout | Eliminación de la session activa        |                                 |
 | GET    | /api/auth/verify | Verifica que el token Cookies es válido | —                               |
+
+
+### Profile
+
+| Método | Ruta                         | Descripción                                       | Body                            |
+| ------ | ---------------------------- | ------------------------------------------------- | ------------------------------- |
+| GET    | /api/profile/{:userId | me}  | Devuelve perfil usuario o perfil usuario logueado | `{ username, email, password }` |
+
 
 ### Trips
 
