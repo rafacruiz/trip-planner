@@ -75,10 +75,6 @@ export async function list(req, res) {
 
     const criteria = {};
 
-    if (req.query.userOwner) {
-        criteria.userOwner = { $in: req.query.userOwner };
-    }
-
     if (req.query.travelers) {
         criteria["travelers.user"] = req.query.travelers;
     }
@@ -98,38 +94,51 @@ export async function list(req, res) {
     if (req.query.isSurprise) {
         delete criteria.country;
         delete criteria.description;
-        criteria.isSurprise = req.query.isSurprise;
+        criteria.isSurprise = req.query.isSurprise === 'true';
     }
+
+    if (req.query.me) {
+        criteria.userOwner = req.session.user.id;
+    }
+
+    const page = parseInt(req.query.page) || 1;
+    const limit = parseInt(req.query.limit) || 10;
+
+    const startIndex = (page - 1) * limit;
+
+    const total = await Trip.countDocuments(criteria);
 
     const trips = await Trip.find(criteria)
         .populate('userOwner', 'email username bio avatar')
         .populate('travelers.user', 'email username bio avatar')
         .populate('places', 'name location notes')
-        .populate('activities', 'title');
+        .populate('activities', 'title')
+        .limit(limit)
+        .skip(startIndex);
+
+    const totalPages = Math.ceil(total / limit);
 
     res.json({ 
         success: true, 
-        data: tripsSanitizeSurprise(trips, req.session.user.id) 
+        data: tripsSanitizeSurprise(trips, req.session.user.id),
+        pagination: {
+            total,
+            page,
+            limit,
+            totalPages,
+            hasNextPage: page < totalPages,
+            hasPrevPage: page > 1
+        } 
     });
 }
 
 export async function details(req, res) {
-
-    let trip = {};
-
-    if (req.params.tripId === 'me') {
-        trip = await Trip.find({ "userOwner": req.session.user.id })
-            .populate('userOwner', 'email username bio avatar')
-            .populate('travelers.user', 'email username bio avatar')
-            .populate('places', 'name location notes')
-            .populate('activities', 'title');
-    } else {
-        trip = await Trip.findById(req.params.tripId)
-            .populate('userOwner', 'email username bio avatar')
-            .populate('travelers.user', 'email username bio avatar')
-            .populate('places', 'name location notes')
-            .populate('activities', 'title');
-    }
+    
+    const trip = await Trip.findById(req.params.tripId)
+        .populate('userOwner', 'email username bio avatar')
+        .populate('travelers.user', 'email username bio avatar')
+        .populate('places', 'name location notes')
+        .populate('activities', 'title');
     
     if (!trip) throw createHttpError(404, "Trip not found");
         
