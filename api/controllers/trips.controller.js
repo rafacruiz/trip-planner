@@ -114,13 +114,23 @@ export async function list(req, res) {
 }
 
 export async function details(req, res) {
-    
-    const trip = await Trip.findById(req.params.tripId)
-        .populate('userOwner', 'email username bio avatar')
-        .populate('travelers.user', 'email username bio avatar')
-        .populate('places', 'name location notes')
-        .populate('activities', 'title');
 
+    let trip = {};
+
+    if (req.params.tripId === 'me') {
+        trip = await Trip.find({ "userOwner": req.session.user.id })
+            .populate('userOwner', 'email username bio avatar')
+            .populate('travelers.user', 'email username bio avatar')
+            .populate('places', 'name location notes')
+            .populate('activities', 'title');
+    } else {
+        trip = await Trip.findById(req.params.tripId)
+            .populate('userOwner', 'email username bio avatar')
+            .populate('travelers.user', 'email username bio avatar')
+            .populate('places', 'name location notes')
+            .populate('activities', 'title');
+    }
+    
     if (!trip) throw createHttpError(404, "Trip not found");
         
     res.json({ 
@@ -166,29 +176,37 @@ export async function remove(req, res) {
 
 export async function addTraveler(req, res) {
     
+    const TripCurrentTravelers = req.trip;
 
-    // primero busqueda del trip por id y comprobar si existe el viajero
+    const exists = TripCurrentTravelers.travelers.some(traveler => 
+        traveler.user.toString() === req.body.userId.toString());
+    
+    if (exists) throw createHttpError(409, 'Traveler already in this trip');
 
-    const trip = await Trip.findOneAndUpdate(
-        { _id: req.params.tripId, "travelers.user": { $ne: req.body.userId } },
-        { $push: { travelers: { user: req.body.userId, role: "traveler" } } },
-        { new: true, runValidators: true }
-    );
+    TripCurrentTravelers.travelers.push({ user: req.body.userId, role: "traveler" });
 
-    if (!trip) throw createHttpError(409, 'Traveler found in this trip');
+    await TripCurrentTravelers.save();
 
     res.send({ success: true });
 }
 
 export async function delTraveler(req, res) {
-    
-    const trip = await Trip.findOneAndUpdate(
-        { _id: req.params.tripId, "travelers.user": req.body.userId },
-        { $pull: { travelers: { user: req.body.userId } } },
-        { new: true }
+
+    let travelers = req.trip.travelers
+
+    const exists = travelers.some(
+        traveler => traveler.user.toString() === req.body.userId.toString()
     );
 
-    if (!trip) throw createHttpError(404, "Traveler not found in this trip");
+    if (!exists) throw createHttpError(404, 'Traveler not found in this trip');
 
-    res.send({ success: true });
+    travelers = travelers.filter(
+        traveler => traveler.user.toString() !== req.body.userId.toString()
+    );
+
+    Object.assign(req.trip, { travelers });
+
+    await req.trip.save();
+
+    return res.send({ success: true });
 }
