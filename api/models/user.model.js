@@ -31,7 +31,7 @@ const userSchema = new mongoose.Schema({
     avatar: {
         type: String,
         trim: true,
-        default: 'https://via.placeholder.com/150',
+        default: process.env.DEFAULT_AVATAR,
         minLength: 1
     }
 }, {

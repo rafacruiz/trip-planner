@@ -3,6 +3,7 @@ import User from '../models/user.model.js';
 import Session from '../models/session.model.js';
 import createHttpError from "http-errors";
 import { cloudinary } from '../config/multer.config.js';
+import fs from "fs/promises";
 
 export async function create(req, res) {
     
@@ -66,16 +67,29 @@ export async function detail(req, res) {
 }
 
 export async function update(req, res) {
+
     delete req.body.email;
     delete req.body.username;
 
-    console.log('file: ', req.file);
+    const criteria = {};
 
-    Object.assign(req.session.user, req.body);
+    if (req.body.bio) criteria.bio = req.body.bio;
+    if (req.body.password) criteria.password = req.body.password;
+
+    Object.assign(req.session.user, criteria);
 
     if (req.file) {
-        const result = await cloudinary.uploader.upload(req.file.path);
-        req.session.user.avatar = req.file.buffer;
+        const result = await cloudinary.uploader
+        .upload(
+            req.file.path, {
+                public_id: `avatar_${ req.session.user.id }`,
+                overwrite: true
+           }
+        );
+
+        req.session.user.avatar = result.url;
+
+        await fs.unlink(req.file.path);
     }
 
     await req.session.user.save();
