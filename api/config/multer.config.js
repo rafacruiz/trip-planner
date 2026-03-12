@@ -2,7 +2,9 @@
 import { v2 as cloudinary } from "cloudinary";
 import multer from "multer";
 
-const storage = multer.diskStorage({})
+const storage = multer.diskStorage({
+  destination: "uploads/"
+})
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME,

@@ -69,11 +69,13 @@ export async function update(req, res) {
     delete req.body.email;
     delete req.body.username;
 
+    console.log('file: ', req.file);
+
     Object.assign(req.session.user, req.body);
 
     if (req.file) {
         const result = await cloudinary.uploader.upload(req.file.path);
-        req.session.user.avatar = req.file.path;
+        req.session.user.avatar = req.file.buffer;
     }
 
     await req.session.user.save();
