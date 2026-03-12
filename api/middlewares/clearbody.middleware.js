@@ -3,8 +3,8 @@ import createHttpError from "http-errors";
 
 export function clearBody(req, res, next) {
 
-    if (!req.body && req.method.includes(['POST', 'PATCH', 'PUT'])) {
-        throw createHttpError(400, 'No fields provided for update');
+    if (!req.body && ['POST', 'PATCH', 'PUT'].includes(req.method)) {
+        throw createHttpError(400, '¡No fields provided, body empty!');
     }
     
     delete req.body?._id;
