@@ -111,8 +111,8 @@ export async function list(req, res) {
     const trips = await Trip.find(criteria)
         .populate('userOwner', 'email username bio avatar')
         .populate('travelers.user', 'email username bio avatar')
-        .populate('places', 'name location notes')
-        .populate('activities', 'title')
+        .populate('places', 'name location notes visited')
+        .populate('activities', 'title completed')
         .limit(limit)
         .skip(startIndex);
 
@@ -137,8 +137,8 @@ export async function details(req, res) {
     const trip = await Trip.findById(req.params.tripId)
         .populate('userOwner', 'email username bio avatar')
         .populate('travelers.user', 'email username bio avatar')
-        .populate('places', 'name location notes')
-        .populate('activities', 'title');
+        .populate('places', 'name location notes visited')
+        .populate('activities', 'title completed');
     
     if (!trip) throw createHttpError(404, "Trip not found");
         
