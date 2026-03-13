@@ -18,7 +18,8 @@ export async function countries(req, res) {
     const countriesFormart = countries
         .map((country) => ({
             name: country.name.common,
-            code: country.cca2
+            code: country.cca2,
+            flag: country.flag || null,
         })).sort((a, b) => a.name.localeCompare(b.name));
 
     res.json({ 

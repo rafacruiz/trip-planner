@@ -53,7 +53,8 @@ export async function create(req, res) {
         title,
         country: {
             name: country.name,
-            code: country.code
+            code: country.code,
+            flag: country.flag
         },
         city,
         startDate,
@@ -178,7 +179,8 @@ export async function update(req, res) {
             title,
             country: {
                 name: country.name,
-                code: country.code
+                code: country.code,
+                flag: country.flag
             },
             city, 
             startDate, 

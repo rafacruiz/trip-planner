@@ -22,6 +22,11 @@ const tripSchema = new mongoose.Schema({
             maxLength: [4, 'Country code cannot exceed 4 characters'],
             uppercase: true,
             trim: true,
+        },
+        flag: {
+            type: String,
+            trim: true,
+            default: '🟦'
         }
     },
     city: {
