@@ -11,6 +11,7 @@ import * as Users from '../controllers/users.controller.js';
 import * as Trips from '../controllers/trips.controller.js'; 
 import * as Places from '../controllers/places.controller.js';
 import * as Activities from '../controllers/activities.controller.js';
+import * as Countries from '../controllers/countries.controller.js';
 
 const router = Router();
 
@@ -38,6 +39,8 @@ router.delete('/trips/:tripId/places/:placeId', checkTripMemberAuth, Places.remo
 router.post('/trips/:tripId/activities', checkTripMemberAuth, Activities.create);
 router.patch('/trips/:tripId/activities/:activityId', checkTripMemberAuth, Activities.update);
 router.delete('/trips/:tripId/activities/:activityId', checkTripMemberAuth, Activities.remove);
+
+router.get('/countries', Countries.countries);
 
 router.use((req, res) => {
   throw new createHttpError(404, "Route Not Found");
