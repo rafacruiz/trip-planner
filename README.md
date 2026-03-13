@@ -119,7 +119,8 @@ Relación:
 ``` js
 {
   title: String,
-  country: String,
+  country: { name: String, code: String },
+  city: String,
   startDate: Date,
   endDate: Date,
   description: String,
@@ -189,21 +190,22 @@ Relación:
 User → muchos Trips
 
 ### Trip:
-| Campo       | Tipo                           | Requerido | Notas                                                |
-| ----------- | ------------------------------ | --------- | ---------------------------------------------------- |
-| title       | String                         | Sí        | minLength: 2                                         |
-| country     | String                         | Sí        | nombre del país                                      |
-| startDate   | Date                           | Sí        | fecha inicio viaje                                   |
-| endDate     | Date                           | Sí        | fecha fin viaje                                      |
-| description | String                         | No        | maxLength: 500                                       |
-| userOwner   | ObjectId (User)                | Sí        | referencia al usuario creador                        |
-| travelers   | [{ObjectId(User), Role (Enum)}]| No        | referencia al usuario, role enum (owner, traveler)   |
-| isSurprise  | Boolean                        | Sí        | default: false                                       |
-| revealDate  | Date                           | No        | fecha de revelación del destino                      |
+| Campo       | Tipo                              | Requerido | Notas                                                |
+| ----------- | --------------------------------- | --------- | ---------------------------------------------------- |
+| title       | String                            | Sí        | minLength: 2                                         |
+| country     | Object {name:String, code:String} | Sí        | nombre del país y código ISO                         |
+| city        | String                            | Sí        | nombre del ciudad                                    |
+| startDate   | Date                              | Sí        | fecha inicio viaje                                   |
+| endDate     | Date                              | Sí        | fecha fin viaje                                      |
+| description | String                            | No        | maxLength: 500                                       |
+| userOwner   | ObjectId (User)                   | Sí        | referencia al usuario creador                        |
+| travelers   | [{ObjectId(User), Role (Enum)}]   | No        | referencia al usuario, role enum (owner, traveler)   |
+| isSurprise  | Boolean                           | Sí        | default: false                                       |
+| revealDate  | Date                              | No        | fecha de revelación del destino                      |
 
 **Relación**
 
-User → muchos Trips
+User → muchos Trips (owner)
 User → muchos Trips (traveler)
 Trip → pertenece a un User
 Trip → muchos Places
@@ -275,6 +277,11 @@ Activity → pertenece a un Trip y User
     PATCH /trips/:tripId/activities/:activityId
     DELETE /trips/:tripId/activities/:activityId
 
+### Countries
+
+    GET /countries
+
+
 ## Endpoints (Backend)
 
 ### Auth
@@ -322,6 +329,12 @@ Activity → pertenece a un Trip y User
 | POST   | /api/trips/:tripId/activities               | Crea una actividad del viaje    | `{ title }`       |
 | PATCH  | /api/trips/:tripId/activities/:activityId   | Marca actividad como completada | `{ completed }`   |
 | DELETE | /api/trips/:tripId/activities/:activityId   | Elimina actividad               |                   |
+
+### Countries
+
+| Método | Ruta                 | Descripción                                     | Body                        |
+| ------ | -------------------- | ------------------------------------------------| --------------------------- |
+| GET    | /api/countries       | Devuelve un listado de paises {name y codeIso}  | -                           |
 
 ## Rutas de la aplicación (Frontend)
 
