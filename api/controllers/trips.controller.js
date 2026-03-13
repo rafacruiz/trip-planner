@@ -13,6 +13,7 @@ function tripsSanitizeSurprise(data, userId) {
             trip.description = null;
             trip.title = null;
             trip.country = null;
+            trip.city = null;
             trip.revealDate = null;
             trip.isSurprise = null;
             trip.places = [];
@@ -31,6 +32,7 @@ export async function create(req, res) {
     const { 
         title,
         country,
+        city,
         startDate,
         endDate,
         description,
@@ -49,7 +51,11 @@ export async function create(req, res) {
 
     const trip = await Trip.create({
         title,
-        country,
+        country: {
+            name: country.name,
+            code: country.code
+        },
+        city,
         startDate,
         endDate,
         description,
@@ -72,7 +78,7 @@ export async function create(req, res) {
 }
 
 export async function list(req, res) {
-
+ 
     const criteria = {};
 
     if (req.query.travelers) {
@@ -80,7 +86,11 @@ export async function list(req, res) {
     }
 
     if (req.query.country) {
-        criteria.country = req.query.country.toLowerCase();
+        criteria['country.name'] = req.query.country.toLowerCase();
+    }
+
+    if (req.query.city) {
+        criteria.city = req.query.city.toLowerCase();
     }
 
     if (req.query.title) {
@@ -96,7 +106,7 @@ export async function list(req, res) {
         delete criteria.description;
         criteria.isSurprise = req.query.isSurprise === 'true';
     }
-
+   
     if (req.query.me) {
         criteria.userOwner = req.session.user.id;
     }
@@ -156,7 +166,8 @@ export async function update(req, res) {
 
     const { 
         title, 
-        country, 
+        country,
+        city, 
         startDate, 
         endDate, 
         description 
@@ -165,7 +176,11 @@ export async function update(req, res) {
     Object.assign(
         trip, {  
             title,
-            country, 
+            country: {
+                name: country.name,
+                code: country.code
+            },
+            city, 
             startDate, 
             endDate, 
             description
