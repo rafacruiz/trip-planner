@@ -1,7 +1,7 @@
 
 import { Routes, Route } from 'react-router';
 
-import { HomePage, LoginPage } from './pages';
+import { Dashboard, LoginPage } from './pages';
 
 import './App.css'
 
@@ -15,7 +15,7 @@ function App() {
           element={ <LoginPage /> } />
 
         <Route path='/' 
-          element={ <HomePage /> } />
+          element={ <Dashboard /> } />
 
       </Routes>
     </>

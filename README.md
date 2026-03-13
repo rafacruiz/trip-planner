@@ -344,6 +344,7 @@ Activity → pertenece a un Trip y User
 | /login              | LoginPage       | Inicio de sesión                               | Pública |
 | /                   | Dashboard       | Lista de viajes de usuarios                    | Auth    |
 | /profile            | Profile         | Lista de viajes del usuario y su perfil        | Auth    |
+| /trips/me           | MyTripsPage     | Lista de viajes usuario logueado               | Auth    |
 | /trips/create       | CreateTripPage  | Crear un nuevo viaje                           | Auth    |
 | /trips/:tripId      | TripDetailsPage | Ver detalles del viaje (lugares y actividades) | Auth    |
 | /trips/:tripId/edit | EditTripPage    | Editar un viaje                                | Auth    |
