@@ -114,7 +114,7 @@ function LoginForm() {
 
             <button
                 type="submit"
-                className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition"
+                className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition cursor-pointer"
                 disabled={ isSubmitting } >
                 { isSubmitting ? <BounceLoader className="mt-2" color="#f8fafa" size={22}  /> : 'Sign In' }
             </button>
