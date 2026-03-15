@@ -1,4 +1,6 @@
 
+import { TripsList } from "../../trip-planner";
+
 function Dashboard() {
     return (
         <>
@@ -8,6 +10,8 @@ function Dashboard() {
                     Plan, organize and share your adventures 🌍
                 </p>
             </div>
+
+            <TripsList/>
         </>
     );
 }
