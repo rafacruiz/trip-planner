@@ -1,3 +1,5 @@
+
+import './trips-slider.css';
 import { useEffect, useRef, useState } from "react";
 import * as ServicesApi from '../../../../services/api-services';
 import CommunityTripCard from "./trips-comunity";
@@ -37,10 +39,6 @@ function TripsSlider() {
 
     <div className="flex items-center justify-between mb-3">
 
-        <h3 className="text-sm font-semibold text-gray-700">
-            Community Trips
-        </h3>
-
         <div className="flex gap-2">
 
             <button
@@ -64,7 +62,7 @@ function TripsSlider() {
 
     <div
         ref={sliderRef}
-        className="flex gap-4 overflow-x-auto scroll-smooth snap-x snap-mandatory pb-2 scrollbar-hide"
+        className="no-scrollbar flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory pb-2"
     >
         {trips.map((trip) => (
             <div key={trip.id} className="min-w-[300px] snap-start">

@@ -46,7 +46,7 @@ function TripsList() {
     useEffect(() => {
         const handleTrips = async () => {
             try {
-                const tripsUser = await ServicesApi.getTrips();
+                const tripsUser = await ServicesApi.getTrips({me: true});
                 setTrips(tripsUser.data);
                 setLoading(!tripsUser.success);
             } catch (error) {
