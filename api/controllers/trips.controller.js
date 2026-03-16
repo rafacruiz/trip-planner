@@ -6,16 +6,14 @@ import User from '../models/user.model.js';
 function tripsSanitizeSurprise(data, userId) {
 
     const sanitize = (trip) => {
-        if (trip.userOwner.id.toString() !== userId.toString() 
+        if (trip.userOwner._id.toString() !== userId.toString() 
             && trip.isSurprise === true
             && trip.revealDate.getTime() >= Date.now()) 
         {
-            trip.description = null;
-            trip.title = null;
-            trip.country = null;
-            trip.city = null;
-            trip.revealDate = null;
-            trip.isSurprise = null;
+            trip.description = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
+            trip.title = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();;
+            trip.country = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();;
+            trip.city = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();;
             trip.places = [];
             trip.activities = [];
         }
@@ -94,12 +92,8 @@ export async function list(req, res) {
         criteria.city = req.query.city.toLowerCase();
     }
 
-    if (req.query.title) {
-        criteria.title = req.query.title;
-    }
-
-    if (req.query.description) {
-        criteria.description = req.query.description;
+    if (req.query.search) {
+        criteria.$text = { $search: req.query.search };
     }
 
     if (req.query.isSurprise) {
@@ -117,15 +111,37 @@ export async function list(req, res) {
 
     const startIndex = (page - 1) * limit;
 
-    const total = await Trip.countDocuments(criteria);
-
-    const trips = await Trip.find(criteria)
-        .populate('userOwner', 'email username bio avatar')
-        .populate('travelers.user', 'email username bio avatar')
-        .populate('places', 'name location notes visited')
-        .populate('activities', 'title completed')
+    const [trips, total] = await Promise.all([
+        Trip.find(
+            criteria, 
+            req.query.search ? { score: { $meta: "textScore" } } : {}
+        )
+        .sort(req.query.search ? { score: { $meta: "textScore" } } : {})
+        .populate({
+            path: "userOwner",
+            select: "username avatar",
+            options: { lean: true }
+        })
+        .populate({
+            path: "travelers.user",
+            select: "username avatar",
+            options: { lean: true }
+        })
+        .populate({
+            path: "places",
+            select: "name location visited",
+            options: { lean: true }
+        })
+        .populate({
+            path: "activities",
+            select: "title completed",
+            options: { lean: true }
+        })
         .limit(limit)
-        .skip(startIndex);
+        .skip(startIndex),
+
+        Trip.countDocuments(criteria)
+    ]);
 
     const totalPages = Math.ceil(total / limit);
 

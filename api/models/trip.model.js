@@ -96,8 +96,25 @@ const tripSchema = new mongoose.Schema({
 });
 
 tripSchema.index(
-  { "travelers.user": 1, _id: 1 },
-  { unique: true }
+    { "travelers.user": 1, _id: 1 },
+    { unique: true }
+);
+
+tripSchema.index(
+    {
+        title: "text",
+        description: "text",
+        city: "text",
+        "country.name": "text"
+    },
+    {
+        weights: {
+            title: 10,
+            city: 6,
+            "country.name": 6,
+            description: 2
+        }
+    }
 );
 
 tripSchema.virtual('places', {
