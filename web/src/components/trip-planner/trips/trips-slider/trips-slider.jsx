@@ -41,20 +41,41 @@ function TripsSlider() {
                 <div className="flex gap-2">
                     <button
                         onClick={() => scroll("left")}
-                        className="bg-white border border-gray-200 rounded-full w-8 h-8 
-                        flex items-center justify-center hover:bg-gray-50"
+                        className="p-1 rounded-full hover:bg-gray-300 transition cursor-pointer"
                     >
-                        ←
+                        <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        >
+                            <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M15 19l-7-7 7-7"
+                            />
+                        </svg>
                     </button>
 
                     <button
                         onClick={() => scroll("right")}
-                        className="bg-white border border-gray-200 rounded-full w-8 h-8 
-                        flex items-center justify-center hover:bg-gray-50"
+                        className="p-1 rounded-full hover:bg-gray-300 transition cursor-pointer"
                     >
-                        →
+                        <svg
+                        className="w-5 h-5 text-gray-600"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        >
+                            <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
                     </button>
-
                 </div>
             </div>
 
