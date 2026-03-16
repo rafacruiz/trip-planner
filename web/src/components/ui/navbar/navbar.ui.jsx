@@ -17,7 +17,7 @@ function Navbar() {
 
                 <div className="flex items-center gap-4">
                     <Link
-                        to="/trips/me"
+                        to="/profile"
                         className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition"
                     >
                         <span className="hidden sm:block">
