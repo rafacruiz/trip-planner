@@ -34,8 +34,8 @@ export const logout = () =>
 export const verify = () => 
     http.get('/auth/verify');
 
-export const getTrips = () => 
-    http.get('/trips');
+export const getTrips = (filters = {}) => 
+    http.get('/trips', { params: filters });
 
 export const getTripsDetails = (tripId) => 
     http.get(`/trips/${tripId}`)
