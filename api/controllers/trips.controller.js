@@ -80,8 +80,8 @@ export async function list(req, res) {
  
     const criteria = {};
 
-    if (req.query.travelers) {
-        criteria["travelers.user"] = req.query.travelers;
+    if (req.query.traveler) {
+        criteria["travelers.user"] = req.query.traveler;
     }
 
     if (req.query.country) {
@@ -101,9 +101,23 @@ export async function list(req, res) {
         delete criteria.description;
         criteria.isSurprise = req.query.isSurprise === 'true';
     }
-   
-    if (req.query.me) {
+
+    if (req.query.trips) {
+        criteria.userOwner = { $ne: req.session.user.id }
+
+        const tenDaysAgo = new Date();
+        tenDaysAgo.setDate(tenDaysAgo.getDate() - 10);
+
+        criteria.createdAt = { $gte: tenDaysAgo };
+    }
+
+    if (req.query.owner) {
         criteria.userOwner = req.session.user.id;
+    }
+
+    if (req.query.me) {
+        criteria.travelers = { $elemMatch: {
+            user: req.session.user.id, role:'traveler'}}
     }
 
     const page = parseInt(req.query.page) || 1;
