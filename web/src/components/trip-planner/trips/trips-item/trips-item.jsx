@@ -1,4 +1,5 @@
 
+import { Link } from 'react-router-dom';
 import { useAuth } from '../../../../contexts';
 
 import TripDate from '../trips-utils/date-trips';
@@ -8,7 +9,8 @@ function TripsItem({ trip }) {
     const { user } = useAuth();
 
     return (<>
-        <div
+        <Link
+            to={ '/trips/' + trip.id }
             className="group bg-white rounded-2xl overflow-hidden shadow-sm border border-gray-100 
                 hover:shadow-xl transition cursor-pointer"
         >
@@ -26,17 +28,17 @@ function TripsItem({ trip }) {
                 }
         
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-sm font-medium">
-                   {trip.isSurprise ? "🎁 Surprise Trip" : `${ trip.country.flag } ${ trip.country.name }`}
+                   { trip.isSurprise ? "🎁 Surprise Trip" : `${ trip.country?.flag } ${ trip.country?.name }` }
                 </div>
 
                 <div className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-blue-600 text-white font-medium">
-                    {trip.userOwner.id === user.id ? 'Owner' : 'Traveler' }
+                    { trip.userOwner.id === user.id ? 'Owner' : 'Traveler' }
                 </div>
             </div>
 
             <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-800">
-                    {trip.title}
+                    { !trip.isSurprise ? trip.title : 'Surprise Trip' }
                 </h3>
 
                 <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
@@ -68,7 +70,7 @@ function TripsItem({ trip }) {
                     </span>
                 </div>
             </div>
-        </div>
+        </Link>
     </>);
 }
 

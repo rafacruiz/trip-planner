@@ -46,7 +46,7 @@ function TripsList() {
     useEffect(() => {
         const handleTrips = async () => {
             try {
-                const tripsUser = await ServicesApi.getTrips();
+                const tripsUser = await ServicesApi.getTrips({ me: true });
                 setTrips(tripsUser.data);
                 setLoading(!tripsUser.success);
             } catch (error) {
@@ -71,7 +71,7 @@ function TripsList() {
 
             { !loading && trips.length > 0 && (
                 <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    { trips.map(trip => <TripsItem key={trip.id} trip={ trip } />) }
+                    { trips.map(trip => <TripsItem key={ trip.id } trip={ trip } />) }
                 </div>
             )}
         </>
