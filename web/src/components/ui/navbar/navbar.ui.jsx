@@ -4,7 +4,7 @@ import { useAuth } from '../../../contexts/auth-context';
 
 function Navbar() {
 
-    const { logout } = useAuth();
+    const { user, logout } = useAuth();
 
     return (
         <nav className="w-full bg-white/70 backdrop-blur-md border-b border-blue-100 sticky top-0 z-50">
@@ -17,15 +17,22 @@ function Navbar() {
 
                 <div className="flex items-center gap-4">
                     <Link
-                    to="/trips/me"
-                    className="text-sm font-medium text-gray-600 hover:text-blue-600 transition"
+                        to="/trips/me"
+                        className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition"
                     >
-                        My Trips
+                        <span className="hidden sm:block">
+                            Hi, {user?.username}
+                        </span>
+                        <img
+                            src={user?.avatar}
+                            alt={user?.username}
+                            className="w-8 h-8 rounded-full object-cover border border-gray-200"
+                        />
                     </Link>
 
                     <button
                         onClick={() => logout()} 
-                        className="px-4 py-2 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow transition">
+                        className="px-2 py-1 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow transition">
                         Logout
                     </button>
                 </div>
