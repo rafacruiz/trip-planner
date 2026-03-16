@@ -120,22 +120,18 @@ export async function list(req, res) {
         .populate({
             path: "userOwner",
             select: "username avatar",
-            options: { lean: true }
         })
         .populate({
             path: "travelers.user",
             select: "username avatar",
-            options: { lean: true }
         })
         .populate({
             path: "places",
             select: "name location visited",
-            options: { lean: true }
         })
         .populate({
             path: "activities",
             select: "title completed",
-            options: { lean: true }
         })
         .limit(limit)
         .skip(startIndex),

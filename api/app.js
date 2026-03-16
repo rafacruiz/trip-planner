@@ -31,5 +31,5 @@ app.use('/api', router);
 app.use(errorHandler);
 
 app.listen(PORT, () => {
-  console.log(`Example app listening on port ${PORT}`)
+  console.log(`App listening on port ${PORT}`)
 })
