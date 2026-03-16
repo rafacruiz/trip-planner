@@ -1,17 +1,34 @@
 
-import { TripsList } from "../../trip-planner";
+import { TripsList, TripsSlider } from "../../trip-planner";
 
 function Dashboard() {
     return (
         <>
+            <div className="mb-6 max-w-2xl">
+                <h3 className="text-2xl font-bold text-gray-900">
+                    Community Trips
+                </h3>
+
+                <p className="text-gray-600 mt-2 leading-relaxed">
+                    Discover journeys shared by other travelers. Get inspired, explore new
+                    destinations, and find ideas for your next adventure.
+                </p>
+            </div>
+
+            <section className="mb-12">
+                <TripsSlider/>
+            </section>
+
             <div className="mb-10">
-                <h1 className="text-3xl font-bold text-gray-800">My Trips</h1>
+                <h1 className="text-2xl font-bold text-gray-800">My Trips</h1>
                 <p className="text-gray-500 mt-1">
                     Plan, organize and share your adventures 🌍
                 </p>
             </div>
-
-            <TripsList/>
+            
+            <section>
+                <TripsList/>
+            </section>
         </>
     );
 }
