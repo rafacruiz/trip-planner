@@ -42,7 +42,6 @@ function TripsList() {
     const [loading, setLoading] = useState(true);
     const [trips, setTrips] = useState(null);
 
-
     useEffect(() => {
         const handleTrips = async () => {
             try {

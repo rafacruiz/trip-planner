@@ -32,13 +32,13 @@ function TripsItem({ trip }) {
                 </div>
 
                 <div className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-blue-600 text-white font-medium">
-                    { trip.userOwner.id === user.id ? 'Owner' : 'Traveler' }
+                    { trip.userOwner.id.toString() === user.id.toString() ? 'Owner' : 'Traveler' }
                 </div>
             </div>
 
             <div className="p-6">
                 <h3 className="text-lg font-semibold text-gray-800">
-                    { !trip.isSurprise ? trip.title : 'Surprise Trip' }
+                    { trip.isSurprise === false ? trip.title : 'Surprise Trip' }
                 </h3>
 
                 <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">

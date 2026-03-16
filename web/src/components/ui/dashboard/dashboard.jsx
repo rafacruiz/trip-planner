@@ -5,13 +5,16 @@ function Dashboard() {
     return (
         <>
             <div className="mb-6 max-w-2xl">
-                <h3 className="text-2xl font-bold text-gray-900">
+                <h1 className="text-2xl font-bold text-gray-800">
                     Community Trips
-                </h3>
+                </h1>
 
-                <p className="text-gray-600 mt-2 leading-relaxed">
-                    Discover journeys shared by other travelers. Get inspired, explore new
-                    destinations, and find ideas for your next adventure.
+                <p className="text-gray-500 mt-2 leading-relaxed">
+                    Get inspired, explore new destinations, and find ideas for your next adventure.
+                </p>
+
+                <p className="text-gray-500 mt-2 leading-relaxed">
+                    Discover journeys shared by other travelers.
                 </p>
             </div>
 
