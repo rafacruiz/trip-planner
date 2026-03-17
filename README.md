@@ -299,7 +299,7 @@ Activity → pertenece a un Trip y User
 | Método | Ruta                         | Descripción                                       | Body                        |
 | ------ | ---------------------------- | ------------------------------------------------- | --------------------------- |
 | GET    | /api/profile/{:userId o me}  | Devuelve perfil usuario o perfil usuario logueado | -                           |
-| PATCH  | /api/profile                 | Modificamos los datos de user (Bio, pass, avatar) | `{ bio, password, avatar }` |
+| PATCH  | /api/profile/me              | Modificamos los datos de user (Bio, pass, avatar) | `{ bio, password, avatar }` |
 
 
 ### Trips
