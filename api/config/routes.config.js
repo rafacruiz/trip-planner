@@ -21,7 +21,7 @@ router.delete('/auth/logout', Users.logout);
 router.get('/auth/verify', Users.verify);
 
 router.patch('/profile/me', upload.single('avatar'), Users.update);
-router.get('/profile/:id', Users.detail);
+router.get('/profile/:userId', Users.detail);
 
 router.get('/trips', Trips.list);
 router.post('/trips', Trips.create);

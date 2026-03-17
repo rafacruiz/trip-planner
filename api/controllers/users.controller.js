@@ -55,15 +55,15 @@ export async function verify(req, res) {
 }
 
 export async function detail(req, res) {
-    if (req.params.id === 'me') {
-        res.json(req.session.user);
-    } else { 
-        const user = await User.findById(req.params.id);
+    const id = (req.params.userId === 'me') ? req.session.user.id : req.params.userId;
 
-        if (!user) throw createHttpError(404, 'User not found');
+    const user = await User.findById(id)
+        .populate('trips')
+        .populate('tripsJoined');
 
-        res.json({ success: true, data: user });
-    } 
+    if (!user) throw createHttpError(404, 'User not found');
+
+    res.json({ success: true, data: user });
 }
 
 export async function update(req, res) {

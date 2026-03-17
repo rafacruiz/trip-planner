@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
 }, {
     timestamps: true,
     versionKey: false,
+    toObject: { virtuals: true },
     toJSON: {
         virtuals: true,
         transform: function (doc, ret) {
@@ -50,6 +51,12 @@ userSchema.virtual('trips', {
     ref: 'Trip',
     localField: '_id',
     foreignField: 'userOwner'
+});
+
+userSchema.virtual('tripsJoined', {
+    ref: 'Trip',
+    localField: '_id',
+    foreignField: 'travelers.user'
 });
 
 userSchema.pre("save", async function () {

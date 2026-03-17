@@ -96,11 +96,6 @@ const tripSchema = new mongoose.Schema({
 });
 
 tripSchema.index(
-    { "travelers.user": 1, _id: 1 },
-    { unique: true }
-);
-
-tripSchema.index(
     {
         title: "text",
         description: "text",
