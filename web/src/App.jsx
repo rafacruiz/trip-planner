@@ -20,7 +20,7 @@ function App() {
         <Route path='/' 
           element={ <DashboardPage /> } />
 
-        <Route path='/profile'
+        <Route path='/profile/:userId'
           element={ <ProfilePage /> } />
 
         <Route path='/profile/edit'

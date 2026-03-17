@@ -1,10 +1,10 @@
 
+import avatarDefault from '../../../assets/img/default/avatar.svg';
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert } from '../../ui';
-import * as ServicesApi from '../../../services/api-services';
-import avatarDefault from '../../../assets/img/default/avatar.svg';
 import { useNavigate } from "react-router-dom";
+import * as ServicesApi from '../../../services/api-services';
 
 const validations = {
     email: {

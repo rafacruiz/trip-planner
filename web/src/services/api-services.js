@@ -34,8 +34,11 @@ export const logout = () =>
 export const verify = () => 
     http.get('/auth/verify');
 
+export const getProfile = (userId = 'me') =>
+    http.get(`/profile/${ userId }`);
+
 export const getTrips = (filters = {}) => 
     http.get('/trips', { params: filters });
 
 export const getTripsDetails = (tripId) => 
-    http.get(`/trips/${tripId}`)
+    http.get(`/trips/${ tripId }`)
