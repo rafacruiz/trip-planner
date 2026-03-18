@@ -13,7 +13,7 @@ function AuthContextProvider ({ children }) {
     useEffect(() => {
         const fetch = async () => {
             try {
-                const user = await ServicesApi.verify();
+                const user = await ServicesApi.getProfile();
                 setUser(user); 
             } catch (error) {
                 navigate('/login');
@@ -42,7 +42,7 @@ function AuthContextProvider ({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout }}>
+        <AuthContext.Provider value={{ user, login, logout, reloadUser: setUser }}>
             { children }
         </AuthContext.Provider>
     );
