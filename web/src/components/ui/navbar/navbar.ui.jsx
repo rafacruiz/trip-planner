@@ -17,7 +17,7 @@ function Navbar() {
 
                 <div className="flex items-center gap-4">
                     <Link
-                        to="/profile/me"
+                        to='/profile'
                         className="flex items-center gap-2 text-sm font-medium text-gray-600 hover:text-blue-600 transition"
                     >
                         <span className="hidden sm:block">
@@ -31,7 +31,7 @@ function Navbar() {
                     </Link>
 
                     <button
-                        onClick={() => logout()} 
+                        onClick={ () => logout() }
                         className="px-2 py-1 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow transition">
                         Logout
                     </button>
