@@ -73,7 +73,7 @@ export async function create(req, res) {
         revealDate
     });
 
-    res.json({ success: true, data: trip });
+    res.status(201).json(trip);
 }
 
 export async function list(req, res) {
@@ -155,8 +155,7 @@ export async function list(req, res) {
 
     const totalPages = Math.ceil(total / limit);
 
-    res.json({ 
-        success: true, 
+    res.json({
         data: tripsSanitizeSurprise(trips, req.session.user.id),
         pagination: {
             total,
@@ -179,10 +178,7 @@ export async function details(req, res) {
     
     if (!trip) throw createHttpError(404, "Trip not found");
         
-    res.json({ 
-        success: true, 
-        data: tripsSanitizeSurprise(trip, req.session.user.id) 
-    });
+    res.json(tripsSanitizeSurprise(trip, req.session.user.id));
 }
 
 export async function update(req, res) {
@@ -216,7 +212,7 @@ export async function update(req, res) {
 
     await trip.save();
 
-    res.json({ success: true, data: trip });
+    res.json(trip);
 }
 
 export async function remove(req, res) {
@@ -239,7 +235,7 @@ export async function addTraveler(req, res) {
 
     await TripCurrentTravelers.save();
 
-    res.send({ success: true });
+    res.status(204).send()
 }
 
 export async function delTraveler(req, res) {
@@ -260,5 +256,5 @@ export async function delTraveler(req, res) {
 
     await req.trip.save();
 
-    return res.send({ success: true });
+    res.status(204).end();
 }

@@ -40,8 +40,7 @@ export async function login(req, res) {
         sameSite: process.env.COOKIE_SECURE === "true" ? "none" : undefined,
     });
 
-  res.json({ success: true, data: user });
-    
+    res.json(user);   
 }
 
 export async function logout(req, res) {
@@ -63,7 +62,7 @@ export async function detail(req, res) {
 
     if (!user) throw createHttpError(404, 'User not found');
 
-    res.json({ success: true, data: user });
+    res.json(user);
 }
 
 export async function update(req, res) {

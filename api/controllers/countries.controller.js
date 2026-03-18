@@ -15,15 +15,12 @@ export async function countries(req, res) {
         throw createHttpError(502, "Invalid countries response");
     }
 
-    const countriesFormart = countries
+    const countriesFormat = countries
         .map((country) => ({
             name: country.name.common,
             code: country.cca2,
             flag: country.flag || null,
         })).sort((a, b) => a.name.localeCompare(b.name));
 
-    res.json({ 
-        success: true, 
-        data: countriesFormart 
-    });
+    res.json(countriesFormat);
 }

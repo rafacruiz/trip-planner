@@ -16,13 +16,13 @@ export async function create(req, res) {
         author: req.session.user.id
     });
     
-    res.json({ success: true, data: {
+    res.json({
         name: place.name,
         location: place.location,
         notes: place.notes,
         trip: place.trip,
         author: place.author
-    } });
+    });
 }
 
 export async function update(req, res) {

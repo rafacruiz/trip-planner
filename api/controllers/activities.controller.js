@@ -12,11 +12,11 @@ export async function create(req, res) {
         author: req.session.user.id
     });
     
-    res.json({ success: true, data: {
+    res.json({
         title: activity.title,
         trip: activity.trip,
         author: activity.author
-    } });
+    });
 }
 
 export async function update(req, res) {
@@ -29,7 +29,7 @@ export async function update(req, res) {
 
     await activity.save();
 
-    res.json({ success: true });
+    res.send();
 }
 
 export async function remove(req, res) {
