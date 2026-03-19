@@ -1,7 +1,16 @@
 
 import { TripsList, TripsSlider } from "../../trip-planner";
+import { Loading, Alert, ButtonLink } from '../.';
+import useUser from "../../../hooks/use-user";
 
 function Dashboard() {
+
+    const { user, loading, error } = useUser('me');
+
+    if (loading) return <Loading text={'Loading dashboard...'} />
+
+    if (error) return <Alert message={ error.message } type={ "warning" } center={ true } />
+
     return (
         <>
             <div className="mb-6 max-w-2xl">
@@ -29,9 +38,11 @@ function Dashboard() {
                 </p>
             </div>
             
-            <section>
-                <TripsList/>
+            <section>        
+                <TripsList trips={ user.tripsJoined } loading={ loading } />
             </section>
+
+            <ButtonLink url={'/trips?me=true'} text={'View more trips'} />
         </>
     );
 }
