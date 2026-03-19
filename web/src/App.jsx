@@ -1,7 +1,7 @@
 
 import { Routes, Route } from 'react-router';
 
-import { DashboardPage, LoginPage, ProfileEditPage, ProfilePage, SignupPage, TripsPage } from './pages';
+import { DashboardPage, LoginPage, NotFoundPage, ProfilePage, SignupPage, TripsPage, UserPage } from './pages';
 
 import './App.css'
 
@@ -20,14 +20,17 @@ function App() {
         <Route path='/' 
           element={ <DashboardPage /> } />
 
-        <Route path='/profile/:userId'
-          element={ <ProfilePage /> } />
+        <Route path='/profile'
+          element={ <ProfilePage/> } />
 
-        <Route path='/profile/edit'
-          element={ <ProfileEditPage/> } />
+        <Route path='/user/:userId'
+          element={ <UserPage /> } />
         
         <Route path='/trips/:tripId' 
           element={ <TripsPage /> } />
+
+        <Route path='*' 
+          element={ <NotFoundPage /> } />
       </Routes>
     </>
   )
