@@ -57,8 +57,20 @@ export async function detail(req, res) {
     const id = (req.params.userId === 'me') ? req.session.user.id : req.params.userId;
 
     const user = await User.findById(id)
-        .populate('trips')
-        .populate('tripsJoined');
+        .populate({
+            path: 'trips',
+            options: { 
+                sort: { createdAt: -1 },
+                limit: 4 
+            }
+        })
+        .populate({
+            path: 'tripsJoined',
+            options: { 
+                sort: { createdAt: -1 },
+                limit: 4
+            }
+        });
 
     if (!user) throw createHttpError(404, 'User not found');
 
