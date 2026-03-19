@@ -34,11 +34,52 @@ export const logout = () =>
 export const verify = () => 
     http.get('/auth/verify');
 
-export const getProfile = (userId = 'me') =>
+
+export const getProfile = () =>
+    http.get('/profile/me');
+
+export const updateProfile = (data) => 
+    http.patch('/profile/me', data);
+
+export const getUser = (userId) =>
     http.get(`/profile/${ userId }`);
 
-export const getTrips = (filters = {}) => 
+
+export const listTrips = (filters = {}) => 
     http.get('/trips', { params: filters });
 
-export const getTripsDetails = (tripId) => 
+export const getTrip = (tripId) => 
     http.get(`/trips/${ tripId }`)
+
+export const createTrip = (data) => 
+    http.post('/trips', data);
+
+export const updateTrip = (tripId, data) =>
+    http.patch(`/trips/${tripId}`, data);
+
+export const deleteTrip = (tripId) =>
+    http.delete(`/trips/${tripId}`);
+
+
+export const createPlace = (tripId, data) =>
+    http.post(`/trips/${tripId}/places`, data);
+
+export const updateStatePlace = (tripId, placeId) =>
+    http.patch(`/trips/${tripId}/places/${placeId}`);
+
+export const deletePlace = (tripId, placeId) =>
+    http.delete(`/trips/${tripId}/places/${placeId}`);
+
+
+export const createActivity = (tripId, data) =>
+    http.post(`/trips/${tripId}/activities`, data);
+
+export const updateStateActivity = (tripId, activityId) =>
+    http.patch(`/trips/${tripId}/activities/${activityId}`);
+
+export const deleteActivity = (tripId, activityId) =>
+    http.delete(`/trips/${tripId}/activities/${activityId}`);
+
+
+export const listCountries = () =>
+    http.get('/countries');
