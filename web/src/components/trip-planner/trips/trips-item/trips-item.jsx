@@ -32,7 +32,7 @@ function TripsItem({ trip }) {
                 </div>
 
                 <div className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-blue-600 text-white font-medium">
-                    { trip.userOwner.id.toString() === user.id.toString() ? 'Owner' : 'Traveler' }
+                    { trip.userOwner === user.id ? 'Owner' : 'Traveler' }
                 </div>
             </div>
 
@@ -50,8 +50,8 @@ function TripsItem({ trip }) {
                 </div>
 
                 <div className="flex gap-4 text-xs text-gray-500 mt-3">
-                    <span>📍 { trip.places.length } places</span>
-                    <span>✅ { trip.activities.length } activities</span>
+                    <span>📍 { trip.places?.length } places</span>
+                    <span>✅ { trip.activities?.length } activities</span>
                 </div>
 
                 <div className="flex items-center justify-between mt-5">

@@ -1,8 +1,8 @@
 
 import './trips-slider.css';
 import { useEffect, useRef, useState } from "react";
-import * as ServicesApi from '../../../../services/api-services';
 import TripsCommunity from "./trips-comunity";
+import * as ServicesApi from '../../../../services/api-services';
 
 function TripsSlider() {
 

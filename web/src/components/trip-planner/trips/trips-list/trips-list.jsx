@@ -1,7 +1,6 @@
 
-import { useEffect, useState } from "react";
-import * as ServicesApi from '../../../../services/api-services';
 import TripsItem from "../trips-item/trips-item";
+import useUser from "../../../../hooks/use-user";
 
 function SkeletonCard() {
     return (
@@ -39,41 +38,28 @@ function EmptyState() {
 
 function TripsList() {
 
-    const [loading, setLoading] = useState(true);
-    const [trips, setTrips] = useState(null);
+    const { user, loading } = useUser('me');
+    
+    if (loading) {
+        return (
+            <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {[...Array(6)].map((_, i) => (
+                    <SkeletonCard key={i} />
+                ))}
+            </div>
+        );
+    }
 
-    useEffect(() => {
-        const handleTrips = async () => {
-            try {
-                const tripsUser = await ServicesApi.getTrips({ me: true });
-                setTrips(tripsUser.data);
-                setLoading(!tripsUser.success);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        handleTrips();
-    }, []);
+    if (!user || user.tripsJoined?.length === 0) {
+        return <EmptyState />;
+    }
 
     return (
-        <>
-            { !loading && trips.length === 0 && <EmptyState />}
-
-            { loading && (
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    {[...Array(6)].map((_, i) => (
-                        <SkeletonCard key={i} />
-                    ))}
-                </div>
-            )}
-
-            { !loading && trips.length > 0 && (
-                <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-                    { trips.map(trip => <TripsItem key={ trip.id } trip={ trip } />) }
-                </div>
-            )}
-        </>
+        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {user.tripsJoined.map(trip => (
+                <TripsItem key={trip.id} trip={trip} />
+            ))}
+        </div>
     );
 }
 
