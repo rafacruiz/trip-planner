@@ -92,7 +92,7 @@ function UserDetails() {
 
                         <div className="flex justify-center gap-4 mt-8">
                             <Link
-                                to={'/'} 
+                                to={`/trips?traveler=${user.id}`}  
                                 className="w-30 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition">
                                 Go trips!
                             </Link>

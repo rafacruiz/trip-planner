@@ -168,7 +168,7 @@ function ProfileDetails() {
                                     </button>
                                     
                                     <Link
-                                        to={'/'} 
+                                        to={`/trips?me=true`} 
                                         className="
                                             w-30 
                                             py-2 
