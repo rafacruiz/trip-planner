@@ -1,5 +1,4 @@
 
-import avatarDefault from '../../../assets/img/default/avatar.svg';
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Alert } from '../../ui';
@@ -38,8 +37,6 @@ const validations = {
 
 function SignupForm() {
 
-    const [uploadingAvatar, setUploadingAvatar] = useState(false);
-    const [avatar, setAvatar] = useState(null);
     const [serverError, setServerError] = useState(null);
 
     const navigate = useNavigate();
