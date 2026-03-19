@@ -1,27 +1,22 @@
 
 import './trips-slider.css';
-import { useEffect, useRef, useState } from "react";
+import { Alert } from '../../../ui';
+import { BounceLoader } from "react-spinners";
+import { useRef, useState } from "react";
 import TripsCommunity from "./trips-comunity";
-import * as ServicesApi from '../../../../services/api-services';
+import useTrips from '../../../../hooks/use-trips';
 
 function TripsSlider() {
 
     const sliderRef = useRef();
 
-    const [trips, setTrips] = useState(null);
+    const [filters, setFilters] = useState({
+        trips: 'me',
+    });
 
-    useEffect(() => {
-        const fetchTrips = async () => {
-            try {
-                const trips = await ServicesApi.getTrips({ trips: true });
-                setTrips(trips.data);
-            } catch (error) {
-                console.error("Error fetching trips:", error);
-            }
-        };
+    const { trips, loading, error } = useTrips(filters);
 
-        fetchTrips();
-    }, []);
+    const sliderTrips = trips?.data;
 
     const scroll = (direction) => {
         const container = sliderRef.current;
@@ -33,7 +28,19 @@ function TripsSlider() {
         });
     };
 
-    if (!trips || trips.length === 0) return null;
+    if (loading) {
+        return (
+            <div className="w-full">
+                <div className="flex items-center justify-center mb-3">
+                    <BounceLoader className="mt-2" color="#368fe9" size={22}  />
+                </div>
+            </div>
+        ); 
+    }
+
+    if (error) return <Alert message={ error.message } type={ "warning" } center={ true } />
+
+    if (!sliderTrips || sliderTrips.length === 0) return null;
 
     return (
         <div className="w-full">
@@ -83,7 +90,7 @@ function TripsSlider() {
                 ref={sliderRef}
                 className="no-scrollbar flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory pb-2"
             >
-                {trips.map((trip) => (
+                {sliderTrips.map((trip) => (
                     <div key={ trip.id } className="min-w-[300px] snap-start">
                         <TripsCommunity trip={ trip } />
                     </div>

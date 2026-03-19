@@ -1,6 +1,5 @@
 
 import TripsItem from "../trips-item/trips-item";
-import useUser from "../../../../hooks/use-user";
 
 function SkeletonCard() {
     return (
@@ -36,10 +35,8 @@ function EmptyState() {
     );
 }
 
-function TripsList() {
+function TripsList({ trips = null, loading = false }) {
 
-    const { user, loading } = useUser('me');
-    
     if (loading) {
         return (
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
@@ -50,13 +47,13 @@ function TripsList() {
         );
     }
 
-    if (!user || user.tripsJoined?.length === 0) {
+    if (!trips || trips?.length === 0) {
         return <EmptyState />;
     }
 
     return (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {user.tripsJoined.map(trip => (
+            { trips.map(trip => (
                 <TripsItem key={trip.id} trip={trip} />
             ))}
         </div>

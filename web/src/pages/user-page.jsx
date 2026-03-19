@@ -2,7 +2,7 @@
 import { LayoutPage } from "../components/layouts";
 import { ProfileEdit } from "../components/users";
 
-function ProfileEditPage() {
+function UserPage() {
     return (
         <LayoutPage>
             <ProfileEdit/>    
@@ -10,4 +10,4 @@ function ProfileEditPage() {
     );
 }
 
-export default ProfileEditPage;
+export default UserPage;

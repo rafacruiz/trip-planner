@@ -1,8 +1,7 @@
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useParams } from "react-router-dom";
-import * as ServicesApi from '../../../../services/api-services';
-
+import useTrip from '../../../../hooks/use-trip';
 
 function ProgressBar({ value, total }) {
     const percent = total === 0 ? 0 : Math.round((value / total) * 100);
@@ -47,27 +46,14 @@ function TripsDetails() {
     const [placeModal, setPlaceModal] = useState(false);
     const [activityModal, setActivityModal] = useState(false);
     const [travelerModal, setTravelerModal] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [trip, setTrip] = useState(null);
+
     const [users, setUsers] = useState(null);
 
-    useEffect(() => {
-        const fetchTrip = async () => {
-            try {
-                const trip = await ServicesApi.getTripsDetails(tripId);
-                setTrip(trip.data);
-                setLoading(!trip.success);
-            } catch (error) {
-                console.log(error);
-            }
-        };
-
-        fetchTrip();
-    }, []);
+    const { trip, loading, error } = useTrip(tripId);
 
     if (loading) return ('Cargando');
 
-    console.log(trip)
+    console.log(trip) //REVISAR RENDERIZA 4 VECES
 
     const visitedPlaces = trip.places.filter(p => p.visited).length;
     const completedActivities = trip.activities.filter(a => a.completed).length;
