@@ -11,7 +11,7 @@ function TripsSlider() {
     const sliderRef = useRef();
 
     const [filters, setFilters] = useState({
-        trips: 'me',
+        trips: true,
     });
 
     const { trips, loading, error } = useTrips(filters);
