@@ -1,30 +1,35 @@
 
 import { useEffect, useState } from "react";
-import * as servicesApi from '../services/api-services';
+import { getUser } from '../services/api-services';
 
 function useUser(userId) {
+
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState(null);
     const [user, setUser] = useState(null);
-    const [loadFail, setLoadFail] = useState(null);
     
     useEffect(() => {
             const fetchUser = async () => {
                 setUser(null);
-                setLoadFail(null);
+                setError(null);
 
                 try {
-                    const user = await servicesApi.getUser(userId);
+                    setLoading(true);
+                    const user = await getUser(userId);
                     setUser(user);
                 } catch (error) {
                     console.log(error?.message);
                     setUser({});
-                    setLoadFail(error);
+                    setError(error);
+                } finally {
+                    setLoading(false);
                 }
             };
 
             fetchUser();
     }, [userId]);
     
-    return { user, loading: user === null, loadFail };
+    return { user, loading, error };
 }
 
 export default useUser;
