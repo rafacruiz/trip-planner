@@ -7,3 +7,4 @@ export { default as BackButton } from './buttons/button-back/button-back';
 export { default as ButtonLink } from './buttons/button-link/button-link';
 export { default as ButtonSearch } from './buttons/button-search/button-search';
 export { default as Loading } from './loaders/loaders';
+export { default as Pagination } from './pagination/pagination';

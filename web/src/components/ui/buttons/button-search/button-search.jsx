@@ -1,5 +1,3 @@
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 
 function ButtonSearch({filters, setFilters}) {
 
@@ -53,38 +51,6 @@ function ButtonSearch({filters, setFilters}) {
                         placeholder-gray-400
                     "
                 />
-
-                <button
-                    type="submit"
-                    className="
-                        flex items-center gap-2
-                        px-4 py-2
-                        rounded-xl
-                        bg-gradient-to-r from-blue-600 to-indigo-600
-                        text-white text-sm font-semibold
-                        shadow
-                        transition-all duration-300
-
-                        hover:shadow-md
-                        hover:scale-[1.03]
-                        active:scale-[0.98]"
-                    >
-                    Search
-
-                    <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                    >
-                        <path
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                            strokeWidth={2}
-                            d="M9 5l7 7-7 7"
-                        />
-                    </svg>
-                </button>
             </div>
         </div>
     );
