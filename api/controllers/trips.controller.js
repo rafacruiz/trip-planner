@@ -99,6 +99,7 @@ export async function list(req, res) {
     if (req.query.isSurprise) {
         delete criteria.country;
         delete criteria.description;
+        delete criteria.city;
         criteria.isSurprise = req.query.isSurprise === 'true';
     }
 
