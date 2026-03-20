@@ -9,20 +9,22 @@ function useTrips(filters) {
     const [trips, setTrips] = useState(null);
 
     useEffect(() => {
-        const fetchTrips = async () => {
+        const timerOut = 400;
+
+        const timer = setTimeout( async() => {
             try {
                 setLoading(true);
                 const trips = await listTrips(filters);
-                setTrips(trips);
+                setTrips(trips.data);
             } catch (error) {
                 console.log(error);
                 setError(error);
             } finally {
                 setLoading(false);
             }
-        };
+        }, timerOut);
 
-        fetchTrips();
+        return () => clearTimeout(timer);
     }, [filters]);
 
     return { trips, loading, error };

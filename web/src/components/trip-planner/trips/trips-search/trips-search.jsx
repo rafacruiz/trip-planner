@@ -1,28 +1,29 @@
 
-import { useSearchParams } from "react-router-dom";
-import { useMemo, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 import { ButtonSearch } from '../../../ui';
 import TripsList  from "../trips-list/trips-list";
 import useTrips from "../../../../hooks/use-trips";
 
 function TripsSearch() {
-    //const filters = new URLSearchParams();
 
-    /*const filters = useMemo(() => {
-        return Object.fromEntries(searchParams.entries());
-    }, [searchParams]);
-*/
+    const [filters, setFilters] = useState({
+        search: ''
+    })
+    
+    const searchParams = new URLSearchParams(location.search);
+    
     const {trips, loading, error } = useTrips(filters);
-
-    if (!trips?.data) return null;
-    console.log(trips);
+   
     return (
         <>
             <div className="pb-10">
-                <ButtonSearch />
+                <ButtonSearch filters={ filters } setFilters={ setFilters } />
             </div>
+
+            { trips && 
+                <TripsList trips={ trips } loading={ loading } />
+            }
             
-            <TripsList trips={ trips?.data } loading={ loading } />
         </>
     );
 }

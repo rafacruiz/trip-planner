@@ -1,22 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function ButtonSearch() {
+function ButtonSearch({filters, setFilters}) {
 
-    const [search, setSearch] = useState("");
-  const navigate = useNavigate();
-
-  const handleSearch = (e) => {
-    e.preventDefault();
-    if (!search.trim()) return;
-
-    navigate(`/trips?search=${search}`);
-  };
-    
     return (
-        <form
+        <div
             className="w-full flex justify-center"
-            onSubmit={handleSearch}
         >
             <div
                 className="
@@ -53,8 +42,8 @@ function ButtonSearch() {
 
                 <input
                     type="text"
-                    onChange={ (e) => setSearch( e.target.value )}
-                    value={search}
+                    value={filters.search}
+                    onChange={(e) => setFilters({...filters, search: e.target.value})}
                     placeholder="Search destinations, countries, trips..."
                     className="
                         flex-1
@@ -97,7 +86,7 @@ function ButtonSearch() {
                     </svg>
                 </button>
             </div>
-        </form>
+        </div>
     );
 }
 
