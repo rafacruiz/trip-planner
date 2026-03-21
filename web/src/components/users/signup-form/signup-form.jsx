@@ -45,7 +45,7 @@ function SignupForm() {
         register,
         handleSubmit,
         clearErrors,
-        formState: { isSubmitting, errors },
+        formState: { isSubmitting, errors, isValid },
     } = useForm({ mode: "onChange" });
 
     const handleOnSubmit = async (data) => {
@@ -140,7 +140,7 @@ function SignupForm() {
 
             <button
                 type="submit"
-                disabled={ isSubmitting }
+                disabled={ !isValid }
                 className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition cursor-pointer"
             >
                 {isSubmitting ? "Creating account..." : "Sign up"}

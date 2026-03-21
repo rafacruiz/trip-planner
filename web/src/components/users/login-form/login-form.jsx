@@ -35,7 +35,7 @@ function LoginForm() {
             handleSubmit,
             setError,
             clearErrors,
-            formState: { isSubmitting, errors } 
+            formState: { isSubmitting, errors, isValid } 
         } = useForm({ 
             mode: 'all', 
             reValidateMode: "onChange" 
@@ -115,7 +115,7 @@ function LoginForm() {
             <button
                 type="submit"
                 className="w-full py-3 rounded-xl bg-blue-600 text-white font-semibold hover:bg-blue-700 transition cursor-pointer"
-                disabled={ isSubmitting } >
+                disabled={ !isValid } >
                 { isSubmitting ? <BounceLoader className="mt-2" color="#f8fafa" size={22}  /> : 'Sign In' }
             </button>
         </form>
