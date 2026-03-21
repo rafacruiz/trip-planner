@@ -16,8 +16,6 @@ function TripsSlider() {
 
     const { trips, loading, error } = useTrips(filters);
 
-    const sliderTrips = trips?.data;
-
     const scroll = (direction) => {
         const container = sliderRef.current;
         const scrollAmount = 320;
@@ -40,7 +38,7 @@ function TripsSlider() {
 
     if (error) return <Alert message={ error.message } type={ "warning" } center={ true } />
 
-    if (!sliderTrips || sliderTrips.length === 0) return null;
+    if (!trips || trips.length === 0) return null;
 
     return (
         <div className="w-full">
@@ -90,7 +88,7 @@ function TripsSlider() {
                 ref={sliderRef}
                 className="no-scrollbar flex gap-4 overflow-x-auto scrollbar-hide scroll-smooth snap-x snap-mandatory pb-2"
             >
-                {sliderTrips.map((trip) => (
+                {trips.map((trip) => (
                     <div key={ trip.id } className="min-w-[300px] snap-start">
                         <TripsCommunity trip={ trip } />
                     </div>
