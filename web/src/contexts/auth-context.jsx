@@ -9,12 +9,14 @@ function AuthContextProvider ({ children }) {
     const navigate = useNavigate();
     const location = useLocation();
     const [user, setUser] = useState(null);
+    const [userStats, setUserStats] = useState(null);
 
     useEffect(() => {
         const fetch = async () => {
             try {
                 const user = await ServicesApi.getProfile();
-                setUser(user); 
+                setUser(user.user);
+                setUserStats(user.stats);
             } catch (error) {
                 navigate('/login');
             }
@@ -42,7 +44,7 @@ function AuthContextProvider ({ children }) {
     }
 
     return (
-        <AuthContext.Provider value={{ user, login, logout, reloadUser: setUser }}>
+        <AuthContext.Provider value={{ user, login, logout, reloadUser: setUser, userStats }}>
             { children }
         </AuthContext.Provider>
     );
