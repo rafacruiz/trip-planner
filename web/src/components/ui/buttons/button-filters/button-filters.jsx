@@ -1,23 +1,7 @@
 
-import { useEffect, useState } from "react";
-import { listCountries } from '../../../../services/api-services';
+import SelectCountry from "../../select-country/select-country";
 
 function ButtonFilters({ filters, setFilters }) {
-
-    const [countries, setCountries] = useState(null);
-
-    useEffect(() => {
-        const fetchCountries = async () => {
-            try {
-                const countries = await listCountries();
-                setCountries(countries);    
-            } catch (error) {
-                console.log(error);
-            }
-        };
-        
-        fetchCountries();
-    }, []);
 
     const clearAll = () => {
         setFilters({
@@ -100,12 +84,7 @@ function ButtonFilters({ filters, setFilters }) {
                         focus:border-blue-300
                         focus:ring-2 focus:ring-blue-100"
                     >
-                        <option value="">🌍 Country</option>
-                        { countries?.map((option) => (
-                            <option key={ option.code } value={ option.name }>
-                                { option.flag } { option.name }
-                            </option>))
-                        }
+                        <SelectCountry />
                     </select>
                     
                     <input
