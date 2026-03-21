@@ -11,9 +11,9 @@ function tripsSanitizeSurprise(data, userId) {
             && trip.revealDate.getTime() >= Date.now()) 
         {
             trip.description = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
-            trip.title = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();;
-            trip.country = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();;
-            trip.city = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();;
+            trip.title = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
+            trip.country = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
+            trip.city = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
             trip.places = [];
             trip.activities = [];
         }
@@ -103,6 +103,24 @@ export async function list(req, res) {
         criteria.isSurprise = req.query.isSurprise === 'true';
     }
 
+    if (req.query.startDate && req.query.endDate) {
+        const startDate = new Date(req.query.startDate); 
+        const endDate = new Date(req.query.endDate);    
+        criteria.startDate = { $gte: startDate, $lte: endDate }
+    }
+
+    if (req.query.startDate && !req.query.endDate) {
+        const startDate = new Date(req.query.startDate); 
+        console.log(startDate)
+        criteria.startDate = { $gte: startDate }
+    }
+
+    if (req.query.endDate && !req.query.startDate) {
+        const endDate = new Date(req.query.endDate); 
+        console.log(endDate)
+        criteria.endDate = { $lte: endDate }
+    }
+
     if (req.query.trips) {
         criteria.userOwner = { $ne: req.session.user.id }
 
@@ -129,9 +147,23 @@ export async function list(req, res) {
     const [trips, total] = await Promise.all([
         Trip.find(
             criteria, 
-            req.query.search ? { score: { $meta: "textScore" } } : {}
+            req.query.search ? { 
+                score: 
+                { 
+                    $meta: "textScore" 
+                } 
+            } : {}
         )
-        .sort(req.query.search ? { score: { $meta: "textScore" } } : {})
+        .sort(
+            req.query.search ? { 
+                score: { 
+                    $meta: "textScore", 
+                    createdAt: -1 
+                } 
+            } : { 
+                createdAt: -1 
+            }
+        )
         .populate({
             path: "userOwner",
             select: "username avatar",

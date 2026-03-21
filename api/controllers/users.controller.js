@@ -1,5 +1,6 @@
 
 import User from '../models/user.model.js';
+import Trip from '../models/trip.model.js';
 import Session from '../models/session.model.js';
 import createHttpError from "http-errors";
 import { cloudinary } from '../config/multer.config.js';
@@ -54,7 +55,8 @@ export async function verify(req, res) {
 }
 
 export async function detail(req, res) {
-    const id = (req.params.userId === 'me') ? req.session.user.id : req.params.userId;
+    const id = (req.params.userId === 'me') 
+        ? req.session.user.id : req.params.userId;
 
     const user = await User.findById(id)
         .populate({
@@ -74,7 +76,23 @@ export async function detail(req, res) {
 
     if (!user) throw createHttpError(404, 'User not found');
 
-    res.json(user);
+    const totalOwnedTrips = await Trip.countDocuments({ userOwner: id });
+    const totalJoinedTrips = 
+        await Trip.countDocuments({ 
+            travelers: { 
+                $elemMatch: {
+                user: id, role:'traveler'}
+            }
+        }
+    );
+        
+    res.json({
+        user, 
+        stats: {
+            totalOwnedTrips,
+            totalJoinedTrips
+        }
+    });
 }
 
 export async function update(req, res) {
