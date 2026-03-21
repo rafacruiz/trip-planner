@@ -7,6 +7,7 @@ function useUser(userId) {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [user, setUser] = useState(null);
+    const [userStats, setUserStats] = useState(null);
     
     useEffect(() => {
             const fetchUser = async () => {
@@ -16,7 +17,8 @@ function useUser(userId) {
                 try {
                     setLoading(true);
                     const user = await getUser(userId);
-                    setUser(user);
+                    setUser(user.user);
+                    setUserStats(user.stats);
                 } catch (error) {
                     console.log(error?.message);
                     setUser({});
@@ -29,7 +31,7 @@ function useUser(userId) {
             fetchUser();
     }, [userId]);
     
-    return { user, loading, error };
+    return { user, loading, error, userStats };
 }
 
 export default useUser;

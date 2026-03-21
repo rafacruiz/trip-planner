@@ -8,7 +8,7 @@ import { updateProfile } from '../../../services/api-services';
 
 function ProfileDetails() {
 
-    const { user, reloadUser } = useAuth()
+    const { user, reloadUser, userStats } = useAuth();
 
     const [activeEdit, setActiveEdit] = useState(false);
     const [bio, setBio] = useState(null);
@@ -132,11 +132,11 @@ function ProfileDetails() {
 
                         <div className="grid grid-cols-2 gap-6 mt-8">
                             <div className="bg-blue-50 rounded-2xl p-4">
-                                <p className="text-2xl font-bold text-blue-600">{user.trips?.length || 0}</p>
+                                <p className="text-2xl font-bold text-blue-600">{ userStats?.totalOwnedTrips|| 0 }</p>
                                 <p className="text-xs text-gray-500">Trips created</p>
                             </div>
                             <div className="bg-indigo-50 rounded-2xl p-4">
-                                <p className="text-2xl font-bold text-indigo-600">{user.tripsJoined?.length || 0}</p>
+                                <p className="text-2xl font-bold text-indigo-600">{ userStats?.totalJoinedTrips || 0 }</p>
                                 <p className="text-xs text-gray-500">Trips joined</p>
                             </div>
                         </div>
