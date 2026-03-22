@@ -41,6 +41,10 @@ export const getProfile = () =>
 export const updateProfile = (data) => 
     http.patch('/profile/me', data);
 
+
+export const listUsers = (search = {}) =>
+    http.get('/users', { params: search });
+
 export const getUser = (userId) =>
     http.get(`/profile/${ userId }`);
 
@@ -59,6 +63,12 @@ export const updateTrip = (tripId, data) =>
 
 export const deleteTrip = (tripId) =>
     http.delete(`/trips/${tripId}`);
+
+export const addTravelerTrip = (tripId, data) =>
+    http.patch(`/trips/${tripId}/add-traveler`, data);
+
+export const deleteTravelerTrip = (tripId, data) =>
+    http.patch(`/trips/${tripId}/remove-traveler`, data);
 
 
 export const createPlace = (tripId, data) =>
