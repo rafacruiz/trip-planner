@@ -8,24 +8,25 @@ function useTrip(tripId) {
     const [error, setError] = useState(null);
     const [trip, setTrip] = useState(null);
 
-    useEffect(() => {
-        const fetchTrip = async () => {
-            try {
-                setLoading(true);
-                const trip = await getTrip(tripId);
-                setTrip(trip);
-            } catch (error) {
-                console.log(error);
-                setError(error);
-            } finally {
-                setLoading(false);
-            }
-        };
+    const fetchTrip = async () => {
+        try {
+            setLoading(true);
+            const trip = await getTrip(tripId);
+            setTrip(trip);
+        } catch (error) {
+            console.log(error);
+            setError(error);
+        } finally {
+            setLoading(false);
+        }
+    };
 
+    useEffect(() => {
+        
         fetchTrip();
     }, [tripId]);
 
-    return { trip, loading, error };
+    return { trip, loading, error, refetch: fetchTrip };
 }
 
 export default useTrip;
