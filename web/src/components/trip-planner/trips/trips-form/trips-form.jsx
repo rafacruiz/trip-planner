@@ -40,6 +40,8 @@ function TripsForm() {
     const [serverError, setServerError] = useState(null);
     const [success, setSuccess] = useState(false);
 
+    const navigate = useNavigate();
+
     const {
         register,
         handleSubmit,
@@ -51,13 +53,14 @@ function TripsForm() {
 
     const handleOnSubmit = async (data) => {
         try {
-            await ServicesApi.createTrip(data);
+            const trip = await ServicesApi.createTrip(data);
             setSuccess(true);
             
             reset();
             
             setTimeout(() => {
                 setSuccess(false);
+                navigate(`/trips/${trip.id}/setup`);
             }, 1800);
         } catch (err) {
             if (err?.status === 400){
@@ -345,7 +348,7 @@ function TripsForm() {
                 )}
 
                 { success && (
-                    <Alert message="Trip created successfully ✈️" center />
+                    <Alert message={ "Trip created ✈️ Redirecting trip configurator..." } center />
                 )}
 
                 <button
@@ -366,8 +369,8 @@ function TripsForm() {
                     <span 
                         className="flex items-center justify-center gap-2 cursor-pointer" 
                     >
-                        {isSubmitting && <BounceLoader size={18} color="#fff" />}
-                        {isSubmitting ? "Creating..." : "Create Trip ✈️"}
+                        { isSubmitting && <BounceLoader size={18} color="#fff" /> }
+                        { isSubmitting ? "Creating..." : "Create Trip ✈️" }
                     </span>
                 </button>
             </form>
