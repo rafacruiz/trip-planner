@@ -5,5 +5,7 @@ export { default as DashboardPage } from './dashboard-page';
 export { default as ProfilePage } from './profile-page';
 export { default as UserPage } from './user-page';
 export { default as TripsPage } from './trips-page';
+export { default as TripsFormPage } from './trips-form-page';
+export { default as TripSetupPage } from './trips-setup-page';
 export { default as ExploreTripsPage } from './ExploreTripsPage';
 export { default as NotFoundPage } from './404-page';
