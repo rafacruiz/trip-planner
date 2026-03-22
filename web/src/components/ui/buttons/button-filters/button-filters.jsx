@@ -78,6 +78,7 @@ function ButtonFilters({ filters, setFilters }) {
                         bg-gray-50
                         border border-transparent
                         text-sm text-gray-700
+                        cursor-pointer
                         transition
                         focus:outline-none
                         focus:bg-white
@@ -96,6 +97,7 @@ function ButtonFilters({ filters, setFilters }) {
                     bg-gray-50
                     border border-transparent
                     text-sm text-gray-700
+                    cursor-pointer
                     transition
                     focus:outline-none
                     focus:bg-white
@@ -112,6 +114,7 @@ function ButtonFilters({ filters, setFilters }) {
                     bg-gray-50
                     border border-transparent
                     text-sm text-gray-700
+                    cursor-pointer
                     transition
                     focus:outline-none
                     focus:bg-white
