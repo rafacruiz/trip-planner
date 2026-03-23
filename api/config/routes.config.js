@@ -23,6 +23,8 @@ router.get('/auth/verify', Users.verify);
 router.patch('/profile/me', upload.single('avatar'), Users.update);
 router.get('/profile/:userId', Users.detail);
 
+router.get('/users', Users.list);
+
 router.get('/trips', Trips.list);
 router.post('/trips', Trips.create);
 router.get('/trips/:tripId', Trips.details);
