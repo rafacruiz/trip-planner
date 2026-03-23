@@ -2,6 +2,7 @@
 import createHttpError from "http-errors";
 import Trip from '../models/trip.model.js';
 import User from '../models/user.model.js';
+import getCountryByCode from '../services/country.service.js';
 
 function tripsSanitizeSurprise(data, userId) {
 
@@ -47,12 +48,16 @@ export async function create(req, res) {
         throw createHttpError(404, "One or more users not found");
     }
 
+    const countryData = await getCountryByCode(country.code);
+
+    if (countryData.error) throw createHttpError(countryData.error, countryData.message);
+
     const trip = await Trip.create({
         title,
         country: {
-            name: country.name,
-            code: country.code,
-            flag: country.flag
+            name: countryData.name,
+            code: countryData.code,
+            flag: countryData.flag
         },
         city,
         startDate,
@@ -140,7 +145,7 @@ export async function list(req, res) {
     }
 
     const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 10;
+    const limit = parseInt(req.query.limit) || 9;
 
     const startIndex = (page - 1) * limit;
 
