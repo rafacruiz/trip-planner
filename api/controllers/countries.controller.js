@@ -4,7 +4,7 @@ import createHttpError from "http-errors";
 export async function countries(req, res) {
    
     const response = await fetch(
-        new URL(process.env.COUNTRY_API_URL)
+        new URL(process.env.COUNTRY_API_URL + '/all?fields=name,cca2,flag')
     );
 
     if (!response.ok) throw createHttpError(503, "Failed to fetch countries");
