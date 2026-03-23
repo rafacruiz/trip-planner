@@ -6,15 +6,9 @@ const tripSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Title is required'],
         trim: true,
-        minLength: [10, 'Title cannot min 10 characters']
+        minLength: [5, 'Title cannot min 5 characters']
     },
     country: {
-        name: {
-            type: String,
-            required: [true, 'Country is required'],
-            lowercase: true,
-            trim: true
-        },
         code: {
             type: String,
             required: [true, 'Country code is required'],
@@ -22,6 +16,11 @@ const tripSchema = new mongoose.Schema({
             maxLength: [4, 'Country code cannot exceed 4 characters'],
             uppercase: true,
             trim: true,
+        },
+        name: {
+            type: String,
+            lowercase: true,
+            trim: true
         },
         flag: {
             type: String,
