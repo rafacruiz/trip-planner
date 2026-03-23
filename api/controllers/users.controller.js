@@ -125,3 +125,19 @@ export async function update(req, res) {
     
     res.json(req.session.user);
 }
+
+export async function list(req, res) {
+
+    const search = req.query.search;
+    
+    const users = await User.find({ 
+        $or:[
+            { email: { $regex: search, $options: "i" }  }, 
+            { username: { $regex: search, $options: "i" } }
+        ] 
+    });
+
+    if (!users) throw createHttpError(404, 'Not found users');
+
+    res.json(users);
+}
