@@ -3,8 +3,8 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from '../../../../contexts/auth-context';
 import { useTrip } from '../../../../hooks';
-import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
 import TripDetailSkeleton from "./trips-details-skeleton";
+import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
 import { updateStatePlace, updateStateActivity } from '../../../../services/api-services';
 
 
@@ -25,6 +25,10 @@ function ProgressBar({ value, total }) {
             </div>
         </div>
     );
+}
+
+function ViewDescription({ text }) {
+    return <div dangerouslySetInnerHTML={{ __html: text }} />;
 }
 
 function TripsDetails() {
@@ -145,15 +149,15 @@ function TripsDetails() {
                                 )}
                             </div>
 
-                            {trip.description ? (
-                                <p className="
+                            { trip.description ? (
+                                <div className="
                                     text-sm
                                     text-gray-600
                                     leading-relaxed
                                     whitespace-pre-line
                                 ">
-                                    { trip.description }
-                                </p>
+                                    { <ViewDescription text={ trip.description } /> }
+                                </div>
                             ) : (
                                 <div className="
                                     text-sm

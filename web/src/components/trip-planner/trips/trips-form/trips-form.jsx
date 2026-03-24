@@ -4,6 +4,7 @@ import { BounceLoader } from "react-spinners";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import WYSIWYG from "react-simple-wysiwyg";
 import * as ServicesApi from '../../../../services/api-services';
 import SelectCountry from "../../../ui/select-country/select-country";
 
@@ -47,6 +48,7 @@ function TripsForm() {
         handleSubmit,
         clearErrors,
         reset,
+        setValue,
         watch,
         formState: { isSubmitting, errors, isValid },
     } = useForm({ mode: "onChange" });
@@ -274,9 +276,12 @@ function TripsForm() {
                         Description
                     </label>
 
-                    <textarea
+                    <WYSIWYG
                         id="description"
-                        rows={4}
+                        value={watch("description") || ""}
+                        onChange={ (e) => 
+                            setValue("description", e.target.value, { shouldValidate: true }) }
+                        rows={6}
                         placeholder="Tell something about your trip..."
                         className={`
                             mt-1 w-full px-4 py-3
@@ -287,7 +292,7 @@ function TripsForm() {
                             focus:bg-white
                             focus:border-blue-300
                             focus:ring-2 focus:ring-blue-100`}
-                            { ...register("description", validations.description) }
+                        style={{ minHeight: "200px" }}
                     />
 
                     { errors.description && (
