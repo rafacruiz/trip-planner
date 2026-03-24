@@ -9,3 +9,4 @@ export { default as ButtonFilters } from './buttons/button-filters/button-filter
 export { default as Loading } from './loaders/loaders';
 export { default as Pagination } from './pagination/pagination';
 export { default as SelectCountry } from './select-country/select-country';
+export { default as ButtonExplorerTrips } from './buttons/button-explorer/button-explores';

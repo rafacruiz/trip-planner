@@ -32,7 +32,19 @@ function Navbar() {
 
                     <button
                         onClick={ () => logout() }
-                        className="px-2 py-1 rounded-xl bg-blue-600 text-white text-sm font-semibold hover:bg-blue-700 shadow transition">
+                        className="
+                            px-2 
+                            py-1 
+                            rounded-xl 
+                            bg-blue-600 
+                            text-white 
+                            text-sm 
+                            font-semibold 
+                            hover:bg-blue-700 
+                            shadow 
+                            transition
+                            cursor-pointer"
+                    >
                         Logout
                     </button>
                 </div>

@@ -1,6 +1,6 @@
 
 import { TripsList, TripsSlider } from "../../trip-planner/trips";
-import { Loading, Alert, ButtonLink } from '../.';
+import { Loading, Alert, ButtonLink, ButtonExplorerTrips } from '../.';
 import { useUser } from "../../../hooks";
 
 function Dashboard() {
@@ -30,6 +30,10 @@ function Dashboard() {
             <section className="mb-12">
                 <TripsSlider/>
             </section>
+
+            <div className="flex justify-center py-6">
+                <ButtonExplorerTrips />
+            </div>
 
             <div className="mb-10">
                 <h1 className="text-2xl font-bold text-gray-800">My Trips</h1>
