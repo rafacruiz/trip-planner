@@ -1,89 +1,69 @@
 
-import { useState } from "react";
 import { BounceLoader } from "react-spinners";
-import SectionHeader from "../sections-utils/section-header";
-import EmptyState from "../sections-utils/sections-empty";
 import { Alert } from "../../../../ui";
+import { SectionHeader, EmptyState } from '../sections-utils';
 import { createPlace, deletePlace } from '../../../../../services/api-services';
+import { handleAsyncAction } from '../../../utils/async-action';
+import { useAlert, useForm } from "../../../../../hooks";
 
 function PlacesSection({ tripData }) {
 
-  const [serverError, setServerError] = useState(null);
+  const { trip, loading, error, refetch } = tripData;
+
+  const { showAlert, serverError, serverInfo, activeAlert } = useAlert();
   
-  const [serverInfo, setServerInfo] = useState(null);
-
-  const [activeAlert, setActiveAlert] = useState(false);
-
-  const [places, setPlaces] = useState({
+  const { values: places, handleChange, reset } = useForm({
     name: '',
     location: '',
     notes: ''
   });
 
-  const { trip, loading, error, refetch } = tripData;
-
-  const handleAddPlaces = async () => {
-    setServerInfo(null);
-    setServerError(null);
-
-    try {
-      await createPlace(trip.id, places);
-      await refetch();
-
-      toastAlert(
-        'You’ve successfully created a new places to your trip!',
-        'success'
-      );
-
-    } catch (error) {
-      console.log(error?.message);
-      toastAlert(
-        error?.message, 
-        'error'
-      );
-    }
+  const handleAddPlaces = () => {
+    handleAsyncAction({
+      action: () => createPlace(trip.id, places),
+      onSuccess: async () => {
+        await refetch();
+        reset();
+        showAlert(
+          'You’ve successfully created a new places to your trip!',
+          'success'
+        );
+      },
+      onError: (msg) => showAlert(msg, 'error'),
+    });
   };
 
-  const handleRemovePlaces = async (placeId) => {
-    try {
-      await deletePlace(trip.id, placeId);
-      await refetch();
-
-      toastAlert(
-        'You’ve removed a places from your trip’s list.',
-        'error'
-      );
-
-    } catch (error) {
-      console.log(error);
-      setServerError(error?.message);  
-      toastAlert(
-        error?.message, 
-        'error'
-      );
-    }
-  };
-
-  const toastAlert = (message, type) => {
-    setActiveAlert(true);
-
-    const timeout = setTimeout(() => {
-      setActiveAlert(false);
-      
-      setPlaces({name: '',
-        location: '',
-        notes: ''
-      });
-    }, 3000);
-    
-    setServerInfo(type === 'success' ? message : null);
-    setServerError(type === 'error' ? message : null);
+  const handleRemovePlaces = (placeId) => {
+    handleAsyncAction({
+      action: () => deletePlace(trip.id, placeId),
+      onSuccess: async () => {
+        await refetch();
+        reset();
+        showAlert(
+          'You’ve removed a places from your trip’s list.',
+          'error'
+        );
+      },
+      onError: (msg) => showAlert(msg, 'error'),
+    });
   };
 
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 flex flex-col gap-4">
+    <div 
+      className="
+        bg-white 
+        rounded-3xl 
+        border 
+        border-gray-200 
+        shadow-sm 
+        p-6 
+        flex 
+        flex-col 
+        gap-4"
+    >
+
       <SectionHeader
         icon="📍"
         title="Places"
@@ -96,7 +76,7 @@ function PlacesSection({ tripData }) {
           type="text"
           id="name"
           value={ places.name }
-          onChange={(e) => setPlaces({ ...places, name: e.target.value })}
+          onChange={ (e) => handleChange('name', e.target.value) }
           placeholder="Place name"
           required
           className={`
@@ -105,7 +85,6 @@ function PlacesSection({ tripData }) {
             bg-gray-50
             border border-transparent
             text-sm
-
             focus:outline-none
             focus:bg-white
             focus:border-blue-300
@@ -117,7 +96,7 @@ function PlacesSection({ tripData }) {
           type="text"
           id="location"
           value={ places.location }
-          onChange={ (e) => setPlaces({...places, location: e.target.value }) }
+          onChange={ (e) => handleChange('location', e.target.value) }
           placeholder="Location"
           required
           className="
@@ -126,7 +105,6 @@ function PlacesSection({ tripData }) {
             bg-gray-50
             border border-transparent
             text-sm
-
             focus:outline-none
             focus:bg-white
             focus:border-blue-300
@@ -137,54 +115,47 @@ function PlacesSection({ tripData }) {
       </div>
 
       <textarea
-          id="notes"
-          value={ places.notes }
-          onChange={ (e) => setPlaces({...places, notes: e.target.value })}
-          rows={2}
-          placeholder="Notes (optional)"
-          className="
-            w-full
-            px-4 py-3
-            rounded-xl
-            bg-gray-50
-            border border-transparent
-            text-sm
-
-            focus:outline-none
-            focus:bg-white
-            focus:border-blue-300
-            focus:ring-2 focus:ring-blue-100
-          "
+        id="notes"
+        value={ places.notes }
+        onChange={ (e) => handleChange('notes', e.target.value) }
+        rows={ 2 }
+        placeholder="Notes (optional)"
+        className="
+          w-full
+          px-4 py-3
+          rounded-xl
+          bg-gray-50
+          border border-transparent
+          text-sm
+          focus:outline-none
+          focus:bg-white
+          focus:border-blue-300
+          focus:ring-2 focus:ring-blue-100
+        "
       />
 
       <div className="flex justify-end">
-
-          <button
-            type="button"
-            onClick={ () => handleAddPlaces() }
-            className="
-              px-5 py-2.5
-              rounded-xl
-
-              bg-gradient-to-r
-              from-blue-600
-              to-indigo-600
-
-              text-white
-              text-sm
-              font-semibold
-
-              shadow-sm
-
-              hover:shadow-md
-              hover:scale-[1.02]
-              active:scale-[0.98]
-
-              transition
-            "
-          >
-            ➕ Add place
-          </button>
+        <button
+          type="button"
+          onClick={ () => handleAddPlaces() }
+          className="
+            px-5 py-2.5
+            rounded-xl
+            bg-gradient-to-r
+            from-blue-600
+            to-indigo-600
+            text-white
+            text-sm
+            font-semibold
+            shadow-sm
+            hover:shadow-md
+            hover:scale-[1.02]
+            active:scale-[0.98]
+            transition
+          "
+        >
+          ➕ Add place
+        </button>
       </div>
 
       { trip.places.length === 0 && (
@@ -207,16 +178,12 @@ function PlacesSection({ tripData }) {
             className="
               flex justify-between items-start
               gap-4
-
               p-4
               rounded-2xl
-
               border border-gray-200
               bg-gray-50
-
               hover:bg-white
               hover:shadow-sm
-
               transition"
           >
             <div className="flex flex-col">

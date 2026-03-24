@@ -1,6 +1,5 @@
 
-import SectionHeader from "../sections-utils/section-header";
-import EmptyState from "../sections-utils/sections-empty";
+import { SectionHeader, EmptyState } from '../sections-utils';
 import { Alert } from '../../../../ui';
 import { useEffect, useState } from "react";
 import { listUsers, addTravelerTrip, deleteTravelerTrip } from '../../../../../services/api-services';

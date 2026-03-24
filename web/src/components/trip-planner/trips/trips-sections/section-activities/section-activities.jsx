@@ -1,89 +1,67 @@
 
 import { BounceLoader } from "react-spinners";
-import SectionHeader from "../sections-utils/section-header";
-import EmptyState from "../sections-utils/sections-empty";
-import { useState } from "react";
-import { createActivity, deleteActivity } from '../../../../../services/api-services';
 import { Alert } from "../../../../ui";
+import { SectionHeader, EmptyState } from '../sections-utils';
+import { createActivity, deleteActivity } from '../../../../../services/api-services';
+import { handleAsyncAction } from '../../../utils/async-action';
+import { useAlert, useForm } from "../../../../../hooks";
 
 function ActivitiesSection({ tripData }) {
 
-  const [serverError, setServerError] = useState(null);
-    
-  const [serverInfo, setServerInfo] = useState(null);
-
-  const [activeAlert, setActiveAlert] = useState(false);
-
-  const [activity, setActivity] = useState({
-    title: '',
-  });
-
   const { trip, loading, error, refetch } = tripData;
 
-  const handleAddActivity = async () => {
-    setServerInfo(null);
-    setServerError(null);
+  const { showAlert, serverError, serverInfo, activeAlert } = useAlert();
 
-    try {
-      await createActivity(trip.id, activity);
-      
-      toastAlert(
-        'You’ve successfully created a new places to your trip!',
-        'success'
-      );
+  const { values: activity, handleChange, reset } = useForm({
+    title: ''
+  });
 
-      await refetch();
-    } catch (error) {
-      console.log(error?.message);
-      toastAlert(
-        error?.message, 
-        'error'
-      );
-    }
+  const handleAddActivity = () => {
+    handleAsyncAction({
+      action: () => createActivity(trip.id, activity),
+      onSuccess: async () => {
+        await refetch();
+        reset();
+        showAlert(
+          'You’ve successfully created a new places to your trip!', 
+          'success'
+        );
+      },
+      onError: (msg) => showAlert(msg, 'error'),
+    });
   };
 
-  const handleRemoveActivity = async (activityId) => {
-    setServerInfo(null);
-    setServerError(null);
-    
-    try {
-      await deleteActivity(trip.id, activityId);
-      
-      toastAlert(
-        'You’ve removed a places from your trip’s list.',
-        'error'
-      );
-
-      await refetch();
-    } catch (error) {
-      console.log(error);
-      setServerError(error?.message);  
-      toastAlert(
-        error?.message, 
-        'error'
-      );
-    }
-  };
-
-  const toastAlert = (message, type) => {
-    setActiveAlert(true);
-
-    const timeout = setTimeout(() => {
-      setActiveAlert(false);
-      
-      setActivity({
-        title: ''
-      });
-    }, 3000);
-    
-    setServerInfo(type === 'success' ? message : null);
-    setServerError(type === 'error' ? message : null);
+  const handleRemoveActivity = (activityId) => {
+    handleAsyncAction({
+      action: () => deleteActivity(trip.id, activityId),
+      onSuccess: async () => {
+        await refetch();
+        reset();
+        showAlert(
+          'You’ve removed a places from your trip’s list.',
+          'error'
+        );
+      },
+      onError: (msg) => showAlert(msg, 'error'),
+    });
   };
 
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 
   return (
-    <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 flex flex-col gap-4">
+    <div 
+      className="
+        bg-white 
+        rounded-3xl 
+        border 
+        border-gray-200 
+        shadow-sm 
+        p-6 
+        flex 
+        flex-col 
+        gap-4"
+      >
+        
       <SectionHeader
         icon="🎯"
         title="Activities"
@@ -97,17 +75,15 @@ function ActivitiesSection({ tripData }) {
             type="text"
             id="title"
             value={ activity.title }
-            onChange={(e) => setActivity({ ...activity, title: e.target.value })}
+            onChange={ (e) => handleChange('title', e.target.value) }
             placeholder="Activity title..."
             required
             className={`
-              
               px-4 py-3
               rounded-xl
               bg-gray-50
               border border-transparent
               text-sm
-
               focus:outline-none
               focus:bg-white
               focus:border-blue-300
@@ -116,28 +92,22 @@ function ActivitiesSection({ tripData }) {
             `}
           />
         
-
           <button
             type="button"
             onClick={ () => handleAddActivity() }
             className="
               px-5 py-2.5
               rounded-xl
-
               bg-gradient-to-r
               from-blue-600
               to-indigo-600
-
               text-white
               text-sm
               font-semibold
-
               shadow-sm
-
               hover:shadow-md
               hover:scale-[1.02]
               active:scale-[0.98]
-
               transition
               ml-4
             "
@@ -156,7 +126,11 @@ function ActivitiesSection({ tripData }) {
 
       {( serverInfo || serverError ) && activeAlert && (
         <div className="mt-4 transition">
-          <Alert message={ serverInfo || serverError } type={ serverInfo ? 'success' : 'error' } center />
+          <Alert 
+            message={ serverInfo || serverError } 
+            type={ serverInfo ? 'success' : 'error' } 
+            center 
+          />
         </div>
       )}
 
@@ -168,16 +142,12 @@ function ActivitiesSection({ tripData }) {
             className="
               flex justify-between items-start
               gap-4
-
               p-4
               rounded-2xl
-
               border border-gray-200
               bg-gray-50
-
               hover:bg-white
               hover:shadow-sm
-
               transition"
           >
             <div className="flex flex-col">

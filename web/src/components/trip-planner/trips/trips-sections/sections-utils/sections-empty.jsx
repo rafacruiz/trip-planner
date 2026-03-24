@@ -14,7 +14,7 @@ function EmptyState({ text }) {
       </div>
 
       <p className="text-sm">
-        {text}
+        { text }
       </p>
     </div>
   );

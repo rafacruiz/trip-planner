@@ -2,8 +2,7 @@
 function SectionHeader({
   icon,
   title,
-  description,
-  buttonText
+  description
 }) {
 
   return (
