@@ -63,14 +63,14 @@ export async function detail(req, res) {
             path: 'trips',
             options: { 
                 sort: { createdAt: -1 },
-                limit: 4 
+                limit: 6 
             }
         })
         .populate({
             path: 'tripsJoined',
             options: { 
                 sort: { createdAt: -1 },
-                limit: 4
+                limit: 6
             }
         });
 

@@ -6,7 +6,6 @@ const activitySchema = new mongoose.Schema({
         type: String,
         required: [true, 'Title is required'],
         trim: true,
-        minLength: [5, 'Title cannot min 5 characters']
     },
     completed: {
         type: Boolean,

@@ -6,12 +6,10 @@ const placeSchema = new mongoose.Schema({
         type: String,
         required: [true, 'Name is required'],
         trim: true,
-        minLength: [5, 'Name cannot min 5 characters']
     },
     location: {
         type: String,
         trim: true,
-        minLength: [2, 'Location cannot min 2 characters']
     },
     notes: {
         type: String, 

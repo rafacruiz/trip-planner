@@ -13,7 +13,7 @@ function tripsSanitizeSurprise(data, userId) {
         {
             trip.description = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
             trip.title = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
-            trip.country = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
+            trip.country = {};
             trip.city = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
             trip.places = [];
             trip.activities = [];
