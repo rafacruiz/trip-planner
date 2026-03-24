@@ -1,7 +1,5 @@
 
-function TripSetupProgress({ tripData = [] }) {
-
-    const { trip, loading } = tripData;
+function TripsSetupProgress({ trip = [], loading }) {
 
     if (loading) return null;
 
@@ -54,4 +52,4 @@ function ProgressItem({ label, count }) {
     );
 }
 
-export default TripSetupProgress;
+export default TripsSetupProgress;

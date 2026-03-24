@@ -1,6 +1,6 @@
 
 import { Link, useParams } from "react-router-dom";
-import TripSetupProgress from "../trip-setup-progress/trip-setup-progress";
+import TripsSetupProgress from "../trips-setup-progress/trips-setup-progress";
 import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
 import { useTrip } from '../../../../hooks';
 
@@ -23,7 +23,7 @@ function TripsSetup() {
                     </p>
                 </div>
                 
-                <TripSetupProgress 
+                <TripsSetupProgress 
                     trip={ trip } 
                     loading={ loading } 
                 />
