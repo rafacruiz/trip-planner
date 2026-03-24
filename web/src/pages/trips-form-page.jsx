@@ -1,6 +1,6 @@
 
 import { LayoutPage } from '../components/layouts';
-import { TripsForm } from '../components/trip-planner';
+import { TripsForm } from '../components/trip-planner/trips';
 
 function TripsFormPage() {
     return (

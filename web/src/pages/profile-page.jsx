@@ -1,6 +1,6 @@
 
 import { LayoutPage } from "../components/layouts";
-import { ProfileDetails } from "../components/users";
+import { ProfileDetails } from "../components/trip-planner/users";
 
 function ProfilePage() {
     return (

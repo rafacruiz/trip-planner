@@ -1,6 +1,6 @@
 
 import { LayoutPage } from "../components/layouts";
-import { TripsSearch } from "../components/trip-planner";
+import { TripsSearch } from "../components/trip-planner/trips";
 
 function ExploreTripsPage() {
 
