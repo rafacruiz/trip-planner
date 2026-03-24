@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getUser } from '../services/api-services';
 
-function useUser(userId) {
+export function useUser(userId) {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -33,5 +33,3 @@ function useUser(userId) {
     
     return { user, loading, error, userStats };
 }
-
-export default useUser;

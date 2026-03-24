@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { getTrip } from '../services/api-services';
 
-function useTrip(tripId) {
+export function useTrip(tripId) {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -28,5 +28,3 @@ function useTrip(tripId) {
 
     return { trip, loading, error, refetch: fetchTrip };
 }
-
-export default useTrip;

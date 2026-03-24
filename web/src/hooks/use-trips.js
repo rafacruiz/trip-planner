@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { listTrips } from '../services/api-services';
 
-function useTrips(filters) {
+export function useTrips(filters) {
 
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -33,5 +33,3 @@ function useTrips(filters) {
 
     return { trips, loading, error, pagination };
 }
-
-export default useTrips;
