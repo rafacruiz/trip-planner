@@ -6,9 +6,7 @@ import { createPlace, deletePlace } from '../../../../../services/api-services';
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert, useForm } from "../../../../../hooks";
 
-function PlacesSection({ tripData }) {
-
-  const { trip, loading, error, refetch } = tripData;
+function PlacesSection({ trip, loading, error, refetch }) {
 
   const { showAlert, serverError, serverInfo, activeAlert } = useAlert();
   

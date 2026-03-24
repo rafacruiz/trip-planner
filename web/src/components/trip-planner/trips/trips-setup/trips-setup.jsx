@@ -8,7 +8,7 @@ function TripsSetup() {
 
   const { tripId } = useParams();
 
-  const trip = useTrip(tripId);
+  const { trip, loading, error, refetch } =  useTrip(tripId);
 
   return (
         <div className="min-h-screen bg-gray-50 px-4 py-8 flex justify-center">
@@ -23,13 +23,31 @@ function TripsSetup() {
                     </p>
                 </div>
                 
-                <TripSetupProgress tripData={ trip } />
+                <TripSetupProgress 
+                    trip={ trip } 
+                    loading={ loading } 
+                />
 
-                <TravelersSection tripData={ trip }/>
+                <TravelersSection 
+                    trip={ trip } 
+                    loading={ loading } 
+                    error={ error } 
+                    refetch={ refetch }
+                />
 
-                <PlacesSection tripData={ trip } />
+                <PlacesSection 
+                    trip={ trip } 
+                    loading={ loading } 
+                    error={ error } 
+                    refetch={ refetch } 
+                />
 
-                <ActivitiesSection tripData={ trip } />
+                <ActivitiesSection 
+                    trip={ trip } 
+                    loading={ loading } 
+                    error={ error } 
+                    refetch={ refetch } 
+                />
 
                 <div className="flex justify-between items-center">
                 

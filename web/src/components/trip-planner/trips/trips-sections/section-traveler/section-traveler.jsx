@@ -5,9 +5,7 @@ import { useEffect, useState } from "react";
 import { listUsers, addTravelerTrip, deleteTravelerTrip } from '../../../../../services/api-services';
 import { BounceLoader } from "react-spinners";
 
-function TravelersSection({ tripData }) {
-
-  const { trip, loading, error, refetch } = tripData;
+function TravelersSection({ trip, loading, error, refetch }) {
 
   const [search, setSearch] = useState({
     search: '',
@@ -85,16 +83,17 @@ function TravelersSection({ tripData }) {
 
     const timeout = setTimeout(() => {
       setActiveAlert(false);
-      setSearch('');
+      setSearch({search: ''});
     }, 3000);
     
     setServerInfo(type === 'success' ? message : null);
     setServerError(type === 'error' ? message : null);
   };
 
+
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 
-  return (
+  return (  
     <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6 flex flex-col gap-4">
       <SectionHeader
         icon="🧑‍🤝‍🧑"
@@ -174,7 +173,7 @@ function TravelersSection({ tripData }) {
             )}
 
             {users && users.filter(user => {
-              return !trip.travelers.some(traveler => traveler.user.id === user.id);
+              return !trip?.travelers?.some(traveler => traveler.user.id === user.id);
             }).map(user => {
               return (
                 <div
@@ -237,7 +236,7 @@ function TravelersSection({ tripData }) {
 
       <div className="flex flex-wrap gap-2 mt-2 animate-fade-in">
         
-        { trip.travelers.map((traveler) => (
+        { trip?.travelers?.map((traveler) => (
           <div
             key={ traveler.user.id }
             className="

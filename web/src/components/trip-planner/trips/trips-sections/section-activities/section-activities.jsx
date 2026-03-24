@@ -6,9 +6,7 @@ import { createActivity, deleteActivity } from '../../../../../services/api-serv
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert, useForm } from "../../../../../hooks";
 
-function ActivitiesSection({ tripData }) {
-
-  const { trip, loading, error, refetch } = tripData;
+function ActivitiesSection({ trip, loading, error, refetch }) {
 
   const { showAlert, serverError, serverInfo, activeAlert } = useAlert();
 
