@@ -1,11 +1,11 @@
 
+import { Alert } from "../../../ui";
+import { BounceLoader } from "react-spinners";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
 import * as ServicesApi from '../../../../services/api-services';
 import SelectCountry from "../../../ui/select-country/select-country";
-import { Alert } from "../../../ui";
-import { BounceLoader } from "react-spinners";
 
 const validations = {
     title: { 

@@ -4,7 +4,7 @@ import { Alert } from '../../../ui';
 import { BounceLoader } from "react-spinners";
 import { useRef, useState } from "react";
 import TripsCommunity from "./trips-comunity";
-import useTrips from '../../../../hooks/use-trips';
+import { useTrips } from '../../../../hooks';
 
 function TripsSlider() {
 

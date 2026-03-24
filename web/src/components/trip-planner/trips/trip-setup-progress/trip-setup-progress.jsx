@@ -14,17 +14,17 @@ function TripSetupProgress({ tripData = [] }) {
             <div className="flex flex-col gap-3">
                 <ProgressItem
                     label="Travelers"
-                    count={trip?.travelers}
+                    count={ trip?.travelers }
                 />
 
                 <ProgressItem
                     label="Places"
-                    count={trip?.places}
+                    count={ trip?.places }
                 />
 
                 <ProgressItem
                     label="Activities"
-                    count={trip?.activities}
+                    count={ trip?.activities }
                 />
             </div>
         </div>
@@ -38,10 +38,10 @@ function ProgressItem({ label, count }) {
     return (
         <div className="flex justify-between items-center text-sm">
             <span className="text-gray-600">
-                {label}
+                { label }
             </span>
 
-            {completed ? (
+            { completed ? (
                 <span className="text-green-600 font-medium">
                 ✔ Added
                 </span>

@@ -1,10 +1,8 @@
 
 import { Link, useParams } from "react-router-dom";
 import TripSetupProgress from "../trip-setup-progress/trip-setup-progress";
-import TravelersSection from "../trips-sections/section-traveler/section-traveler";
-import PlacesSection from "../trips-sections/section-places/section-places";
-import ActivitiesSection from "../trips-sections/section-activities/section-activities";
-import useTrip from '../../../../hooks/use-trip';
+import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
+import { useTrip } from '../../../../hooks';
 
 function TripsSetup() {
 

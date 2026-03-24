@@ -2,8 +2,8 @@
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { ButtonFilters, Loading, Pagination } from '../../../ui';
+import { useTrips } from "../../../../hooks";
 import TripsList  from "../trips-list/trips-list";
-import useTrips from "../../../../hooks/use-trips";
 
 function TripsSearch() {
 
