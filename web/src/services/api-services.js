@@ -74,8 +74,8 @@ export const deleteTravelerTrip = (tripId, data) =>
 export const createPlace = (tripId, data) =>
     http.post(`/trips/${tripId}/places`, data);
 
-export const updateStatePlace = (tripId, placeId) =>
-    http.patch(`/trips/${tripId}/places/${placeId}`);
+export const updateStatePlace = (tripId, placeId, data) =>
+    http.patch(`/trips/${tripId}/places/${placeId}`, data);
 
 export const deletePlace = (tripId, placeId) =>
     http.delete(`/trips/${tripId}/places/${placeId}`);
@@ -84,8 +84,8 @@ export const deletePlace = (tripId, placeId) =>
 export const createActivity = (tripId, data) =>
     http.post(`/trips/${tripId}/activities`, data);
 
-export const updateStateActivity = (tripId, activityId) =>
-    http.patch(`/trips/${tripId}/activities/${activityId}`);
+export const updateStateActivity = (tripId, activityId, data) =>
+    http.patch(`/trips/${tripId}/activities/${activityId}`, data);
 
 export const deleteActivity = (tripId, activityId) =>
     http.delete(`/trips/${tripId}/activities/${activityId}`);
