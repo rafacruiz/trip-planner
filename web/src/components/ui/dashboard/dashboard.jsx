@@ -1,7 +1,7 @@
 
-import { TripsList, TripsSlider } from "../../trip-planner";
+import { TripsList, TripsSlider } from "../../trip-planner/trips";
 import { Loading, Alert, ButtonLink } from '../.';
-import useUser from "../../../hooks/use-user";
+import { useUser } from "../../../hooks";
 
 function Dashboard() {
 
