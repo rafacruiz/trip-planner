@@ -1,5 +1,6 @@
 
 import createHttpError from "http-errors";
+import sanitizeHtml from 'sanitize-html';
 import Trip from '../models/trip.model.js';
 import User from '../models/user.model.js';
 import getCountryByCode from '../services/country.service.js';
@@ -52,6 +53,31 @@ export async function create(req, res) {
 
     if (countryData.error) throw createHttpError(countryData.error, countryData.message);
 
+    const cleanDescription = sanitizeHtml(description, {
+        allowedTags: [
+            'h1','h2','h3','h4','h5','h6',
+            'b','i','strong','em','u','strike','sub','sup',
+            'p','br','ul','ol','li','blockquote','pre','code',
+            'span','div','img','a'
+        ],
+        allowedAttributes: {
+            a: ['href', 'name', 'target', 'rel'],
+            img: ['src', 'alt', 'width', 'height', 'style'],
+            span: ['style'],
+            div: ['style'],
+            p: ['style']
+        },
+        allowedStyles: {
+            '*': {
+            'color': [/^#(0x)?[0-9a-f]+$/i, /^rgb\(/],
+            'text-align': [/^left$/, /^right$/, /^center$/, /^justify$/],
+            'font-weight': [/^\d+$/, /^bold$/, /^normal$/],
+            'font-style': [/^italic$/, /^normal$/],
+            'text-decoration': [/^underline$/, /^line-through$/]
+            }
+        }
+    });
+
     const trip = await Trip.create({
         title,
         country: {
@@ -62,7 +88,7 @@ export async function create(req, res) {
         city,
         startDate,
         endDate,
-        description,
+        description: cleanDescription,
         userOwner: req.session.user.id,
         travelers: [
             { 
