@@ -41,7 +41,7 @@ function TripsList({ trips = null, loading = false }) {
         return (
             <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
                 {[...Array(6)].map((_, i) => (
-                    <SkeletonCard key={i} />
+                    <SkeletonCard key={ i } />
                 ))}
             </div>
         );
@@ -53,8 +53,11 @@ function TripsList({ trips = null, loading = false }) {
 
     return (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            { trips.map(trip => (
-                <TripsItem key={trip.id} trip={trip} />
+            { trips.map((trip, i) => (
+                <TripsItem 
+                    key={ i } 
+                    trip={ trip } 
+                />
             ))}
         </div>
     );

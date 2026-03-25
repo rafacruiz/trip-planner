@@ -56,11 +56,11 @@ function TripsItem({ trip }) {
 
                 <div className="flex items-center justify-between mt-5">
                     <div className="flex -space-x-2">
-                        {trip.travelers.map((traveler, i) => (
+                        {trip.travelers.map((traveler) => (
                             <img
-                            key={i}
-                            src={traveler.user.avatar}
-                            className="w-8 h-8 rounded-full border-2 border-white"
+                                key={ traveler.id }
+                                src={ traveler.user.avatar }
+                                className="w-8 h-8 rounded-full border-2 border-white"
                             />
                         ))}
                     </div>
