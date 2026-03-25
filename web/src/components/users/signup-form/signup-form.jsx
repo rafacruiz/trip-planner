@@ -53,7 +53,7 @@ function SignupForm() {
             await ServicesApi.signup(data);
             navigate('/login');
         } catch (err) {
-            setServerError(err.response?.data?.message || "Ops! Unknown Error");
+            setServerError(err?.message || "Ops! Unknown Error");
         }
     };
 

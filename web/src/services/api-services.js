@@ -16,8 +16,8 @@ http.interceptors.response.use(
         }
 
         return Promise.reject({
-            message: data?.message || 'Bad Request',
-            status: status
+            message: data || 'Bad Request',
+            status: status,
         });
     }
 );
