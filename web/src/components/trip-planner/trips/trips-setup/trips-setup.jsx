@@ -6,11 +6,11 @@ import { useTrip } from '../../../../hooks';
 
 function TripsSetup() {
 
-  const { tripId } = useParams();
+    const { tripId } = useParams();
 
-  const { trip, loading, error, refetch } =  useTrip(tripId);
+    const { trip, loading, error, refetch } =  useTrip(tripId);
 
-  return (
+    return (
         <div className="min-h-screen bg-gray-50 px-4 py-8 flex justify-center">
             <div className="w-full max-w-5xl flex flex-col gap-8">
                 <div className="bg-white rounded-3xl border border-gray-200 shadow-sm p-6">

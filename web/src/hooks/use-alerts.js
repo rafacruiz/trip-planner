@@ -2,24 +2,34 @@
 import { useState } from "react";
 
 export const useAlert = () => {
-    const [serverError, setServerError] = useState(null);
-    const [serverInfo, setServerInfo] = useState(null);
+    const [serverType, setServerType] = useState(null);
+    const [serverMessage, setServerMessage] = useState(null);
     const [activeAlert, setActiveAlert] = useState(false);
 
-    const showAlert = (message, type) => {
+    const showAlert = async (message, type) => {
         setActiveAlert(true);
+        setServerMessage(null);
+        setServerType(null);
 
-        setServerError(type === 'error' ? message : null);
-        setServerInfo(type !== 'error' ? message : null);
+        setServerType(type)
+        setServerMessage(message);
+        
+        if (type === 'errorValidation') {
+            let errors = null;
+            Object.keys(message).forEach((field) => {
+                errors = message[field].message;
+            });
 
-        setTimeout(() => {
-            setActiveAlert(false);
-        }, 3000);
+            setServerType('error');
+            setServerMessage(errors);
+        }
+       
+        setTimeout(() => setActiveAlert(false), 3000);
     };
 
     return {
-        serverError,
-        serverInfo,
+        serverType,
+        serverMessage,
         activeAlert,
         showAlert
     };

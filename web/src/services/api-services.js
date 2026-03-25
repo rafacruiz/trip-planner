@@ -15,10 +15,7 @@ http.interceptors.response.use(
             console.error('API Error:', data || err.message);
         }
 
-        return Promise.reject({
-            message: data || 'Bad Request',
-            status: status,
-        });
+        return Promise.reject(data);
     }
 );
 

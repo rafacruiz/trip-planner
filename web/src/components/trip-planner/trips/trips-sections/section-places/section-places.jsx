@@ -8,7 +8,7 @@ import { useAlert, useForm } from "../../../../../hooks";
 
 function PlacesSection({ trip, loading, error, refetch }) {
 
-  const { showAlert, serverError, serverInfo, activeAlert } = useAlert();
+  const { showAlert, serverType, serverMessage, activeAlert } = useAlert();
   
   const { values: places, handleChange, reset } = useForm({
     name: '',
@@ -27,7 +27,7 @@ function PlacesSection({ trip, loading, error, refetch }) {
           'success'
         );
       },
-      onError: (msg) => showAlert(msg, 'error'),
+      onError: (msg) => showAlert(msg, 'errorValidation'),
     });
   };
 
@@ -35,14 +35,14 @@ function PlacesSection({ trip, loading, error, refetch }) {
     handleAsyncAction({
       action: () => deletePlace(trip.id, placeId),
       onSuccess: async () => {
-        await refetch();
+        //await refetch();
         reset();
         showAlert(
           'You’ve removed a places from your trip’s list.',
-          'error'
+          'warning'
         );
       },
-      onError: (msg) => showAlert(msg, 'error'),
+      onError: (msg) => showAlert(msg, 'errorValidation'),
     });
   };
 
@@ -132,6 +132,16 @@ function PlacesSection({ trip, loading, error, refetch }) {
         "
       />
 
+      { activeAlert && (
+        <div className="mt-4 transition">
+          <Alert 
+            message={ serverMessage } 
+            type={ serverType } 
+            center 
+          />
+        </div>
+      )}
+
       <div className="flex justify-end">
         <button
           type="button"
@@ -160,12 +170,6 @@ function PlacesSection({ trip, loading, error, refetch }) {
         <EmptyState
           text="No places added yet"
         />
-      )}
-
-      {( serverInfo || serverError ) && activeAlert && (
-        <div className="mt-4 transition">
-          <Alert message={ serverInfo || serverError } type={ serverInfo ? 'success' : 'error' } center />
-        </div>
       )}
 
       <div className="flex flex-col gap-3">
