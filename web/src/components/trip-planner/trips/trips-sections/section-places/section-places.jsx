@@ -5,8 +5,11 @@ import { SectionHeader, EmptyState } from '../sections-utils';
 import { createPlace, deletePlace } from '../../../../../services/api-services';
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert, useForm } from "../../../../../hooks";
+import { useState } from "react";
 
-function PlacesSection({ trip, loading, error, refetch }) {
+function PlacesSection({ trip, loading }) {
+
+  const [placesArray, setPlacesArray] = useState(trip.places);
 
   const { showAlert, serverType, serverMessage, activeAlert } = useAlert();
   
@@ -19,9 +22,9 @@ function PlacesSection({ trip, loading, error, refetch }) {
   const handleAddPlaces = () => {
     handleAsyncAction({
       action: () => createPlace(trip.id, places),
-      onSuccess: async () => {
-        await refetch();
+      onSuccess: async () => {  
         reset();
+        setPlacesArray(prev => [...prev, places]);
         showAlert(
           'You’ve successfully created a new places to your trip!',
           'success'
@@ -35,8 +38,8 @@ function PlacesSection({ trip, loading, error, refetch }) {
     handleAsyncAction({
       action: () => deletePlace(trip.id, placeId),
       onSuccess: async () => {
-        //await refetch();
         reset();
+        setPlacesArray(placesArray.filter((place => place.id !== placeId)));
         showAlert(
           'You’ve removed a places from your trip’s list.',
           'warning'
@@ -166,7 +169,7 @@ function PlacesSection({ trip, loading, error, refetch }) {
         </button>
       </div>
 
-      { trip.places.length === 0 && (
+      { placesArray.length === 0 && (
         <EmptyState
           text="No places added yet"
         />
@@ -174,7 +177,7 @@ function PlacesSection({ trip, loading, error, refetch }) {
 
       <div className="flex flex-col gap-3">
         
-        { trip.places.map((place) => (
+        { placesArray.map((place) => (
           <div
             key={ place.id }
             className="
