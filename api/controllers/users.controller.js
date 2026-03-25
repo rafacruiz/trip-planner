@@ -61,16 +61,25 @@ export async function detail(req, res) {
     const user = await User.findById(id)
         .populate({
             path: 'trips',
+            
             options: { 
                 sort: { createdAt: -1 },
                 limit: 6 
+            },
+                populate: {
+                path: 'travelers.user',
+                select: 'username email avatar'
             }
         })
         .populate({
             path: 'tripsJoined',
-            options: { 
+            options: {
                 sort: { createdAt: -1 },
                 limit: 6
+            },
+                populate: {
+                path: 'travelers.user',
+                select: 'username email avatar'
             }
         });
 
@@ -80,8 +89,7 @@ export async function detail(req, res) {
     const totalJoinedTrips = 
         await Trip.countDocuments({ 
             travelers: { 
-                $elemMatch: {
-                user: id, role:'traveler'}
+                $elemMatch: { user: id, role:'traveler' }
             }
         }
     );
