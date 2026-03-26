@@ -15,9 +15,9 @@ function TripsItem({ trip }) {
                 hover:shadow-xl transition cursor-pointer"
         >
             <div className="relative h-44 overflow-hidden">
-                { trip.image ?
+                { trip.imageUrl ?
                     <img
-                    src={ trip.image }
+                    src={ trip.imageUrl }
                     alt={ trip.title }
                     className="w-full h-full object-cover group-hover:scale-105 transition duration-300"
                     />
