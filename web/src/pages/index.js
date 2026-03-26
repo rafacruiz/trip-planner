@@ -8,4 +8,5 @@ export { default as TripsPage } from './trips-page';
 export { default as TripsFormPage } from './trips-form-page';
 export { default as TripSetupPage } from './trips-setup-page';
 export { default as ExploreTripsPage } from './ExploreTripsPage';
+export { default as TripInvitationPage } from './trip-invite-page';
 export { default as NotFoundPage } from './404-page';
