@@ -82,6 +82,11 @@ const tripSchema = new mongoose.Schema({
         required: function () {
             return this.isSurprise;
         }
+    },
+    imageUrl: {
+        type: String,
+        trim: true,
+        minLength: 1
     }
 }, {
     timestamps: true,

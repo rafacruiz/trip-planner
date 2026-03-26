@@ -4,6 +4,7 @@ import Trip from '../models/trip.model.js';
 import User from '../models/user.model.js';
 import sanitizeText from '../utils/sanitize.text.js';
 import getCountryByCode from '../services/country.service.js';
+import getImageByCountry from '../services/images.services.js';
 
 function tripsSanitizeSurprise(data, userId) {
 
@@ -53,6 +54,8 @@ export async function create(req, res) {
 
     if (countryData.error) throw createHttpError(countryData.error, countryData.message);
 
+    const imageUrl = await getImageByCountry(countryData.name);
+
     const trip = await Trip.create({
         title,
         country: {
@@ -76,7 +79,8 @@ export async function create(req, res) {
             }))
         ],
         isSurprise,
-        revealDate
+        revealDate,
+        imageUrl
     });
 
     res.status(201).json(trip);
@@ -274,7 +278,12 @@ export async function addTraveler(req, res) {
 
     await TripCurrentTravelers.save();
 
-    res.status(204).send()
+    await TripCurrentTravelers.populate({
+        path: 'travelers.user',
+        select: 'name email avatar username bio'
+    });
+
+    res.status(201).json(TripCurrentTravelers.travelers);
 }
 
 export async function delTraveler(req, res) {
