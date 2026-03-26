@@ -1,6 +1,7 @@
 
 import { Link, useParams } from "react-router-dom";
 import TripsSetupProgress from "../trips-setup-progress/trips-setup-progress";
+import TripSetupSkeleton from './trips-setup-skeleton';
 import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
 import { useTrip } from '../../../../hooks';
 
@@ -8,7 +9,9 @@ function TripsSetup() {
 
     const { tripId } = useParams();
 
-    const { trip, loading, error, refetch } =  useTrip(tripId);
+    const { trip, loading } =  useTrip(tripId);
+
+    if (loading) return <TripSetupSkeleton />;
 
     return (
         <div className="min-h-screen bg-gray-50 px-4 py-8 flex justify-center">
@@ -31,28 +34,22 @@ function TripsSetup() {
                 <TravelersSection 
                     trip={ trip } 
                     loading={ loading } 
-                    error={ error } 
-                    refetch={ refetch }
                 />
 
                 <PlacesSection 
                     trip={ trip } 
                     loading={ loading } 
-                    error={ error } 
-                    refetch={ refetch } 
                 />
 
                 <ActivitiesSection 
                     trip={ trip } 
                     loading={ loading } 
-                    error={ error } 
-                    refetch={ refetch } 
                 />
 
                 <div className="flex justify-between items-center">
                 
                     <Link
-                        to={`/trips/${tripId}`}
+                        to={`/`}
                         className="
                         px-6 py-3
                         rounded-2xl
