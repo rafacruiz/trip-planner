@@ -15,11 +15,17 @@ export const useAlert = () => {
         setServerMessage(message);
         
         if (type === 'errorValidation') {
-            let errors = null;
-            Object.keys(message).forEach((field) => {
-                errors = message[field].message;
-            });
 
+            let errors = null;
+
+            if (typeof message === "string") {
+                errors = message;
+            } else {
+                Object.keys(message).forEach((field) => {
+                    errors = message[field].message;
+                });
+            }
+            
             setServerType('error');
             setServerMessage(errors);
         }
