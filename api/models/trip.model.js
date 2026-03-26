@@ -69,7 +69,12 @@ const tripSchema = new mongoose.Schema({
             type: String,
             required: [true, 'Role is required'],
             enum: ['traveler'],
-            default: "traveler"
+            default: 'traveler'
+        },
+        status: { 
+            type: String, 
+            enum: ['pending', 'accepted', 'rejected'],
+            default: 'pending'
         }
     }],
     isSurprise: {

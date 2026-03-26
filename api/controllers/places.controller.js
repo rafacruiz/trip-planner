@@ -17,6 +17,7 @@ export async function create(req, res) {
     });
     
     res.json({
+        id: place.id,
         name: place.name,
         location: place.location,
         notes: place.notes,

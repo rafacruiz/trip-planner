@@ -77,11 +77,13 @@ export async function create(req, res) {
         travelers: [
             { 
                 user: req.session.user.id, 
-                role: 'traveler'
+                role: 'traveler',
+                status: 'accepted'
             }, 
             ...users.map(user => ({
                 user: user.id,
-                role: "traveler"
+                role: "traveler",
+                status: 'pending'
             }))
         ],
         isSurprise,
@@ -280,16 +282,22 @@ export async function addTraveler(req, res) {
     
     if (exists) throw createHttpError(409, 'Traveler already in this trip');
 
-    tripCurrentTravelers.travelers.push({ user: req.body.userId, role: "traveler" });
+    tripCurrentTravelers
+        .travelers
+        .push({ 
+            user: req.body.userId, 
+            role: "traveler", 
+            status: 'accepted' 
+        });
 
     await tripCurrentTravelers.save();
 
-    await TripCurrentTravelers.populate({
+    await tripCurrentTravelers.populate({
         path: 'travelers.user',
         select: 'name email avatar username bio'
     });
 
-    res.status(201).json(TripCurrentTravelers.travelers);
+    res.status(201).json(tripCurrentTravelers.travelers);
 }
 
 export async function delTraveler(req, res) {
@@ -329,9 +337,21 @@ export async function inviteTraveler(req, res) {
 
     if(!invite) throw createHttpError(400, 'Error generation token');
 
-    const linkInvite = process.env.CORS_ORIGIN + `confirm-invite?trip=${ tripId }&token=${ token }`;
+    const linkInvite = process.env.CORS_ORIGIN + `/invitations?token=${ token }&trip=${ tripId }`;
 
     console.log('Link Invite: ', linkInvite);
+
+    const userInvite = await Trip.findById(tripId);
+
+    userInvite
+        .travelers
+        .push({ 
+            user: userId, 
+            role: 'traveler', 
+            status: 'pending' 
+        });
+
+    await userInvite.save();
 
     res.status(201).send();
 }
@@ -352,21 +372,24 @@ export async function confirmInviteTraveler(req, res) {
 
     if (invite.expireAt < new Date()) throw createHttpError(400, 'Expired Token');
 
-    const tripCurrentTravelers = await Trip.findById(tripId);
+    const tripCurrent = await Trip.findById(tripId);
     
-    if (!tripCurrentTravelers) throw createHttpError(404, 'Trip not found');
+    if (!tripCurrent) throw createHttpError(404, 'Trip not found');
 
-    const exists = tripCurrentTravelers.travelers.some(traveler => 
-        traveler.user.toString() === user.toString());
+    const exists = tripCurrent.travelers.some(traveler => 
+        traveler.user.toString() === user.toString() && 
+        traveler.user.status === 'accepted');
     
     if (exists) throw createHttpError(409, 'Traveler already in this trip');
 
-    tripCurrentTravelers.travelers.push({ 
-        user, 
-        role: "traveler" 
-    });
-
-    await tripCurrentTravelers.save();
+    await Trip.findOneAndUpdate(
+        { 
+            _id: tripId,
+            'travelers.user': user
+        },
+        { $set: { 'travelers.$.status': 'accepted' } },
+        { new: true }
+    );
 
     Object.assign(
         invite, { 

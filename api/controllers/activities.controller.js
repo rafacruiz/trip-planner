@@ -13,8 +13,10 @@ export async function create(req, res) {
     });
     
     res.json({
+        id: activity.id,
         title: activity.title,
         trip: activity.trip,
+        completed: activity.completed,
         author: activity.author
     });
 }
