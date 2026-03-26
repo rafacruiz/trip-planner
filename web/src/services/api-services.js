@@ -61,6 +61,16 @@ export const updateTrip = (tripId, data) =>
 export const deleteTrip = (tripId) =>
     http.delete(`/trips/${tripId}`);
 
+
+export const inviteTravelerTrip = (tripId, data) =>
+    http.post(`/trips/${tripId}/invite`, data);
+
+export const acceptInviteTravelerTrip = (data) =>
+    http.post('/trips/invitations/accept', data);
+
+export const declineInviteTravelerTrip = (data) =>
+    http.post('/trips/invitations/decline', data);
+
 export const addTravelerTrip = (tripId, data) =>
     http.patch(`/trips/${tripId}/add-traveler`, data);
 
