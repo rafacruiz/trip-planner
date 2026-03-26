@@ -1,6 +1,6 @@
 
 import { Routes, Route } from 'react-router';
-
+import ScrollToTop from './components/trip-planner/utils/scrollToTop';
 import { 
   DashboardPage, 
   ExploreTripsPage, 
@@ -8,6 +8,7 @@ import {
   NotFoundPage, 
   ProfilePage, 
   SignupPage, 
+  TripInvitationPage, 
   TripSetupPage, 
   TripsFormPage, 
   TripsPage, 
@@ -20,6 +21,8 @@ function App() {
   
   return (
     <>
+      <ScrollToTop />
+
       <Routes>
         <Route path='/login' 
           element={ <LoginPage /> } />
@@ -47,6 +50,9 @@ function App() {
 
         <Route path='/trips/:tripId/setup'
           element={ <TripSetupPage /> } />
+
+        <Route path='/invitations'
+          element={ <TripInvitationPage />} />
 
         <Route path='*' 
           element={ <NotFoundPage /> } />
