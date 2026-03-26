@@ -1,24 +1,22 @@
 
-import { SectionHeader, EmptyState } from '../sections-utils';
-import { Alert } from '../../../../ui';
-import { useEffect, useState } from "react";
-import { listUsers, addTravelerTrip, deleteTravelerTrip } from '../../../../../services/api-services';
 import { BounceLoader } from "react-spinners";
+import { Alert } from '../../../../ui';
+import { SectionHeader, EmptyState } from '../sections-utils';
+import { useEffect, useState } from "react";
+import { handleAsyncAction } from '../../../utils/async-action';
+import { useAlert } from "../../../../../hooks";
+import { listUsers, inviteTravelerTrip, deleteTravelerTrip } from '../../../../../services/api-services';
 
-function TravelersSection({ trip, loading, error, refetch }) {
+function TravelersSection({ trip, loading }) {
 
-  const [search, setSearch] = useState({
-    search: '',
-  });
+  const [search, setSearch] = useState({ search: '' });
   
-  const [serverError, setServerError] = useState(null);
-  
-  const [serverInfo, setServerInfo] = useState(null);
-
-  const [activeAlert, setActiveAlert] = useState(false);
-
   const [users, setUsers] = useState(null);
-    
+
+  const [travelersInvite, setTravelersInvite] = useState(trip?.travelers);
+  
+  const { showAlert, serverType, serverMessage, activeAlert } = useAlert();
+  
   useEffect(() => {
     const fetchUsers = async () => {
       setUsers(null);
@@ -32,65 +30,57 @@ function TravelersSection({ trip, loading, error, refetch }) {
     fetchUsers();
   }, [search.search]);
 
-  const handleAddTraveler = async (userId) => {
-    setServerInfo(null);
-    setServerError(null);
+  const handleInviteTraveler = (userId) => {
 
-    try {
-      await addTravelerTrip( trip.id, { userId } );
-
-      await refetch();
-      
-      toastAlert(
-        'You’ve successfully invited a new traveler to your trip!',
-        'success'
-      );
-    } catch (error) {
-      console.error(error?.message);
-      setServerError(error?.message);  
-      toastAlert(
-        error?.message, 
-        'error'
-      );
-    }
-  }
-
-  const handleRemoveTraveler = async (userId) => {
-    setServerInfo(null);
-    setServerError(null);
-
-    try {
-      await deleteTravelerTrip(trip.id, { userId });
-      
-      await refetch();
-  
-      toastAlert(
-        'You’ve removed a traveler from your trip’s list.',
-        'error'
-      );
-    } catch (error) {
-      console.error(error?.message);
-      setServerError(error?.message);  
-      toastAlert(
-        error?.message, 
-        'error'
-      );
-    }
-  };
-
-  const toastAlert = (message, type) => {
-    setActiveAlert(true);
-
-    const timeout = setTimeout(() => {
-      setActiveAlert(false);
-      setSearch({search: ''});
-    }, 3000);
+    const userSelected = users.find(user => user.id === userId);
     
-    setServerInfo(type === 'success' ? message : null);
-    setServerError(type === 'error' ? message : null);
+    handleAsyncAction({
+      action: () => inviteTravelerTrip(trip.id, { userId }),
+
+      onSuccess: async () => {  
+
+        const userInvite = { 
+          id: userId, 
+          status: 'pending', 
+          role: 'traveler',
+          user: { ...userSelected }
+        };
+    
+        setTravelersInvite(prev => [...prev, userInvite]);
+
+        showAlert(
+          'You’ve successfully invited a new traveler to your trip!',
+          'success'
+        );
+
+        setSearch('');
+      },
+      onError: (msg) => showAlert(msg.message, 'errorValidation'),
+    });
   };
 
+  const handleRemoveTraveler = (userId) => {
 
+    handleAsyncAction({
+    
+      action: () => deleteTravelerTrip(trip.id, { userId }),
+    
+      onSuccess: async () => {
+        const travelers = travelersInvite.filter(traveler => traveler.user.id !== userId);
+       
+        setTravelersInvite(travelers);
+       
+        showAlert(
+          'You’ve removed a traveler from your trip’s list.',
+          'warning'
+        );
+       
+        setSearch('');
+      },
+      onError: (msg) => showAlert(msg.message, 'errorValidation'),
+    });
+  };
+    
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 
   return (  
@@ -178,7 +168,7 @@ function TravelersSection({ trip, loading, error, refetch }) {
               return (
                 <div
                   key={ user.id }
-                  onClick={() => handleAddTraveler( user.id )}
+                  onClick={() => handleInviteTraveler( user.id )}
                   className="
                     flex items-center justify-between
                     gap-3
@@ -228,15 +218,19 @@ function TravelersSection({ trip, loading, error, refetch }) {
         </div>
       </div>
 
-      {( serverInfo || serverError ) && activeAlert && (
+      { activeAlert && (
         <div className="mt-4 transition">
-          <Alert message={ serverInfo || serverError } type={ serverInfo ? 'success' : 'error' } center />
+          <Alert 
+            message={ serverMessage } 
+            type={ serverType } 
+            center 
+          />
         </div>
       )}
 
       <div className="flex flex-wrap gap-2 mt-2 animate-fade-in">
         
-        { trip?.travelers?.map((traveler) => (
+        { travelersInvite?.map((traveler) => (
           <div
             key={ traveler.user.id }
             className="

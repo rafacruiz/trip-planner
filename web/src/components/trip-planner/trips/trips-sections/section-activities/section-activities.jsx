@@ -5,27 +5,30 @@ import { SectionHeader, EmptyState } from '../sections-utils';
 import { createActivity, deleteActivity } from '../../../../../services/api-services';
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert, useForm } from "../../../../../hooks";
+import { useState } from "react";
 
-function ActivitiesSection({ trip, loading, error, refetch }) {
+function ActivitiesSection({ trip, loading }) {
 
-  const { showAlert, serverError, serverInfo, activeAlert } = useAlert();
+  const [activitiesArray, setActivitiesArray] = useState(trip?.activities);
+  
+  const { showAlert, serverType, serverMessage, activeAlert } = useAlert();
 
   const { values: activity, handleChange, reset } = useForm({
     title: ''
   });
-
+  
   const handleAddActivity = () => {
     handleAsyncAction({
       action: () => createActivity(trip.id, activity),
-      onSuccess: async () => {
-        await refetch();
+      onSuccess: async (res) => {
         reset();
+        setActivitiesArray(prev => [...prev, res]);
         showAlert(
-          'You’ve successfully created a new places to your trip!', 
+          'You’ve successfully created a new activity to your trip!', 
           'success'
         );
       },
-      onError: (msg) => showAlert(msg, 'error'),
+      onError: (msg) => showAlert(msg, 'errorValidation'),
     });
   };
 
@@ -33,14 +36,14 @@ function ActivitiesSection({ trip, loading, error, refetch }) {
     handleAsyncAction({
       action: () => deleteActivity(trip.id, activityId),
       onSuccess: async () => {
-        await refetch();
         reset();
+        setActivitiesArray(activitiesArray.filter((activity => activity.id !== activityId)));
         showAlert(
-          'You’ve removed a places from your trip’s list.',
-          'error'
+          'You’ve removed a activity from your trip’s list.',
+          'warning'
         );
       },
-      onError: (msg) => showAlert(msg, 'error'),
+      onError: (msg) => showAlert(msg, 'errorValidation'),
     });
   };
 
@@ -116,25 +119,25 @@ function ActivitiesSection({ trip, loading, error, refetch }) {
         </div>
       </div>
 
-      { trip.activities.length === 0 && (
-        <EmptyState
-          text="No activities yet"
-        />
-      )}
-
-      {( serverInfo || serverError ) && activeAlert && (
+      { activeAlert && (
         <div className="mt-4 transition">
           <Alert 
-            message={ serverInfo || serverError } 
-            type={ serverInfo ? 'success' : 'error' } 
+            message={ serverMessage } 
+            type={ serverType } 
             center 
           />
         </div>
       )}
 
+      { activitiesArray?.length === 0 && (
+        <EmptyState
+          text="No activities yet"
+        />
+      )}
+
       <div className="flex flex-col gap-3">
         
-        { trip.activities.map((activity) => (
+        { activitiesArray?.map((activity) => (
           <div
             key={ activity.id }
             className="

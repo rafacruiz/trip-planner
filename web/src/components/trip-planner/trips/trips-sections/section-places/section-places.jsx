@@ -8,9 +8,9 @@ import { useAlert, useForm } from "../../../../../hooks";
 import { useState } from "react";
 
 function PlacesSection({ trip, loading }) {
-
-  const [placesArray, setPlacesArray] = useState(trip.places);
-
+  
+  const [placesArray, setPlacesArray] = useState(trip?.places);
+  
   const { showAlert, serverType, serverMessage, activeAlert } = useAlert();
   
   const { values: places, handleChange, reset } = useForm({
@@ -22,9 +22,9 @@ function PlacesSection({ trip, loading }) {
   const handleAddPlaces = () => {
     handleAsyncAction({
       action: () => createPlace(trip.id, places),
-      onSuccess: async () => {  
+      onSuccess: async (res) => {  
         reset();
-        setPlacesArray(prev => [...prev, places]);
+        setPlacesArray(prev => [...prev, res]);
         showAlert(
           'You’ve successfully created a new places to your trip!',
           'success'
@@ -169,7 +169,7 @@ function PlacesSection({ trip, loading }) {
         </button>
       </div>
 
-      { placesArray.length === 0 && (
+      { placesArray?.length === 0 && (
         <EmptyState
           text="No places added yet"
         />
@@ -177,7 +177,7 @@ function PlacesSection({ trip, loading }) {
 
       <div className="flex flex-col gap-3">
         
-        { placesArray.map((place) => (
+        { placesArray?.map((place) => (
           <div
             key={ place.id }
             className="
