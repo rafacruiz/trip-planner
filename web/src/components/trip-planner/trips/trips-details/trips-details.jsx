@@ -6,7 +6,7 @@ import { useTrip } from '../../../../hooks';
 import TripDetailSkeleton from "./trips-details-skeleton";
 import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
 import { updateStatePlace, updateStateActivity } from '../../../../services/api-services';
-
+import { Loading } from "../../../ui";
 
 function ProgressBar({ value, total }) {
     const percent = total === 0 ? 0 : Math.round((value / total) * 100);
@@ -31,6 +31,7 @@ function ViewDescription({ text }) {
     return <div dangerouslySetInnerHTML={{ __html: text }} />;
 }
 
+
 function TripsDetails() {
     
     const { tripId } = useParams();
@@ -45,10 +46,9 @@ function TripsDetails() {
         return <TripDetailSkeleton />;
     }
 
-    if (!trip) return null;
-
     const handleEdit = () => {
         setEdit(prev => !prev);
+        refetch();
     };
 
     const handleCheck = async ({ action, id, data }) => {
@@ -61,6 +61,7 @@ function TripsDetails() {
     };
 
     const visitedPlaces = trip.places.filter(p => p.visited).length;
+
     const completedActivities = trip.activities.filter(a => a.completed).length;
 
     const revealReached = new Date() >= new Date(trip.revealDate);
@@ -70,42 +71,108 @@ function TripsDetails() {
             { !loading && trip && (
                 <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
                     <div className="relative h-72 w-full overflow-hidden">
-                        <div className="absolute inset-0 bg-gradient-to-br from-blue-500 via-indigo-500 to-purple-500" />
-                            <div className="absolute inset-0 bg-black/40 backdrop-blur-[2px]" />
+                        <div className="
+                            relative 
+                            h-72 
+                            w-full 
+                            overflow-hidden
+                            rounded-b-3xl
+                        ">
+                            <div className="
+                                absolute 
+                                inset-0
+                                bg-center
+                                bg-cover
+                                bg-no-repeat
+                                transition-transform
+                                duration-[4000ms]
+                                hover:scale-105
+                            "
+                                style={{
+                                    backgroundImage: trip?.imageUrl
+                                        ? `url(${trip.imageUrl})`
+                                        : `linear-gradient(
+                                            to bottom right,
+                                            #3b82f6,
+                                            #6366f1,
+                                            #a855f7
+                                        )`
+                                }}
+                            />
 
-                            <div className="absolute bottom-8 left-8 text-white">
-                                <h1 className="text-4xl font-bold tracking-tight">
-                                    { trip.title }
+                            <div className="
+                                absolute 
+                                inset-0 
+                                bg-gradient-to-t 
+                                from-black/80
+                                via-black/40
+                                to-transparent
+                            " />
+
+                            <div className="
+                                absolute 
+                                inset-0 
+                                backdrop-blur-[1.5px]
+                            " />
+
+                            <div className="
+                                absolute 
+                                bottom-8 
+                                left-8 
+                                text-white
+                                max-w-xl
+                            ">
+                                <h1 className="
+                                    text-4xl 
+                                    font-bold 
+                                    tracking-tight
+                                    drop-shadow-xl
+                                ">
+                                    {trip.title}
                                 </h1>
 
-                                <p className="text-sm opacity-90 mt-1">
-                                    { trip.country?.flag } { trip.country?.name }
+                                <p className="
+                                    text-sm 
+                                    opacity-95 
+                                    mt-1
+                                    drop-shadow-md
+                                ">
+                                    {trip.country?.flag} {trip.country?.name}
                                 </p>
                             </div>
 
                             {user.id.toString() === trip.userOwner.id.toString() && (
+
                                 <button
-                                onClick={handleEdit}
-                                className="
-                                    absolute top-6 right-6
-                                    flex items-center gap-2
-                                    bg-white/90
-                                    backdrop-blur
-                                    px-4 py-2
-                                    rounded-xl
-                                    text-sm font-medium
-                                    text-gray-700
-                                    shadow-sm
-                                    hover:bg-white
-                                    hover:shadow-md
-                                    transition
-                                    cursor-pointer
-                                "
+                                    onClick={handleEdit}
+                                    className="
+                                        absolute 
+                                        top-6 
+                                        right-6
+                                        flex 
+                                        items-center 
+                                        gap-2
+                                        bg-white/90
+                                        backdrop-blur
+                                        px-4 
+                                        py-2
+                                        rounded-xl
+                                        text-sm 
+                                        font-medium
+                                        text-gray-700
+                                        shadow-md
+                                        hover:bg-white
+                                        hover:shadow-lg
+                                        hover:scale-[1.02]
+                                        transition
+                                        cursor-pointer
+                                    "
                                 >
-                                ✏️ Edit Trip
+                                    ✏️ Edit Trip
                                 </button>
                             )}
                         </div>
+                    </div>
 
                     <main className="max-w-6xl mx-auto px-6 py-10 space-y-8">
                         {trip.isSurprise && !revealReached && (
@@ -178,7 +245,7 @@ function TripsDetails() {
                                 <div className="flex gap-3 flex-wrap">
                                     {trip.travelers.map(traveler => (
                                         <div
-                                        key={traveler.id}
+                                        key={ traveler.id }
                                         className="
                                             flex items-center gap-2
                                             px-3 py-2
@@ -190,27 +257,32 @@ function TripsDetails() {
                                             transition"
                                         >
                                             <img
-                                                src={traveler.user.avatar}
-                                                className="
-                                                w-9 h-9
-                                                rounded-full
-                                                object-cover
-                                                border border-gray-200
-                                                "
+                                                src={ traveler.user.avatar }
+                                                title={`${ traveler?.status } approval`}
+                                                className={`
+                                                    w-9 h-9
+                                                    rounded-full
+                                                    object-cover
+                                                    border border-gray-200
+                                                    ${ traveler?.status === 'pending' 
+                                                        ? "grayscale opacity-50" 
+                                                        : "" 
+                                                    }
+                                                `}
                                             />
 
                                             <span className="text-sm font-medium text-gray-700">
-                                                {traveler.name}
+                                                { traveler.name }
                                             </span>
 
                                             <span className={`
                                                 text-xs px-2 py-0.5 rounded-full font-medium
 
-                                                ${traveler.user.id === trip.userOwner.id
+                                                ${ traveler.user.id === trip.userOwner.id
                                                 ? "bg-blue-100 text-blue-700"
                                                 : "bg-gray-200 text-gray-600"}
                                             `}>
-                                                {traveler.user.id === trip.userOwner.id
+                                                { traveler.user.id === trip.userOwner.id
                                                 ? "Owner"
                                                 : "Traveler"}
                                             </span>
@@ -221,9 +293,7 @@ function TripsDetails() {
                         :
                             <TravelersSection 
                                 trip={ trip } 
-                                loading={ loading } 
-                                error={ error } 
-                                refetch={ refetch }
+                                loading={ loading }
                             />
                         }
 
@@ -293,8 +363,6 @@ function TripsDetails() {
                             <PlacesSection 
                                 trip={ trip } 
                                 loading={ loading } 
-                                error={ error } 
-                                refetch={ refetch } 
                             />
                         }
 
@@ -350,9 +418,7 @@ function TripsDetails() {
                         :
                              <ActivitiesSection 
                                 trip={ trip } 
-                                loading={ loading } 
-                                error={ error } 
-                                refetch={ refetch } 
+                                loading={ loading }  
                             />
                         }
 
