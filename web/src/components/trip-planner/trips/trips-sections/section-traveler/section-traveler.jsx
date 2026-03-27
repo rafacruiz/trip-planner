@@ -1,7 +1,7 @@
 
 import { BounceLoader } from "react-spinners";
 import { Alert } from '../../../../ui';
-import { SectionHeader, EmptyState } from '../sections-utils';
+import { SectionHeader, EmptyState } from '../utils-trips';
 import { useEffect, useState } from "react";
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert } from "../../../../../hooks";
@@ -80,6 +80,7 @@ function TravelersSection({ trip, loading }) {
       onError: (msg) => showAlert(msg.message, 'errorValidation'),
     });
   };
+
     
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 

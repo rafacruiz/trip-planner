@@ -4,9 +4,9 @@ import { BounceLoader } from "react-spinners";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate } from "react-router-dom";
+import { SelectCountry } from '../utils';
 import WYSIWYG from "react-simple-wysiwyg";
 import * as ServicesApi from '../../../../services/api-services';
-import SelectCountry from "../../../ui/select-country/select-country";
 
 const validations = {
     title: { 

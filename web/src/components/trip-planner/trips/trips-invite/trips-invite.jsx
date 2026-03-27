@@ -1,9 +1,8 @@
 
+import { Alert } from '../../../ui';
 import InvitationSkeleton from './trip-invite-skeleton';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useTrip } from '../../../../hooks/use-trip';
-import { useAlert } from '../../../../hooks/use-alerts';
-import { Alert } from '../../../ui';
+import { useTrip, useAlert } from '../../../../hooks';
 import { acceptInviteTravelerTrip, declineInviteTravelerTrip } from '../../../../services/api-services';
 
 function TripInvitation() {

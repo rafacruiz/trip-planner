@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from "react";
-import { listCountries } from '../../../services/api-services';
+import { listCountries } from '../../../../services/api-services';
 
 function SelectCountry({ name = true }) {
 

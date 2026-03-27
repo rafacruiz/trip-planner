@@ -1,6 +1,6 @@
 
 import { Link } from "react-router-dom";
-import TripDate from "../trips-utils/date-trips";
+import { TripDateFormat } from "../utils";
 
 function TripsCommunity({ trip }) {
 
@@ -38,7 +38,7 @@ function TripsCommunity({ trip }) {
                     </h3>
                 ) : (
                     <div className="text-xs text-gray-500 mt-1">
-                        <TripDate
+                        <TripDateFormat
                             startDate={ trip.startDate }
                             endDate={ trip.endDate }
                             isSurprise={ trip.isSurprise }

@@ -1,8 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { useAuth } from '../../../../contexts';
-
-import TripDate from '../trips-utils/date-trips';
+import { TripDateFormat } from '../utils';
 
 function TripsItem({ trip }) {
 
@@ -42,7 +41,7 @@ function TripsItem({ trip }) {
                 </h3>
 
                 <div className="flex items-center gap-2 text-sm text-gray-500 mt-2">
-                    <TripDate 
+                    <TripDateFormat 
                         startDate={ trip.startDate } 
                         endDate={ trip.endDate } 
                         isSurprise={ trip.isSurprise } 

@@ -1,7 +1,7 @@
 
-import SelectCountry from "../../select-country/select-country";
+import { SelectCountry } from "../utils";
 
-function ButtonFilters({ filters, setFilters }) {
+function TripsSearchFilters({ filters, setFilters }) {
 
     const clearAll = () => {
         setFilters({
@@ -175,4 +175,4 @@ function ButtonFilters({ filters, setFilters }) {
     );
 }
 
-export default ButtonFilters;
+export default TripsSearchFilters;

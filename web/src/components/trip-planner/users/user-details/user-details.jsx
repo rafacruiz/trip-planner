@@ -8,7 +8,7 @@ function UserDetails() {
 
     const { userId } = useParams();
 
-    const {user, loading, error, userStats } = useUser(userId);
+    const { user, loading, error, userStats } = useUser(userId);
 
     if (loading) return <Loading/>;
 
@@ -31,7 +31,7 @@ function UserDetails() {
                     <div className="pt-16 pb-8 px-8 text-center">
                         <div className="flex flex-col items-center gap-2">
                             <h1 className="text-3xl font-bold text-gray-800 tracking-tight">
-                                {user?.username}
+                                { user?.username }
                             </h1>
                             <span className="px-3 py-1 text-xs font-medium bg-blue-100 text-blue-600 rounded-full">
                                 Traveler
@@ -46,11 +46,11 @@ function UserDetails() {
                                     <path
                                     strokeLinecap="round"
                                     strokeLinejoin="round"
-                                    strokeWidth={1.5}
+                                    strokeWidth={ 1.5 }
                                     d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
                                     />
                                 </svg>
-                                Joined {new Date(user?.createdAt).toLocaleDateString()}
+                                Joined { new Date(user?.createdAt).toLocaleDateString() }
                             </p>
                         </div>
 
@@ -67,18 +67,18 @@ function UserDetails() {
                                 hover:shadow-md 
                                 transition">
                                 <p className="text-gray-700 text-sm leading-relaxed text-center">
-                                    {user?.bio || "This user hasn’t added a bio yet."}
+                                    { user?.bio || "This user hasn’t added a bio yet." }
                                 </p>
                             </div>
                         </div>
                         
                         <div className="grid grid-cols-2 gap-6 mt-8">
                             <div className="bg-blue-50 rounded-2xl p-4">
-                                <p className="text-2xl font-bold text-blue-600">{userStats?.totalOwnedTrips || 0}</p>
+                                <p className="text-2xl font-bold text-blue-600">{ userStats?.totalOwnedTrips || 0 }</p>
                                 <p className="text-xs text-gray-500">Trips created</p>
                             </div>
                             <div className="bg-indigo-50 rounded-2xl p-4">
-                                <p className="text-2xl font-bold text-indigo-600">{userStats?.totalJoinedTrips || 0}</p>
+                                <p className="text-2xl font-bold text-indigo-600">{ userStats?.totalJoinedTrips || 0 }</p>
                                 <p className="text-xs text-gray-500">Trips joined</p>
                             </div>
                         </div>
@@ -86,13 +86,13 @@ function UserDetails() {
                         <div className="mt-8 text-left space-y-4">
                             <div className="bg-gray-50 rounded-xl p-4">
                                 <p className="text-xs text-gray-400">Email</p>
-                                <p className="text-sm text-gray-700">{user?.email}</p>
+                                <p className="text-sm text-gray-700">{ user?.email }</p>
                             </div>
                         </div>
 
                         <div className="flex justify-center gap-4 mt-8">
                             <Link
-                                to={`/trips?traveler=${user.id}`}  
+                                to={ `/trips?traveler=${user.id}` }  
                                 className="w-30 py-2 rounded-xl border border-gray-200 text-sm text-gray-600 hover:bg-gray-50 transition">
                                 Go trips!
                             </Link>

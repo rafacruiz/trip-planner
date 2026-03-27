@@ -1,7 +1,7 @@
 
 import { BounceLoader } from "react-spinners";
 import { Alert } from "../../../../ui";
-import { SectionHeader, EmptyState } from '../sections-utils';
+import { SectionHeader, EmptyState } from '../utils-trips';
 import { createPlace, deletePlace } from '../../../../../services/api-services';
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert, useForm } from "../../../../../hooks";
@@ -20,6 +20,7 @@ function PlacesSection({ trip, loading }) {
   });
 
   const handleAddPlaces = () => {
+    
     handleAsyncAction({
       action: () => createPlace(trip.id, places),
       onSuccess: async (res) => {  
@@ -35,6 +36,7 @@ function PlacesSection({ trip, loading }) {
   };
 
   const handleRemovePlaces = (placeId) => {
+
     handleAsyncAction({
       action: () => deletePlace(trip.id, placeId),
       onSuccess: async () => {
@@ -48,6 +50,7 @@ function PlacesSection({ trip, loading }) {
       onError: (msg) => showAlert(msg, 'errorValidation'),
     });
   };
+  
 
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 

@@ -1,6 +1,8 @@
 
+import ScrollToTop from './components/trip-planner/utils/scroll-to-top';
+
 import { Routes, Route } from 'react-router';
-import ScrollToTop from './components/trip-planner/utils/scrollToTop';
+
 import { 
   DashboardPage, 
   ExploreTripsPage, 

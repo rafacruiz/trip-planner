@@ -12,7 +12,7 @@ function tripDays(start, end) {
     return Math.ceil(diff / (1000 * 60 * 60 * 24));
 }
 
-function TripDate({ startDate, endDate, isSurprise, revealDate }) {
+function TripDateFormat({ startDate, endDate, isSurprise, revealDate }) {
 
     if (isSurprise) {
         const reveal = new Date(revealDate);
@@ -42,4 +42,4 @@ function TripDate({ startDate, endDate, isSurprise, revealDate }) {
     );
 }
 
-export default TripDate;
+export default TripDateFormat;

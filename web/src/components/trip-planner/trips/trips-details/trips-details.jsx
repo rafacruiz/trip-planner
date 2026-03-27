@@ -1,12 +1,12 @@
 
+import TripDetailSkeleton from "./trips-details-skeleton";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import { useAuth } from '../../../../contexts/auth-context';
 import { useTrip } from '../../../../hooks';
-import TripDetailSkeleton from "./trips-details-skeleton";
 import { TravelersSection, PlacesSection, ActivitiesSection } from '../trips-sections';
 import { updateStatePlace, updateStateActivity } from '../../../../services/api-services';
-import { Loading } from "../../../ui";
+import SanitizedHtml from '../../utils/sanitized-html';
 
 function ProgressBar({ value, total }) {
     const percent = total === 0 ? 0 : Math.round((value / total) * 100);
@@ -26,11 +26,6 @@ function ProgressBar({ value, total }) {
         </div>
     );
 }
-
-function ViewDescription({ text }) {
-    return <div dangerouslySetInnerHTML={{ __html: text }} />;
-}
-
 
 function TripsDetails() {
     
@@ -223,7 +218,7 @@ function TripsDetails() {
                                     leading-relaxed
                                     whitespace-pre-line
                                 ">
-                                    { <ViewDescription text={ trip.description } /> }
+                                    { <SanitizedHtml text={ trip.description } /> }
                                 </div>
                             ) : (
                                 <div className="

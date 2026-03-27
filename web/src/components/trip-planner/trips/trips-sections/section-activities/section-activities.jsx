@@ -1,7 +1,7 @@
 
 import { BounceLoader } from "react-spinners";
 import { Alert } from "../../../../ui";
-import { SectionHeader, EmptyState } from '../sections-utils';
+import { SectionHeader, EmptyState } from '../utils-trips';
 import { createActivity, deleteActivity } from '../../../../../services/api-services';
 import { handleAsyncAction } from '../../../utils/async-action';
 import { useAlert, useForm } from "../../../../../hooks";
@@ -18,6 +18,7 @@ function ActivitiesSection({ trip, loading }) {
   });
   
   const handleAddActivity = () => {
+
     handleAsyncAction({
       action: () => createActivity(trip.id, activity),
       onSuccess: async (res) => {
@@ -33,6 +34,7 @@ function ActivitiesSection({ trip, loading }) {
   };
 
   const handleRemoveActivity = (activityId) => {
+    
     handleAsyncAction({
       action: () => deleteActivity(trip.id, activityId),
       onSuccess: async () => {
@@ -46,6 +48,7 @@ function ActivitiesSection({ trip, loading }) {
       onError: (msg) => showAlert(msg, 'errorValidation'),
     });
   };
+  
 
   if (loading) return <BounceLoader size={ 18 } color="#fff" />;
 

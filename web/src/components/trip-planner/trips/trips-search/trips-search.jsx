@@ -1,8 +1,9 @@
 
 import { useState } from 'react';
 import { useLocation } from 'react-router-dom';
-import { ButtonFilters, Loading, Pagination } from '../../../ui';
+import { Loading, Pagination } from '../../../ui';
 import { useTrips } from "../../../../hooks";
+import TripsSearchFilters from '../trips-search-filters/trips-search-filters';
 import TripsList  from "../trips-list/trips-list";
 
 function TripsSearch() {
@@ -46,7 +47,7 @@ function TripsSearch() {
     return (
         <>
             <div className="pb-10">
-                <ButtonFilters 
+                <TripsSearchFilters 
                     filters={ filters } 
                     setFilters={ setFilters } 
                 />
