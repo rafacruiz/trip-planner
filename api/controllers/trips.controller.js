@@ -88,7 +88,7 @@ export async function create(req, res) {
         ],
         isSurprise,
         revealDate,
-        imageUrl
+        imageUrl: imageUrl || ''
     });
 
     res.status(201).json(trip);

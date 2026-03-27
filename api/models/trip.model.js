@@ -90,8 +90,7 @@ const tripSchema = new mongoose.Schema({
     },
     imageUrl: {
         type: String,
-        trim: true,
-        minLength: 1
+        trim: true
     }
 }, {
     timestamps: true,
