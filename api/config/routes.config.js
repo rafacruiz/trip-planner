@@ -34,7 +34,7 @@ router.delete('/trips/:tripId', checkTripAuth, Trips.remove);
 router.patch('/trips/:tripId/add-traveler', checkTripAuth, Trips.addTraveler);
 router.patch('/trips/:tripId/remove-traveler', checkTripAuth, Trips.delTraveler);
 router.post('/trips/invitations/accept', Trips.confirmInviteTraveler);
-router.post('/trips/invitations/decline', Trips.confirmInviteTraveler);
+router.post('/trips/invitations/decline', Trips.declineInviteTraveler);
 router.post('/trips/:tripId/invite', checkTripAuth, Trips.inviteTraveler);
 
 router.post('/trips/:tripId/places', checkTripMemberAuth, Places.create);

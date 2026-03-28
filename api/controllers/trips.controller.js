@@ -21,6 +21,7 @@ function tripsSanitizeSurprise(data, userId) {
             trip.city = 'This is a surprise trip! Details will be revealed on ' + trip.revealDate.toDateString();
             trip.places = [];
             trip.activities = [];
+            trip.imageUrl = process.env?.URL_IS_SURPRISE || '';
         }
 
         return trip;
@@ -394,6 +395,50 @@ export async function confirmInviteTraveler(req, res) {
     Object.assign(
         invite, { 
             used: true 
+        }
+    );
+    
+    await invite.save();
+
+    res.status(204).end()
+}
+
+export async function declineInviteTraveler(req, res) {
+
+    const { tripId, token } = req.body;
+
+    const user = req.session.user.id;
+
+    const invite = await TokenInvite.findOne({ 
+        token, 
+        user, 
+        trip: tripId 
+    });
+    
+    if (!invite || invite.used) throw createHttpError(400, 'Invalid Token');
+
+    const tripCurrent = await Trip.findById(tripId);
+    
+    if (!tripCurrent) throw createHttpError(404, 'Trip not found');
+
+    const exists = tripCurrent.travelers.some(traveler => 
+        traveler.user.toString() === user.toString() && 
+        traveler.user.status === 'accepted');
+    
+    if (exists) throw createHttpError(409, 'Traveler already in this trip');
+
+    await Trip.findOneAndUpdate(
+        { 
+            _id: tripId,
+            'travelers.user': user
+        },
+        { $set: { 'travelers.$.status': 'rejected' } },
+        { new: true }
+    );
+
+    Object.assign(
+        invite, { 
+            used: true
         }
     );
     

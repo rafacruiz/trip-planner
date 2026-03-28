@@ -13,7 +13,8 @@ export async function checkTripMemberAuth(req, res, next) {
     }
 
     const isTraveler = trip.travelers.some(
-        t => t.user.toString() === req.session.user.id
+        t => t.user.toString() === req.session.user.id 
+        && t.status === 'accepted'
     );
 
     const userId = req.session.user.id;
