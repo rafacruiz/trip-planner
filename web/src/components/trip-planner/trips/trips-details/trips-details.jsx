@@ -27,6 +27,20 @@ function ProgressBar({ value, total }) {
     );
 }
 
+const getTravelerBadgeStyles = (traveler, ownerId) => {
+    if (traveler.user.id === ownerId) {
+        return "bg-blue-100 text-blue-700";
+    }
+
+    const statusStyles = {
+        accepted: "bg-sky-100 text-sky-600",
+        pending: "bg-gray-100 text-gray-700",
+        rejected: "bg-gray-100 text-red-400",
+    };
+
+    return statusStyles[traveler.status] || "";
+};
+
 function TripsDetails() {
     
     const { tripId } = useParams();
@@ -259,10 +273,8 @@ function TripsDetails() {
                                                     rounded-full
                                                     object-cover
                                                     border border-gray-200
-                                                    ${ traveler?.status === 'pending' 
-                                                        ? "grayscale opacity-50" 
-                                                        : "" 
-                                                    }
+                                                    ${ traveler?.status !== 'accepted' 
+                                                        && "grayscale opacity-50" }
                                                 `}
                                             />
 
@@ -272,14 +284,12 @@ function TripsDetails() {
 
                                             <span className={`
                                                 text-xs px-2 py-0.5 rounded-full font-medium
-
-                                                ${ traveler.user.id === trip.userOwner.id
-                                                ? "bg-blue-100 text-blue-700"
-                                                : "bg-gray-200 text-gray-600"}
+                                                ${ getTravelerBadgeStyles(traveler, trip.userOwner.id) }
                                             `}>
                                                 { traveler.user.id === trip.userOwner.id
-                                                ? "Owner"
-                                                : "Traveler"}
+                                                    ? "Owner"
+                                                    : "Traveler"
+                                                }
                                             </span>
                                         </div>
                                     ))}
