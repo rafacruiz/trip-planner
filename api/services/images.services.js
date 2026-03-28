@@ -18,7 +18,7 @@ const getImageByCountry = async (country) => {
     
         const data = await response.json();
         
-        return data?.results[0]?.urls?.full;
+        return data?.results[0]?.urls?.regular;
 
     } catch (error) {
         console.warn("Image fetch error:", error.message);
