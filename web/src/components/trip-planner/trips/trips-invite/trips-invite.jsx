@@ -3,6 +3,7 @@ import { Alert } from '../../../ui';
 import InvitationSkeleton from './trip-invite-skeleton';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useTrip, useAlert } from '../../../../hooks';
+import { handleAsyncAction } from '../../utils/async-action';
 import { acceptInviteTravelerTrip, declineInviteTravelerTrip } from '../../../../services/api-services';
 
 function TripInvitation() {
@@ -21,22 +22,37 @@ function TripInvitation() {
 
     const { showAlert, serverType, serverMessage, activeAlert } = useAlert();
 
-    const handleAcceptInvite = async () => {
-        try {
-            await acceptInviteTravelerTrip({ tripId, token });
-            
-            showAlert(
-                "🎉 You're now part of the trip!",
-                'success'
-            );
+    const handleAcceptInvite = () => {
+        handleAsyncAction({
+            action: () => acceptInviteTravelerTrip({ tripId, token }),
+            onSuccess: async () => {
+                showAlert(
+                    "🎉 You're now part of the trip!",
+                    'success'
+                );
 
-            const timeOut = setTimeout(() => 
-                navigate(`/trips/${ tripId }`)
-            , 3000);
-        } catch (error) {
-            console.log(error);
-            showAlert(error.message, 'errorValidation')
-        }
+                const timeOut = setTimeout(() => 
+                    navigate(`/trips/${ tripId }`)
+                , 3000);
+            },
+            onError: (msg) => showAlert(msg.message, 'errorValidation'),
+        });
+    };
+
+    const handleDeclineInvite = () => {
+        handleAsyncAction({
+            action: () => declineInviteTravelerTrip({ tripId, token }),
+            onSuccess: async () => {
+                showAlert(
+                    "They won’t be joining this trip, maybe next time!"
+                );
+
+                const timeOut = setTimeout(() => 
+                    navigate(`/`)
+                , 3000);
+            },
+            onError: (msg) => showAlert(msg.message, 'errorValidation'),
+        });
     };
 
     return (
@@ -195,18 +211,19 @@ function TripInvitation() {
                             </div>
 
                             { activeAlert && (
-        <div className="mt-4 transition">
-          <Alert
-            message={ serverMessage } 
-            type={ serverType } 
-            center 
-          />
-        </div>
-      )}
+                                <div className="mt-4 transition">
+                                    <Alert
+                                        message={ serverMessage } 
+                                        type={ serverType } 
+                                        center 
+                                    />
+                                </div>
+                            )}
 
                             <div className="flex gap-3 justify-center pt-4">
                                 <button
-                                    
+                                    onClick={ () => handleDeclineInvite() }
+                                    disabled={ activeAlert }
                                     className="
                                         px-6 py-3
                                         rounded-2xl
@@ -225,6 +242,7 @@ function TripInvitation() {
 
                                 <button
                                     onClick={ () => handleAcceptInvite() }
+                                    disabled={ activeAlert }
                                     className="
                                         px-6 py-3
                                         rounded-2xl
