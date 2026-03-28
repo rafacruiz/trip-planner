@@ -1,5 +1,5 @@
 
-import TripsItem from "../trips-item/trips-item";
+import TripsListItem from "../trips-list-item/trips-list-item";
 import SkeletonCard from './trips-card-skeleton';
 
 function EmptyState() {
@@ -36,7 +36,7 @@ function TripsList({ trips = null, loading = false }) {
     return (
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
             { trips.map((trip, i) => (
-                <TripsItem 
+                <TripsListItem 
                     key={ i } 
                     trip={ trip } 
                 />

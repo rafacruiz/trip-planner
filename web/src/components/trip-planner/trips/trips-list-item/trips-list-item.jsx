@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { useAuth } from '../../../../contexts';
 import { TripDateFormat } from '../utils';
 
-function TripsItem({ trip }) {
+function TripsListItem({ trip }) {
 
     const { user } = useAuth();
 
@@ -73,4 +73,4 @@ function TripsItem({ trip }) {
     </>);
 }
 
-export default TripsItem;
+export default TripsListItem;
