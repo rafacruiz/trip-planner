@@ -2,6 +2,7 @@
 import User from '../models/user.model.js';
 import Trip from '../models/trip.model.js';
 import Session from '../models/session.model.js';
+import tripsSanitizeSurprise from '../utils/sanitize.surprise.js';
 import createHttpError from "http-errors";
 import { cloudinary } from '../config/multer.config.js';
 import fs from "fs/promises";
@@ -61,7 +62,6 @@ export async function detail(req, res) {
     const user = await User.findById(id)
         .populate({
             path: 'trips',
-            
             options: { 
                 sort: { createdAt: -1 },
                 limit: 6 
@@ -93,7 +93,9 @@ export async function detail(req, res) {
             }
         }
     );
-        
+
+    user.tripsJoined = tripsSanitizeSurprise(user.tripsJoined, req.session.user.id);
+    
     res.json({
         user, 
         stats: {
