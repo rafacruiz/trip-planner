@@ -328,7 +328,7 @@ function TripsForm() {
                         </label>
 
                         <input
-                        type="date"
+                        type="datetime-local"
                         name="revealDate"
                         className={`
                             mt-1 w-full px-4 py-3

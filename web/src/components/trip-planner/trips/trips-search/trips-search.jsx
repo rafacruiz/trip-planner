@@ -23,7 +23,7 @@ function TripsSearch() {
         startDate: params.get('startDate') || '',
         endDate: params.get('endDate') || '',
         page: 1,
-        limit: 10,
+        limit: 9,
     });
 
     if (!filters.search) delete filters.search;

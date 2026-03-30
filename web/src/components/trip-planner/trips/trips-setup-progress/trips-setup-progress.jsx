@@ -31,7 +31,7 @@ function TripsSetupProgress({ trip = [], loading }) {
 
 function ProgressItem({ label, count }) {
 
-    const completed = count.length > 0;
+    const completed = count?.length > 0;
 
     return (
         <div className="flex justify-between items-center text-sm">

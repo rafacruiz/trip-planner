@@ -23,7 +23,7 @@ function TripDateFormat({ startDate, endDate, isSurprise, revealDate }) {
         });
 
         return (
-            <div className="flex items-center gap-2 text-sm text-gray-500">
+            <div className="flex items-center gap-2 text-sm text-white">
                 🎁 Reveal on { formattedReveal }
             </div>
         );
@@ -34,9 +34,9 @@ function TripDateFormat({ startDate, endDate, isSurprise, revealDate }) {
     const days = tripDays(startDate, endDate);
 
     return (
-        <div className="flex items-center gap-2 text-sm text-gray-500">
+        <div className="flex items-center gap-2 text-sm text-white">
             📅 {start} – {end}
-            <span className="text-gray-400">·</span>
+            <span className="text-white">·</span>
             <span>{days} days</span>
         </div>
     );

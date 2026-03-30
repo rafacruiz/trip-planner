@@ -27,7 +27,9 @@ function TripsListItem({ trip }) {
                 }
         
                 <div className="absolute top-3 left-3 bg-white/90 backdrop-blur px-3 py-1 rounded-lg text-sm font-medium">
-                   { trip.isSurprise ? "🎁 Surprise Trip" : `${ trip.country?.flag } ${ trip.country?.name }` }
+                    { trip.isSurprise 
+                        ? "🎁 Surprise Trip" 
+                        : `${ trip.country?.flag } ${ trip.country?.name[0].toUpperCase() }${trip.country?.name.slice(1)}` }
                 </div>
 
                 <div className="absolute top-3 right-3 text-xs px-3 py-1 rounded-full bg-blue-600 text-white font-medium">

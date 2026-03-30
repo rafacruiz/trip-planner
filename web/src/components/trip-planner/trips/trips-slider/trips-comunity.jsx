@@ -8,11 +8,12 @@ function TripsCommunity({ trip }) {
         <Link
             to={ '/trips/' + trip.id } 
             className="group w-[300px] h-[150px] rounded-2xl border border-gray-100 
-            bg-gradient-to-br from-white to-blue-50 shadow-sm hover:shadow-md 
+            bg-gradient-to-br from-blue-200 to-indigo-400 shadow-sm hover:shadow-md 
             transition p-4 cursor-pointer flex flex-col justify-between">
+  
 
             <div className="flex items-start justify-between">
-                <div className="flex items-center gap-2 text-xs font-medium text-gray-600">
+                <div className="flex items-center gap-2 text-xs font-medium text-white">
                     { trip.isSurprise ? (
                         <span className="ml-1 text-[10px] bg-purple-100 text-purple-600 px-2 py-0.5 rounded-full">
                             🎁
@@ -20,32 +21,31 @@ function TripsCommunity({ trip }) {
                     ) : (
                         <>
                             <span className="text-sm">{ trip.country.flag }</span>
-                            <span>{ trip.country.name }</span>
+                            <span>{ trip.country.name[0].toUpperCase()}{trip.country.name.slice(1) }</span>
                         </>
                     )}
                 </div>
 
-                <span className="text-xs text-gray-400 group-hover:text-blue-600 transition">
+                <span className="text-xs text-white group-hover:text-blue-600 transition">
                     Explore →
                 </span>
             </div>
 
             <div>
-                { !trip.isSurprise 
-                ? (
-                    <h3 className="text-sm font-semibold text-gray-800 leading-snug line-clamp-2">
+                { !trip.isSurprise && (  
+                    <h3 className="text-sm font-semibold text-white leading-snug line-clamp-2">
                         { trip.title }
                     </h3>
-                ) : (
-                    <div className="text-xs text-gray-500 mt-1">
-                        <TripDateFormat
-                            startDate={ trip.startDate }
-                            endDate={ trip.endDate }
-                            isSurprise={ trip.isSurprise }
-                            revealDate={ trip.revealDate }
-                        />
-                    </div>
                 )}
+                
+                <div className="text-xs mt-1">
+                    <TripDateFormat
+                        startDate={ trip.startDate }
+                        endDate={ trip.endDate }
+                        isSurprise={ trip.isSurprise }
+                        revealDate={ trip.revealDate }
+                    />
+                </div>
             </div>
 
             <div className="flex items-center justify-between">
@@ -59,7 +59,7 @@ function TripsCommunity({ trip }) {
                     ))}
                 </div>
 
-                <div className="flex gap-3 text-xs text-gray-400">
+                <div className="flex gap-3 text-xs text-white">
                     <span>📍 { trip.places.length }</span>
                     <span>✅ { trip.activities.length }</span>
                 </div>
