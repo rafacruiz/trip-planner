@@ -26,7 +26,18 @@ const tripSchema = new mongoose.Schema({
             type: String,
             trim: true,
             default: '🟦'
-        }
+        },
+        location: {
+            type: {
+                type: String,
+                enum: ["Point"],
+                default: "Point",
+            },
+            coordinates: {
+                type: [Number],
+                required: true,
+            },
+        },
     },
     city: {
         type: String,
@@ -131,6 +142,8 @@ tripSchema.virtual('activities', {
     localField: '_id',
     foreignField: 'trip'
 });
+
+tripSchema.index({ location: "2dsphere" });
 
 const Trip = mongoose.model('Trip', tripSchema);
 

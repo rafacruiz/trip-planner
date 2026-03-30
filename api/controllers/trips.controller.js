@@ -65,11 +65,7 @@ export async function create(req, res) {
 
     const trip = await Trip.create({
         title,
-        country: {
-            name: countryData.name,
-            code: countryData.code,
-            flag: countryData.flag
-        },
+        country: countryData,
         city,
         startDate,
         endDate,
@@ -231,40 +227,6 @@ export async function details(req, res) {
     if (!trip) throw createHttpError(404, "Trip not found");
         
     res.json(tripsSanitizeSurprise(trip, req.session.user.id));
-}
-
-export async function update(req, res) {
-
-    const trip = req.trip;
-
-    delete req.body.userOwner;
-
-    const { 
-        title, 
-        country,
-        city, 
-        startDate, 
-        endDate, 
-        description 
-    } = req.body;
-
-    Object.assign(
-        trip, {  
-            title,
-            country: {
-                name: country.name,
-                code: country.code,
-                flag: country.flag
-            },
-            city, 
-            startDate, 
-            endDate, 
-            description
-        });
-
-    await trip.save();
-
-    res.json(trip);
 }
 
 export async function remove(req, res) {

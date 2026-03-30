@@ -12,7 +12,11 @@ const getCountryByCode = async (code) => {
     return { 
         name: country.name.common, 
         code: country.cca2, 
-        flag: country.flag || null 
+        flag: country.flag || null,
+        location: { 
+            type: "Point", 
+            coordinates: country.capitalInfo.latlng 
+        }
     };
 }
 

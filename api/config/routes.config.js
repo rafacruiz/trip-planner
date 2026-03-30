@@ -29,7 +29,6 @@ router.get('/trips', Trips.list);
 router.post('/trips', Trips.create);
 router.get('/trips/:tripId', Trips.details);
 
-router.patch('/trips/:tripId', checkTripAuth, Trips.update);
 router.delete('/trips/:tripId', checkTripAuth, Trips.remove);
 router.patch('/trips/:tripId/add-traveler', checkTripAuth, Trips.addTraveler);
 router.patch('/trips/:tripId/remove-traveler', checkTripAuth, Trips.delTraveler);
