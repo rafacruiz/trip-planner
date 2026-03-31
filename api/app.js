@@ -5,30 +5,24 @@ import morgan from "morgan";
 
 import "./config/db.config.js";
 
-import router from "./config/routes.config.js";
+import apiRoute from './api/index.js';
 
-import { checkAuth } from './middlewares/auth.middleware.js';
-import { errorHandler } from "./middlewares/errors.middleware.js";
-import { clearBody } from './middlewares/clearbody.middleware.js';
-import { cors } from './middlewares/cors.middleware.js';
+import webRoute from './web/index.js';
 
-const app = express()
+
+const app = express();
 
 const PORT = process.env.PORT || 3000;
 
 app.use(morgan("dev"));
 
-app.use(cors);
-
 app.use(express.json());
 
-app.use(checkAuth);
 
-app.use(clearBody);
+app.use('/api', apiRoute);
 
-app.use('/api', router);
+app.use(webRoute);
 
-app.use(errorHandler);
 
 app.listen(PORT, () => {
   console.log(`App listening on port ${PORT}`)

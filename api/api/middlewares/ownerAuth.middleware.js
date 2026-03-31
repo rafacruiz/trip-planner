@@ -1,7 +1,7 @@
 
 
 import createHttpError from "http-errors";
-import Trip from '../models/trip.model.js';
+import Trip from '../../models/trip.model.js';
 
 export async function checkTripAuth(req, res, next) {
 

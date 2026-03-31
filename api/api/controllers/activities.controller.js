@@ -1,6 +1,6 @@
 
 import createHttpError from "http-errors";
-import Activity from '../models/activity.model.js';
+import Activity from '../../models/activity.model.js';
 
 export async function create(req, res) {
 

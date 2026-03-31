@@ -2,16 +2,16 @@
 import { Router } from "express";
 import createHttpError from "http-errors";
 
-import { checkTripAuth } from '../middlewares/ownerAuth.middleware.js';
-import { checkTripMemberAuth } from '../middlewares/tripMemberAuth.middleware.js';
+import { checkTripAuth } from '../api/middlewares/ownerAuth.middleware.js';
+import { checkTripMemberAuth } from '../api/middlewares/tripMemberAuth.middleware.js';
 
 import { upload } from './multer.config.js';
 
-import * as Users from '../controllers/users.controller.js';
-import * as Trips from '../controllers/trips.controller.js'; 
-import * as Places from '../controllers/places.controller.js';
-import * as Activities from '../controllers/activities.controller.js';
-import * as Countries from '../controllers/countries.controller.js';
+import * as Users from '../api/controllers/users.controller.js';
+import * as Trips from '../api/controllers/trips.controller.js'; 
+import * as Places from '../api/controllers/places.controller.js';
+import * as Activities from '../api/controllers/activities.controller.js';
+import * as Countries from '../api/controllers/countries.controller.js';
 
 const router = Router();
 

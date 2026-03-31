@@ -1,6 +1,6 @@
 
 import createHttpError from "http-errors";
-import Place from '../models/place.model.js';
+import Place from '../../models/place.model.js';
 
 export async function create(req, res) {
 

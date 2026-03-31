@@ -1,15 +1,15 @@
 
 import createHttpError from "http-errors";
-import Session from "../models/session.model.js";
+import Session from "../../models/session.model.js";
 
 export async function checkAuth(req, res, next) {
-
-    if (req.method === 'POST' && req.path === '/api/auth/signup') {
+    
+    if (req.method === 'POST' && req.originalUrl === '/api/auth/signup') {
         next();
         return;
     }
 
-    if (req.method === 'POST' && req.path === '/api/auth/login') {
+    if (req.method === 'POST' && req.originalUrl === '/api/auth/login') {
         next();
         return;
     }
