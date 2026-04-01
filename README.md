@@ -468,21 +468,3 @@ Activity → pertenece a un Trip y User
 | /trips/:tripId/setup| TripSetupPage      | Configuración del viaje                        | Auth    |
 | /invitations        | TripInvitationPage | Página de invitaciones                          | Auth    |
 | *                   | NotFoundPage       | Página no encontrada                            | Todas   |
-
-## Contribución
-
-Si deseas contribuir al proyecto:
-
-1. Haz un fork del repositorio.
-2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`).
-3. Realiza tus cambios y haz commit (`git commit -am 'Añade nueva funcionalidad'`).
-4. Push a la rama (`git push origin feature/nueva-funcionalidad`).
-5. Abre un Pull Request.
-
-## Licencia
-
-Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
-
-## Contacto
-
-Para preguntas o soporte, contacta al equipo de desarrollo.
