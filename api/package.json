@@ -8,7 +8,9 @@
   "scripts": {
     "start": "node app.js",
     "dev": "node --env-file .env --watch app.js",
-    "seed": "node --env-file .env bin/seed.js"
+    "seed": "node bin/seed.js",
+    "seedT": "node bin/seed-trips.js",
+    "seedL": "node bin/seed-location.js"
   },
   "dependencies": {
     "bcrypt": "^6.0.0",

@@ -3,9 +3,9 @@ import express from "express";
 
 import morgan from "morgan";
 
-import "./config/db.config.js";
+import "./src/config/db.config.js";
 
-import apiRoute from './api/index.js';
+import apiRoute from './src/api/index.js';
 
 import webRoute from './web/index.js';
 

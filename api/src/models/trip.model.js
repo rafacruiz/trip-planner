@@ -143,7 +143,7 @@ tripSchema.virtual('activities', {
     foreignField: 'trip'
 });
 
-tripSchema.index({ location: "2dsphere" });
+tripSchema.index({ "country.location": "2dsphere" });
 
 const Trip = mongoose.model('Trip', tripSchema);
 
