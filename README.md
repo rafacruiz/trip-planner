@@ -6,6 +6,108 @@ La aplicación está pensada como una herramienta sencilla de organización pers
 
 Invitar a otros usuarios registrados a un viaje y crear viajes sorpresa, donde el destino permanece oculto hasta una fecha y hora específicas.
 
+Url: https://trip-planner-project.fly.dev
+
+## Tecnologías Utilizadas
+
+### Backend (API)
+- **Node.js** con **Express.js** para el servidor
+- **MongoDB** con **Mongoose** para la base de datos
+- **bcrypt** para encriptación de contraseñas
+- **Cloudinary** para gestión de imágenes
+- **Multer** para subida de archivos
+- **Morgan** para logging
+- **JWT/Cookies** para autenticación de sesiones
+
+### Frontend (Web)
+- **React** con **Vite** para el bundler
+- **TailwindCSS** para estilos
+- **Axios** para llamadas a la API
+- **React Router** para navegación
+- **React Hook Form** para formularios
+- **React Leaflet** para mapas
+- **React Confetti** para animaciones
+
+### Herramientas Adicionales
+- **Postman** para testing de API (colección incluida: `TripPlannerAPI.postman_collection.json`)
+- **ESLint** para linting
+- **Faker.js** para seeding de datos
+
+## Instalación y Configuración
+
+### Prerrequisitos
+- Node.js (versión 18 o superior)
+- MongoDB (local o en la nube, ej. MongoDB Atlas)
+- Cuenta en Cloudinary (para gestión de imágenes)
+
+### Instalación
+
+1. Clona el repositorio:
+   ```bash
+   git clone <url-del-repositorio>
+   cd trip-planner
+   ```
+
+2. Instala dependencias del backend:
+   ```bash
+   cd api
+   npm install
+   ```
+
+3. Instala dependencias del frontend:
+   ```bash
+   cd ../web
+   npm install
+   ```
+
+4. Configura las variables de entorno:
+   Crea un archivo `.env` en la carpeta `api` con:
+   ```
+   PORT=3000
+   MONGODB_URI=mongodb://localhost:27017/trip-planner
+   SECRET_KEY=tu-clave-secreta
+   CLOUDINARY_CLOUD_NAME=tu-cloud-name
+   CLOUDINARY_API_KEY=tu-api-key
+   CLOUDINARY_API_SECRET=tu-api-secret
+   ```
+
+5. Inicia MongoDB localmente o configura la URI para una base de datos en la nube.
+
+### Ejecución
+
+1. Ejecuta el backend:
+   ```bash
+   cd api
+   npm run dev
+   ```
+   El servidor estará disponible en `http://localhost:3000`
+
+2. Ejecuta el frontend:
+   ```bash
+   cd web
+   npm run dev
+   ```
+   La aplicación estará disponible en `http://localhost:5173`
+
+### Seeding de Datos
+Para poblar la base de datos con datos de ejemplo:
+```bash
+cd api
+npm run seed  # Para usuarios y países
+npm run seedT # Para viajes de ejemplo
+```
+
+## Uso
+
+- Regístrate o inicia sesión en la aplicación.
+- Crea un nuevo viaje desde el dashboard.
+- Añade lugares y actividades a tus viajes.
+- Invita a otros usuarios a unirse a tus viajes.
+- Crea viajes sorpresa para revelar el destino en una fecha específica.
+- Gestiona tu perfil y sube un avatar.
+
+Para testing de la API, importa la colección de Postman incluida.
+
 ## Objetivo del proyecto
 
 El objetivo de TripPlanner es ofrecer una forma simple y estructurada de organizar viajes. Los usuarios pueden registrar destinos, anotar detalles importantes y seguir el progreso de su planificación mediante actividades marcadas como completadas.
@@ -253,7 +355,11 @@ Activity → pertenece a un Trip y User
 ### Profile
 
     GET /profile/:id
-    PATCH /profile
+    PATCH /profile/me
+
+### Users
+
+    GET /users
 
 ### Trips
 
@@ -263,6 +369,9 @@ Activity → pertenece a un Trip y User
     PATCH /trips/:tripId
     PATCH /trips/:tripId/add-traveler
     PATCH /trips/:tripId/remove-traveler
+    POST /trips/:tripId/invite
+    POST /trips/invitations/accept
+    POST /trips/invitations/decline
     DELETE /trips/:tripId
 
 ### Places
@@ -301,6 +410,11 @@ Activity → pertenece a un Trip y User
 | GET    | /api/profile/{:userId o me}  | Devuelve perfil usuario o perfil usuario logueado | -                           |
 | PATCH  | /api/profile/me              | Modificamos los datos de user (Bio, pass, avatar) | `{ bio, password, avatar }` |
 
+### Users
+
+| Método | Ruta          | Descripción              | Body |
+| ------ | ------------- | ------------------------ | ---- |
+| GET    | /api/users    | Lista de usuarios        | -    |
 
 ### Trips
 
@@ -313,6 +427,9 @@ Activity → pertenece a un Trip y User
 | DELETE | /api/trips/:tripId                 | Elimina un viaje                     | —                                                     |
 | PATCH  | /api/trips/:tripId/add-traveler    | Añade un viajero al viaje            | `{ userId }`                                          |
 | PATCH  | /api/trips/:tripId/remove-traveler | Elimina un viajero                   | `{ userId }`                                          |
+| POST   | /api/trips/:tripId/invite          | Invita a un viajero                  | `{ email }`                                           |
+| POST   | /api/trips/invitations/accept      | Acepta invitación                    | `{ token }`                                           |
+| POST   | /api/trips/invitations/decline     | Declina invitación                   | `{ token }`                                           |
 
 ### Places
 
@@ -338,13 +455,34 @@ Activity → pertenece a un Trip y User
 
 ## Rutas de la aplicación (Frontend)
 
-| Ruta                | Página          | Descripción                                    | Acceso  |
-| ------------------- | --------------- | ---------------------------------------------- | ------- |
-| /signup             | SignupPage      | Registro de usuario                            | Pública |
-| /login              | LoginPage       | Inicio de sesión                               | Pública |
-| /                   | Dashboard       | Lista de viajes de usuarios                    | Auth    |
-| /profile            | Profile         | Lista de viajes del usuario y su perfil        | Auth    |
-| /trips/me           | MyTripsPage     | Lista de viajes usuario logueado               | Auth    |
-| /trips/create       | CreateTripPage  | Crear un nuevo viaje                           | Auth    |
-| /trips/:tripId      | TripDetailsPage | Ver detalles del viaje (lugares y actividades) | Auth    |
-| /trips/:tripId/edit | EditTripPage    | Editar un viaje                                | Auth    |
+| Ruta                | Página             | Descripción                                    | Acceso  |
+| ------------------- | ------------------ | ---------------------------------------------- | ------- |
+| /signup             | SignupPage         | Registro de usuario                            | Pública |
+| /login              | LoginPage          | Inicio de sesión                               | Pública |
+| /                   | DashboardPage      | Dashboard principal                            | Auth    |
+| /profile            | ProfilePage        | Perfil del usuario                             | Auth    |
+| /user/:userId       | UserPage           | Perfil de otro usuario                         | Auth    |
+| /trips              | ExploreTripsPage   | Explorar viajes                                | Auth    |
+| /trips/:tripId      | TripsPage          | Detalles del viaje                             | Auth    |
+| /trips/add          | TripsFormPage      | Crear un nuevo viaje                           | Auth    |
+| /trips/:tripId/setup| TripSetupPage      | Configuración del viaje                        | Auth    |
+| /invitations        | TripInvitationPage | Página de invitaciones                          | Auth    |
+| *                   | NotFoundPage       | Página no encontrada                            | Todas   |
+
+## Contribución
+
+Si deseas contribuir al proyecto:
+
+1. Haz un fork del repositorio.
+2. Crea una rama para tu feature (`git checkout -b feature/nueva-funcionalidad`).
+3. Realiza tus cambios y haz commit (`git commit -am 'Añade nueva funcionalidad'`).
+4. Push a la rama (`git push origin feature/nueva-funcionalidad`).
+5. Abre un Pull Request.
+
+## Licencia
+
+Este proyecto está bajo la Licencia MIT. Ver el archivo `LICENSE` para más detalles.
+
+## Contacto
+
+Para preguntas o soporte, contacta al equipo de desarrollo.
