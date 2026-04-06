@@ -1,6 +1,6 @@
 
 # dependency directory
-web_modules/
+node_modules/
 
 # web build
 src/web/build/*

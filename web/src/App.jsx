@@ -1,6 +1,8 @@
 
 import ScrollToTop from './components/trip-planner/utils/scroll-to-top';
 
+import { AnimatePresence } from 'motion/react';
+
 import { Routes, Route } from 'react-router';
 
 import { 
@@ -23,42 +25,48 @@ function App() {
   
   return (
     <>
+        
       <ScrollToTop />
 
-      <Routes>
-        <Route path='/login' 
-          element={ <LoginPage /> } />
+      <AnimatePresence mode="wait">
 
-        <Route path='/signup'
-          element={ <SignupPage/> } />
+        <Routes>
+          <Route path='/login' 
+            element={ <LoginPage /> } />
 
-        <Route path='/' 
-          element={ <DashboardPage /> } />
+          <Route path='/signup'
+            element={ <SignupPage/> } />
 
-        <Route path='/profile'
-          element={ <ProfilePage/> } />
+          <Route path='/' 
+            element={ <DashboardPage /> } />
 
-        <Route path='/user/:userId'
-          element={ <UserPage /> } />
+          <Route path='/profile'
+            element={ <ProfilePage/> } />
 
-        <Route path='/trips'
-          element={ <ExploreTripsPage /> } />
-        
-        <Route path='/trips/:tripId' 
-          element={ <TripsPage /> } />
+          <Route path='/user/:userId'
+            element={ <UserPage /> } />
 
-        <Route path='/trips/add'
-          element={ <TripsFormPage /> } />
+          <Route path='/trips'
+            element={ <ExploreTripsPage /> } />
+          
+          <Route path='/trips/:tripId' 
+            element={ <TripsPage /> } />
 
-        <Route path='/trips/:tripId/setup'
-          element={ <TripSetupPage /> } />
+          <Route path='/trips/add'
+            element={ <TripsFormPage /> } />
 
-        <Route path='/invitations'
-          element={ <TripInvitationPage />} />
+          <Route path='/trips/:tripId/setup'
+            element={ <TripSetupPage /> } />
 
-        <Route path='*' 
-          element={ <NotFoundPage /> } />
-      </Routes>
+          <Route path='/invitations'
+            element={ <TripInvitationPage />} />
+
+          <Route path='*' 
+            element={ <NotFoundPage /> } />
+        </Routes>
+
+      </AnimatePresence>
+      
     </>
   )
 }
