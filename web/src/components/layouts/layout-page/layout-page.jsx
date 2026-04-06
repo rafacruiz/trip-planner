@@ -1,10 +1,21 @@
 
 import { ButtonAdd, Navbar } from "../../ui";
 
+import { motion } from 'motion/react';
+
+const pageTransition = {
+  initial: { opacity: 0, y: 16 },
+  animate: { opacity: 1, y: 0 },
+  exit: { opacity: 0, y: -16 },
+  transition: { duration: 0.3, ease: 'easeInOut' }
+};
+
 function LayoutPage ({ children }) {
     
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
+        <motion.div
+            {...pageTransition} 
+            className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-indigo-100">
             
             <Navbar />
 
@@ -13,7 +24,8 @@ function LayoutPage ({ children }) {
             </main>
 
             <ButtonAdd/>
-        </div>
+            
+        </motion.div>
     );
 }
 
